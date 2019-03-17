@@ -25,3 +25,15 @@ inline void connectToServer(String CityID, String APIKEY) {
          Serial.println();
        }
 }
+
+
+inline String queryToServer(String result) {
+      while(client.connected() && !client.available()) 
+  delay(1);                                          //waits for data
+  while (client.connected() || client.available())  {
+      //connected or data available
+         char c = client.read();                     //gets byte from ethernet buffer
+         result = result+c;
+  }
+  return result;
+}

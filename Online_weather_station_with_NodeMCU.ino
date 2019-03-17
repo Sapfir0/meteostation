@@ -77,13 +77,7 @@ void getWeatherData()                                //client function to send/r
 {
   connectToServer(CityID, APIKEY);
 
-  while(client.connected() && !client.available()) 
-  delay(1);                                          //waits for data
-  while (client.connected() || client.available())  {
-      //connected or data available
-         char c = client.read();                     //gets byte from ethernet buffer
-         result = result+c;
-  }
+ result = queryToServer(result);
 
 client.stop();                                      //stop client
 result.replace('[', ' ');
