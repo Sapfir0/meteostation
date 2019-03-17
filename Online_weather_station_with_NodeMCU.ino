@@ -18,17 +18,16 @@ String CityID = "472757";                                 //Your City ID
 
 char servername[]="api.openweathermap.org";              // remote server we will connect to
 String result;
-
+    String weatherDescription ="";
+    String weatherLocation = "";
+    String Country;
+    float Temperature;
+    float Humidity;
+    float Pressure;
 int  counter = 60;                                      
 
-String weatherDescription ="";
-String weatherLocation = "";
-String Country;
-float Temperature;
-float Humidity;
-float Pressure;
-
 LCD led;
+WIFI esp8266Module;
 
 void startWifiModule() {
     WiFi.begin(ssid, password);
@@ -43,7 +42,7 @@ void startWifiModule() {
 }
 
 void setup() {
-  
+
   led.startLCD();
   startWifiModule();
 
@@ -56,8 +55,7 @@ void setup() {
 }
 
 void loop() {
-    if(counter == 60)                                 //Get new data every 10 minutes
-    {
+    if(counter == 60)   {//Get new data every 10 minutes  
       counter = 0;
       led.displayGettingData();
       delay(1000);
@@ -75,9 +73,9 @@ void loop() {
 
 void getWeatherData()                                //client function to send/receive GET request data.
 {
-  connectToServer(CityID, APIKEY);
+  esp8266Module.connectToServer(CityID, APIKEY);
 
- result = queryToServer(result);
+ result = esp8266Module.queryToServer(result);
 
 client.stop();                                      //stop client
 result.replace('[', ' ');

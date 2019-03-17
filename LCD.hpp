@@ -3,8 +3,7 @@
 class LCD
 {
 private:
-    // static void displayWeather(String location,String description);
-    
+        
 public:
     void startLCD();
     void displayWeather(String location,String description, String Country);

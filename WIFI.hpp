@@ -4,15 +4,17 @@
 class WIFI
 {
 private:
-    //пока не решил сюда добавлять методы
+    //мм свойства
+
 public:
-    WIFI(/* args */);
-    ~WIFI();
+    void connectToServer(String CityID, String APIKEY);
+    String queryToServer(String result);
+
 };
 
 WiFiClient client;
 
-inline void connectToServer(String CityID, String APIKEY) {
+void WIFI::connectToServer(String CityID, String APIKEY) {
   if (client.connect("api.openweathermap.org", 80)) {  //starts client connection, checks for connection
           client.println("GET /data/2.5/weather?id="+CityID+"&units=metric&APPID="+APIKEY);
           client.println("Host: api.openweathermap.org");
@@ -27,7 +29,7 @@ inline void connectToServer(String CityID, String APIKEY) {
 }
 
 
-inline String queryToServer(String result) {
+String WIFI::queryToServer(String result) {
       while(client.connected() && !client.available()) 
   delay(1);                                          //waits for data
   while (client.connected() || client.available())  {
