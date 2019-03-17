@@ -28,14 +28,7 @@ float Temperature;
 float Humidity;
 float Pressure;
 
-LiquidCrystal_I2C lcd(0x27, 16, 2);    // Address of your i2c LCD back pack should be updated.
-
-void startLCD() {
-  lcd.begin(16, 2);
-  lcd.init();
-  lcd.backlight();
-  lcd.print("   Connecting");  
-}
+LCD led;
 
 void startWifiModule() {
     WiFi.begin(ssid, password);
@@ -50,7 +43,8 @@ void startWifiModule() {
 }
 
 void setup() {
-  startLCD();
+  
+  led.startLCD();
   startWifiModule();
 
   Serial.begin(115200);
@@ -65,31 +59,18 @@ void loop() {
     if(counter == 60)                                 //Get new data every 10 minutes
     {
       counter = 0;
-      displayGettingData();
+      led.displayGettingData();
       delay(1000);
       getWeatherData();
-    }else
-    {
+    }
+    else   {
       counter++;
-      displayWeather(weatherLocation,weatherDescription);
+      led.displayWeather(weatherLocation,weatherDescription, Country);
       delay(5000);
-      displayConditions(Temperature,Humidity,Pressure);
+      led.displayConditions(Temperature,Humidity,Pressure);
       delay(5000);
     }
 }
-
-void displayWeather(String location,String description)
-{
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print(location);
-  lcd.print(", ");
-  lcd.print(Country);
-  lcd.setCursor(0,1);
-  lcd.print(description);
-}
-
-
 
 
 void getWeatherData()                                //client function to send/receive GET request data.
@@ -133,30 +114,4 @@ Temperature = temperature;
 Humidity = humidity;
 Pressure = pressure;
 
-}
-
-
-
-void displayConditions(float Temperature,float Humidity, float Pressure)
-{
- lcd.clear();                            //Printing Temperature
- lcd.print("T:"); 
- lcd.print(Temperature,1);
- lcd.print((char)223);
- lcd.print("C "); 
-                                         
- lcd.print(" H:");                       //Printing Humidity
- lcd.print(Humidity,0);
- lcd.print(" %"); 
- 
- lcd.setCursor(0,1);                     //Printing Pressure
- lcd.print("P: ");
- lcd.print(Pressure,1);
- lcd.print(" hPa");
-}
-
-void displayGettingData()
-{
-  lcd.clear();
-  lcd.print("Getting data");
 }
