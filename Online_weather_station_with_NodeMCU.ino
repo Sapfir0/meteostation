@@ -7,13 +7,11 @@
 #include <ArduinoJson.h>
 #include <Wire.h>
 
-
-
+#include "WIFI.hpp"
 const char* ssid     = "WiFi-DOM.ru-1520";                 // SSID of local network
 const char* password =  "sapfir1997";                    // Password on network
 String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";                                 
 String CityID = "472757";                                 //Your City ID
-                               //Your City ID
 
 
 WiFiClient client;
@@ -36,8 +34,6 @@ void startLCD() {
   lcd.init();
   lcd.backlight();
   lcd.print("   Connecting");  
-
-  
 }
 
 void startWifiModule() {
@@ -102,11 +98,11 @@ void getWeatherData()                                //client function to send/r
 
   while(client.connected() && !client.available()) 
   delay(1);                                          //waits for data
-  while (client.connected() || client.available())    
-       {                                             //connected or data available
+  while (client.connected() || client.available())  {
+      //connected or data available
          char c = client.read();                     //gets byte from ethernet buffer
          result = result+c;
-       }
+  }
 
 client.stop();                                      //stop client
 result.replace('[', ' ');
@@ -118,10 +114,9 @@ jsonArray[result.length() + 1] = '\0';
 StaticJsonBuffer<1024> json_buf;
 JsonObject &root = json_buf.parseObject(jsonArray);
 
-if (!root.success())
-  {
+if (!root.success())  {
     Serial.println("parseObject() failed");
-  }
+}
 
 String location = root["name"];
 String country = root["sys"]["country"];
