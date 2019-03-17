@@ -8,13 +8,14 @@
 #include <Wire.h>
 
 #include "WIFI.hpp"
+#include "LCD.hpp"
+
 const char* ssid     = "WiFi-DOM.ru-1520";                 // SSID of local network
 const char* password =  "sapfir1997";                    // Password on network
 String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";                                 
 String CityID = "472757";                                 //Your City ID
 
 
-WiFiClient client;
 char servername[]="api.openweathermap.org";              // remote server we will connect to
 String result;
 
@@ -54,7 +55,6 @@ void setup() {
 
   Serial.begin(115200);
   Serial.println("Connecting");
-
   lcd.clear();
   lcd.print("   Connected!");
   Serial.println("Connected");
@@ -78,23 +78,23 @@ void loop() {
     }
 }
 
-void connectToServer() {
-  if (client.connect(servername, 80)) {  //starts client connection, checks for connection
-          client.println("GET /data/2.5/weather?id="+CityID+"&units=metric&APPID="+APIKEY);
-          client.println("Host: api.openweathermap.org");
-          client.println("User-Agent: ArduinoWiFi/1.1");
-          client.println("Connection: close");
-          client.println();
-  } 
-  else {
-         Serial.println("connection failed");        //error message if no client connect
-         Serial.println();
-       }
+void displayWeather(String location,String description)
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(location);
+  lcd.print(", ");
+  lcd.print(Country);
+  lcd.setCursor(0,1);
+  lcd.print(description);
 }
+
+
+
 
 void getWeatherData()                                //client function to send/receive GET request data.
 {
-  connectToServer();
+  connectToServer(CityID, APIKEY);
 
   while(client.connected() && !client.available()) 
   delay(1);                                          //waits for data
@@ -125,6 +125,7 @@ float humidity = root["main"]["humidity"];
 String weather = root["weather"]["main"];
 String description = root["weather"]["description"];
 float pressure = root["main"]["pressure"];
+
 weatherDescription = description;
 weatherLocation = location;
 Country = country;
@@ -134,16 +135,7 @@ Pressure = pressure;
 
 }
 
-void displayWeather(String location,String description)
-{
-  lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print(location);
-  lcd.print(", ");
-  lcd.print(Country);
-  lcd.setCursor(0,1);
-  lcd.print(description);
-}
+
 
 void displayConditions(float Temperature,float Humidity, float Pressure)
 {
