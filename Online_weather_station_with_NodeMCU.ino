@@ -31,10 +31,11 @@ WIFI esp8266Module;
 
 void startWifiModule() {
     WiFi.begin(ssid, password);
-    int cursorPosition=0;
+    
 
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
+        static int cursorPosition=0;
         lcd.setCursor(cursorPosition,2); 
         lcd.print(".");
         cursorPosition++;

@@ -4,7 +4,7 @@
 class WIFI
 {
 private:
-    //мм свойства
+    //мм методы
 
 public:
     void connectToServer(String CityID, String APIKEY);
