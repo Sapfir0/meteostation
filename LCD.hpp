@@ -10,6 +10,7 @@ public:
     void displayWeather(String location,String description, String Country);
     void displayConditions(float Temperature,float Humidity, float Pressure); 
     void displayGettingData();
+    void displayDHT(float temperature, float humidity);
     
 };
 
@@ -55,4 +56,17 @@ void LCD::displayConditions(float Temperature,float Humidity, float Pressure) {
 void LCD::displayGettingData() {
   lcd.clear();
   lcd.print("Getting data");
+}
+
+
+void LCD::displayDHT(float temperature, float humidity) {
+  lcd.clear(); 
+  lcd.print("T:"); 
+  lcd.print(temperature,1);
+  lcd.print((char)223);
+  lcd.print("C "); 
+
+   lcd.print(" H:");                       //Printing Humidity
+  lcd.print(humidity,0);
+  lcd.print(" %"); 
 }
