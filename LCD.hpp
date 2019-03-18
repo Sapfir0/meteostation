@@ -1,11 +1,10 @@
-#pragma once
+//#pragma once
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "WIFI.hpp"
-
 class LCD {
  private:
-  WIFI esp;
+
  public:
   void startLCD();
   void displayWeather(String location, String description, String Country);
@@ -14,8 +13,8 @@ class LCD {
   void displayDHT(float temperature, float humidity);
   void loadiiing(); 
 
-  LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
 };
+  LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
 
 
 void LCD::startLCD() {
@@ -24,7 +23,8 @@ void LCD::startLCD() {
   lcd.backlight();
   lcd.print("   Connecting to");
   lcd.setCursor(0, 1);
-  lcd.print(esp.getSSID());
+  WIFI obj;
+  lcd.print(obj.getSSID());
 }
 
 void LCD::displayWeather(String location, String description, String Country) {

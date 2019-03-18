@@ -1,6 +1,5 @@
 #include "DHT.hpp"
 #include "LCD.hpp"
-#include "WIFI.hpp"
 
 LCD led;
 WIFI esp8266Module;

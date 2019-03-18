@@ -1,7 +1,6 @@
-#pragma once
+//#pragma once
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
-#include "LCD.hpp"
 
 class WIFI {
  private:
@@ -20,12 +19,13 @@ class WIFI {
   const char *ssid = "WiFi-DOM.ru-1520";  // SSID of local network
   const char *password = "sapfir1997";    // Password on network
 
-  LCD led;
+  //LCD led;
  public:
   void connectToServer(String CityID, String APIKEY);
   String queryToServer(String result);
   void getWeatherData();
   void startWifiModule();
+  void parsingJSON(String json);
 
   String getWeatherDescription();
   String getWeatherLocation();
@@ -52,7 +52,7 @@ void WIFI::startWifiModule() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.println("Connection isnt successful");
-    led.loadiiing(); 
+    //led.loadiiing(); 
 
   }
 }
@@ -79,6 +79,8 @@ String WIFI::queryToServer(String result) {
     char c = client.read();  // gets byte from ethernet buffer
     result = result + c;
   }
+  client.stop();  // stop client
+
   return result;
 }
 
@@ -86,38 +88,30 @@ void WIFI::getWeatherData()  // client function to send/receive GET request
                              // data.
 {
   connectToServer(CityID, APIKEY);
-
   result = queryToServer(result);
+  parsingJSON(result);
 
-  client.stop();  // stop client
-  result.replace('[', ' ');
-  result.replace(']', ' ');
-  Serial.println(result);
-  char jsonArray[result.length() + 1];
-  result.toCharArray(jsonArray, sizeof(jsonArray));
-  jsonArray[result.length() + 1] = '\0';
+
+}
+
+void WIFI::parsingJSON(String json) {
+  json.replace('[', ' ');
+  json.replace(']', ' ');
+  Serial.println(json);
+  char jsonArray[json.length() + 1];
+  json.toCharArray(jsonArray, sizeof(jsonArray));
+  jsonArray[json.length() + 1] = '\0';
   StaticJsonBuffer<1024> json_buf;
   JsonObject &root = json_buf.parseObject(jsonArray);
 
-  // if (!root.success())  { //надо бы подумать как вернуть на уровень выше
-  //     Serial.println("parseObject() failed");
-  // }
-////решить этот бред
-//логичный путь не робит
-String location = root["name"];
-String country = root["sys"]["country"];
-float temperature = root["main"]["temp"];
-float humidity = root["main"]["humidity"];
-String weather = root["weather"]["main"];
-String description = root["weather"]["description"];
-float pressure = root["main"]["pressure"];
+  String weather = root["weather"]["main"]; //не особо понятно что это
 
-weatherDescription = description;
-weatherLocation = location;
-Country = country;
-Temperature = temperature;
-Humidity = humidity;
-Pressure = pressure;
+  setWeatherDescription(root["weather"]["description"]);
+  setWeatherLocation(root["name"]);
+  setCountry(root["sys"]["country"]);
+  setTemperature(root["main"]["temp"]);
+  setHumidity(root["main"]["humidity"]);
+  setPressure(root["main"]["pressure"]);
 
 }
 
