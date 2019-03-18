@@ -9,29 +9,25 @@
 
 #include "WIFI.hpp"
 #include "LCD.hpp"
+#include "DHT.hpp"
+
+//#include "DHT.h"
+//#define DHTPIN 6 // номер пина, к которому подсоединен датчик 
+//DHT dht(DHTPIN, DHT11); 
 
 const char* ssid     = "WiFi-DOM.ru-1520";                 // SSID of local network
 const char* password =  "sapfir1997";                    // Password on network
-String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";                                 
-String CityID = "472757";                                 //Your City ID
 
 
 char servername[]="api.openweathermap.org";              // remote server we will connect to
-String result;
-    String weatherDescription ="";
-    String weatherLocation = "";
-    String Country;
-    float Temperature;
-    float Humidity;
-    float Pressure;
-int  counter = 60;                                      
 
+int  counter = 60;    
+                                 
 LCD led;
 WIFI esp8266Module;
 
 void startWifiModule() {
     WiFi.begin(ssid, password);
-    
 
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
@@ -46,7 +42,7 @@ void setup() {
 
   led.startLCD();
   startWifiModule();
-
+  //dht.begin();
   Serial.begin(115200);
   Serial.println("Connecting");
   lcd.clear();
@@ -60,51 +56,29 @@ void loop() {
       counter = 0;
       led.displayGettingData();
       delay(1000);
-      getWeatherData();
+      esp8266Module.getWeatherData();
     }
     else   {
       counter++;
-      led.displayWeather(weatherLocation,weatherDescription, Country);
+      led.displayWeather(esp8266Module.getWeatherLocation(),esp8266Module.getWeatherDescription(), esp8266Module.getCountry());
       delay(5000);
-      led.displayConditions(Temperature,Humidity,Pressure);
+      led.displayConditions( esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure() );
+      Serial.println(esp8266Module.getTemperature());
       delay(5000);
     }
-}
-
-
-void getWeatherData()                                //client function to send/receive GET request data.
-{
-  esp8266Module.connectToServer(CityID, APIKEY);
-
- result = esp8266Module.queryToServer(result);
-
-client.stop();                                      //stop client
-result.replace('[', ' ');
-result.replace(']', ' ');
-Serial.println(result);
-char jsonArray [result.length()+1];
-result.toCharArray(jsonArray,sizeof(jsonArray));
-jsonArray[result.length() + 1] = '\0';
-StaticJsonBuffer<1024> json_buf;
-JsonObject &root = json_buf.parseObject(jsonArray);
-
-if (!root.success())  {
-    Serial.println("parseObject() failed");
-}
-
-String location = root["name"];
-String country = root["sys"]["country"];
-float temperature = root["main"]["temp"];
-float humidity = root["main"]["humidity"];
-String weather = root["weather"]["main"];
-String description = root["weather"]["description"];
-float pressure = root["main"]["pressure"];
-
-weatherDescription = description;
-weatherLocation = location;
-Country = country;
-Temperature = temperature;
-Humidity = humidity;
-Pressure = pressure;
-
+/*
+     float h = dht.readHumidity(); 
+ //Считываем влажность 
+ float t = dht.readTemperature(); 
+ // Считываем температуру 
+ if (isnan(t) || isnan(h))  {
+ Serial.println("Failed to read from DHT");
+ } else {
+Serial.print("Humidity: ");
+Serial.print(h);
+Serial.print(" %\t");
+Serial.print("Temperature: "); 
+Serial.print(t);
+Serial.println(" *C");
+*/
 }

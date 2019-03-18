@@ -1,5 +1,7 @@
 {
-    "board": "esp8266:esp8266:d1",
-    "configuration": "CpuFrequency=80,UploadSpeed=921600,FlashSize=4M3M",
-    "port": "COM4"
+    "board": "esp8266:esp8266:nodemcuv2",
+    "configuration": "CpuFrequency=80,UploadSpeed=115200,FlashSize=4M3M",
+    "port": "COM3",
+    "programmer": "AVRISP mkII",
+    "sketch": "Online_weather_station_with_NodeMCU.ino"
 }
