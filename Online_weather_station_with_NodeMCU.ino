@@ -11,7 +11,8 @@ void setup() {
   esp8266Module.startWifiModule();
   Serial.begin(115200);
   Serial.println("Connecting");
-  lcd.clear();
+  
+  lcd.clear(); //rewrite
   lcd.print("   Connected!");
   Serial.println("Connected");
   delay(1000);
@@ -34,7 +35,8 @@ void loop() {
                           esp8266Module.getHumidity(),
                           esp8266Module.getPressure());
     delay(5000);
-    led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity());
+    led.displayDHT(gradusnik.getTemperature(), 
+                   gradusnik.getHumidity());
     delay(5000);
   }
 }

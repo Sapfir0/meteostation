@@ -31,6 +31,8 @@ void LCD::startLCD() {
   lcd.setCursor(0, 1);
   WIFI obj;
   lcd.print(obj.getSSID());
+
+
 }
 
 void LCD::displayWeather(String location, String description, String Country) {

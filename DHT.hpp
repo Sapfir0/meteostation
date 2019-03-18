@@ -1,8 +1,7 @@
 #include "DHT.h"
 
 #define DHTPIN 2
-#define DHTTYPE DHT11
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHTPIN, DHT11);
 
 class Gradusnik {
  private:

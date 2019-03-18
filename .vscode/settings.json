@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "list": "cpp"
+        "list": "cpp",
+        "ios": "cpp",
+        "system_error": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xiosbase": "cpp",
+        "xstring": "cpp"
     }
 }

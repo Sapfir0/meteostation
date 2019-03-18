@@ -52,7 +52,7 @@ void WIFI::startWifiModule() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.println("Connection isnt successful");
-    //led.loadiiing(); 
+    //led.loadiiing();  //надо как-то кидать исключение на лсд
 
   }
 }
@@ -73,7 +73,8 @@ void WIFI::connectToServer(String CityID, String APIKEY) {
 }
 
 String WIFI::queryToServer(String result) {
-  while (client.connected() && !client.available()) delay(1);  // waits for data
+  while (client.connected() && !client.available()) 
+    delay(1);  // waits for data
   while (client.connected() || client.available()) {
     // connected or data available
     char c = client.read();  // gets byte from ethernet buffer
@@ -102,7 +103,7 @@ void WIFI::parsingJSON(String json) {
   StaticJsonBuffer<1024> json_buf;
   JsonObject &root = json_buf.parseObject(jsonArray);
 
-  String weather = root["weather"]["main"]; //не особо понятно что это
+  //String weather = root["weather"]["main"]; //не особо понятно что это
 
   setWeatherDescription(root["weather"]["description"]);
   setWeatherLocation(root["name"]);
@@ -110,7 +111,6 @@ void WIFI::parsingJSON(String json) {
   setTemperature(root["main"]["temp"]);
   setHumidity(root["main"]["humidity"]);
   setPressure(root["main"]["pressure"]);
-
 }
 
 const char* WIFI::getSSID() { return ssid;}
