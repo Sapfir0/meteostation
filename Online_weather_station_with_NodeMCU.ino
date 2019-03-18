@@ -2,10 +2,6 @@
 // Hardware: NodeMCU
 // simple Code for reading information from openweathermap.org 
 
-#include <ESP8266WiFi.h>
-#include <LiquidCrystal_I2C.h>
-#include <ArduinoJson.h>
-#include <Wire.h>
 
 #include "WIFI.hpp"
 #include "LCD.hpp"
@@ -18,30 +14,15 @@
 const char* ssid     = "WiFi-DOM.ru-1520";                 // SSID of local network
 const char* password =  "sapfir1997";                    // Password on network
 
-
-char servername[]="api.openweathermap.org";              // remote server we will connect to
-
 int  counter = 60;    
                                  
 LCD led;
 WIFI esp8266Module;
 
-void startWifiModule() {
-    WiFi.begin(ssid, password);
-
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        static int cursorPosition=0;
-        lcd.setCursor(cursorPosition,2); 
-        lcd.print(".");
-        cursorPosition++;
-    }
-}
-
 void setup() {
 
   led.startLCD();
-  startWifiModule();
+  esp8266Module.startWifiModule(ssid, password);
   //dht.begin();
   Serial.begin(115200);
   Serial.println("Connecting");

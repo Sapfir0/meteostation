@@ -5,7 +5,8 @@ class WIFI
 {
 private:
     String CityID = "472757"; //Your City ID
-    String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";  
+    String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";
+    //char servername[]="api.openweathermap.org";              // not used now-
     String result;                               
 
     //мм свойства
@@ -20,6 +21,7 @@ public:
     void connectToServer(String CityID, String APIKEY);
     String queryToServer(String result);
     void getWeatherData();
+    void startWifiModule(const char* ssid, const char* password);
 
     String getWeatherDescription();
     String getWeatherLocation();
@@ -37,6 +39,20 @@ public:
 };
 
 WiFiClient client;
+
+void WIFI::startWifiModule(const char* ssid, const char* password) {
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.println("Connection isnt successful");
+//        static int cursorPosition=0; //не особо важный код для точечек на LCD
+//        lcd.setCursor(cursorPosition,2); 
+//        lcd.print(".");
+//        cursorPosition++;
+    }
+}
+
 
 void WIFI::connectToServer(String CityID, String APIKEY) {
   if (client.connect("api.openweathermap.org", 80)) {  //starts client connection, checks for connection
