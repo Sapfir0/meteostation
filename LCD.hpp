@@ -1,7 +1,10 @@
-//#pragma once
+#pragma once
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "WIFI.hpp"
+// #include <stdarg.h>
+// #include <sstream>
+
 class LCD {
  private:
 
@@ -12,6 +15,9 @@ class LCD {
   void displayGettingData();
   void displayDHT(float temperature, float humidity);
   void loadiiing(); 
+
+  //void printLCD(String s, ...);
+  //void printLCD(Arguments const & ... args);
 
 };
   LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
@@ -70,10 +76,32 @@ void LCD::displayDHT(float temperature, float humidity) {
   lcd.clear();
   lcd.print("T:");
   lcd.print(temperature, 1);
-  lcd.print((char)223);
+  lcd.print((char)223); //кружок для градуса
   lcd.print("C ");
 
   lcd.print(" H:");  // Printing Humidity
   lcd.print(humidity, 0);
   lcd.print(" %");
 }
+
+//надо сделать свой принтф
+// void LCD::printLCD(String s, ...) {
+
+//   lcd.clear();
+
+//   va_list listok;
+//   va_start(listok, s);
+//   for(auto i = 0; i < *s; i++)  {
+//     lcd.print(s);
+//   }
+//   va_end(listok);
+  
+// }
+
+// template<typename ... Arguments>
+// void LCD::printLCD(Arguments const & ... args)
+// {
+//     std::stringstream ss;
+//     (ss << ... << args);
+//     lcd.print(ss);
+// }

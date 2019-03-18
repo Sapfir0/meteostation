@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 
@@ -90,8 +90,6 @@ void WIFI::getWeatherData()  // client function to send/receive GET request
   connectToServer(CityID, APIKEY);
   result = queryToServer(result);
   parsingJSON(result);
-
-
 }
 
 void WIFI::parsingJSON(String json) {
