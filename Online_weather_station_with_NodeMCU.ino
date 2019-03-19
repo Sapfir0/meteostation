@@ -45,7 +45,7 @@ void loop() {
         delay(5000);
           led.displayConditions(esp8266Module.getTemperature(),
                                 esp8266Module.getHumidity(),
-                                esp8266Module.toMmRtSt( esp8266Module.getPressure() ) );
+                                esp8266Module.toMmRtSt( esp8266Module.getPressure()) );
 delay(5000);
           
           static int counter=0;

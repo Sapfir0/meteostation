@@ -59,7 +59,8 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   lcd.setCursor(0, 1);  // Printing Pressure
   lcd.print("P: ");
   lcd.print(Pressure, 1);
-  lcd.print(" hPa");
+  lcd.print(" mm Hg");
+  //lcd.print(" hPa");
 }
 
 void LCD::displayGettingData() {

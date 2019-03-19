@@ -42,3 +42,6 @@ float Gradusnik::getIluminating() {
 //  pressure.append(press);
 //}
 
+int Gradusnik::analyzeEnivromentQuality() {
+
+}
