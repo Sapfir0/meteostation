@@ -2,8 +2,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 #include "WIFI.hpp"
-// #include <stdarg.h>
-// #include <sstream>
 
 class LCD {
  private:
@@ -16,8 +14,8 @@ class LCD {
   void displayDHT(float temperature, float humidity);
   void loadiiing(); 
 
-  //void printLCD(String s, ...);
-  //void printLCD(Arguments const & ... args);
+  void printf(const char* str, ...);
+
 
 };
   LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
@@ -83,27 +81,28 @@ void LCD::displayDHT(float temperature, float humidity) {
 
   lcd.print(" H:");  // Printing Humidity
   lcd.print(humidity, 0);
-  lcd.print(" %");
+  lcd.print(" %%");
 }
 
 //надо сделать свой принтф
-// void LCD::printLCD(String s, ...) {
 
-//   lcd.clear();
-
-//   va_list listok;
-//   va_start(listok, s);
-//   for(auto i = 0; i < *s; i++)  {
-//     lcd.print(s);
-//   }
-//   va_end(listok);
+//lcd.printf("viudhiud%sfdis%s", " vfhvo ",  " dnois")
+//>> viudhiud vfhvo sfdis dnois
+void LCD::printf(const char* str, ...) {
+  auto nextObj = &str+1;
+  while(*str){
+    if (*str == '%') {
+      if (*(str+1) == 's') {
+        lcd.print(*nextObj);
+        nextobj++;
+      } else {
+        lcd.print(*str);
+        str++
+      }
+    } else {
+      lcd.print(*str);
+    }
+    str++;
+  }
   
-// }
-
-// template<typename ... Arguments>
-// void LCD::printLCD(Arguments const & ... args)
-// {
-//     std::stringstream ss;
-//     (ss << ... << args);
-//     lcd.print(ss);
-// }
+}
