@@ -1,12 +1,14 @@
 #include "DHT.h"
 
 #define DHTPIN 2
+#define photoresistor A0
 DHT dht(DHTPIN, DHT11);
 
 class Gradusnik {
  private:
   float temperature;
   float humidity;
+  float illumination;
 
  public:
   float getTemperature();
@@ -14,7 +16,10 @@ class Gradusnik {
   void setTemperature(float temperature);
   void setHumidity(float humidity);
   void start();
+  float getIluminating();
 };
+
+void Gradusnik::start() { dht.begin(); }
 
 float Gradusnik::getTemperature() {
   temperature = dht.readTemperature();
@@ -24,4 +29,8 @@ float Gradusnik::getHumidity() {
   humidity = dht.readHumidity();
   return humidity;
 }
-void Gradusnik::start() { dht.begin(); }
+
+float Gradusnik::getIluminating() {
+  illumination = analogRead(photoresistor);
+  return illumination;
+}

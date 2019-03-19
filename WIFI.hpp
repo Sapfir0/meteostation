@@ -53,6 +53,7 @@ void WIFI::startWifiModule() {
     delay(500);
     Serial.println("Connection isnt successful");
     //led.loadiiing();  //надо как-то кидать исключение на лсд
+    
 
   }
 }

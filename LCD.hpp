@@ -11,7 +11,7 @@ class LCD {
   void displayWeather(String location, String description, String Country);
   void displayConditions(float Temperature, float Humidity, float Pressure);
   void displayGettingData();
-  void displayDHT(float temperature, float humidity);
+  void displayDHT(float temperature, float humidity, float ilum);
   void loadiiing(); 
 
   void printf(const char* str, ...);
@@ -72,7 +72,7 @@ void LCD::loadiiing() {
   cursorPosition++;
 }
 
-void LCD::displayDHT(float temperature, float humidity) {
+void LCD::displayDHT(float temperature, float humidity, float ilum) {
   lcd.clear();
   lcd.print("T:");
   lcd.print(temperature, 1);
@@ -82,6 +82,10 @@ void LCD::displayDHT(float temperature, float humidity) {
   lcd.print(" H:");  // Printing Humidity
   lcd.print(humidity, 0);
   lcd.print(" %%");
+
+  lcd.setCursor(0, 1);  
+  lcd.print("Sansity: ");
+  lcd.print(ilum);
 }
 
 //надо сделать свой принтф
@@ -94,10 +98,10 @@ void LCD::printf(const char* str, ...) {
     if (*str == '%') {
       if (*(str+1) == 's') {
         lcd.print(*nextObj);
-        nextobj++;
+        nextObj++;
       } else {
         lcd.print(*str);
-        str++
+        str++;
       }
     } else {
       lcd.print(*str);
