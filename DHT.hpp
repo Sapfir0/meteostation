@@ -2,6 +2,7 @@
 
 #define DHTPIN 2
 #define photoresistor A0
+
 DHT dht(DHTPIN, DHT11);
 
 class Gradusnik {
@@ -9,6 +10,7 @@ class Gradusnik {
   float temperature;
   float humidity;
   float illumination;
+  //vector<float> pressure;
 
  public:
   float getTemperature();
@@ -17,6 +19,7 @@ class Gradusnik {
   void setHumidity(float humidity);
   void start();
   float getIluminating();
+
 };
 
 void Gradusnik::start() { dht.begin(); }
@@ -34,3 +37,8 @@ float Gradusnik::getIluminating() {
   illumination = analogRead(photoresistor);
   return illumination;
 }
+
+//int Gradusnik::getForecast(float press) {
+//  pressure.append(press);
+//}
+

@@ -12,7 +12,9 @@ class LCD {
   void displayConditions(float Temperature, float Humidity, float Pressure);
   void displayGettingData();
   void displayDHT(float temperature, float humidity, float ilum);
-  void loadiiing(); 
+  void loadiiing(); //not used now
+
+  void displayError();
 
   void printf(const char* str, ...);
 
@@ -109,4 +111,10 @@ void LCD::printf(const char* str, ...) {
     str++;
   }
   
+}
+
+
+void LCD::displayError() {
+  lcd.clear();
+  lcd.print("Undefined behavior");
 }

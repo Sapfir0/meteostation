@@ -26,6 +26,7 @@ class WIFI {
   void getWeatherData();
   void startWifiModule();
   void parsingJSON(String json);
+  float toMmRtSt(float GectoPaskal);
 
   String getWeatherDescription();
   String getWeatherLocation();
@@ -113,6 +114,13 @@ void WIFI::parsingJSON(String json) {
   setHumidity(root["main"]["humidity"]);
   setPressure(root["main"]["pressure"]);
 }
+
+float WIFI::toMmRtSt(float GectoPaskal) {
+  float res=0;
+  res= GectoPaskal * 100 / 133;
+  return res;
+}
+
 
 const char* WIFI::getSSID() { return ssid;}
 String WIFI::getWeatherDescription() { return weatherDescription; }
