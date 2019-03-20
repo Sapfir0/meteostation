@@ -1,8 +1,10 @@
+#pragma once
+
 #define RED 5 // Присваиваем имя RED для пина 11
 #define GREEN 3 // Присваиваем имя GREEN для пина 12
 #define BLUE 4 // Присваиваем имя BLUE для пина 13
 
-#pragma once
+
 #include "WIFI.hpp"
 
 //менять цвет при более-менее критических событиях

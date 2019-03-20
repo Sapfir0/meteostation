@@ -18,6 +18,7 @@ class LCD {
 
   template <typename T, typename... Args>
   void printf(const char *s, T value, Args... args); //eeeee
+  void printf(const char *s);
 
 
 };
@@ -94,6 +95,9 @@ void LCD::displayDHT(float temperature, float humidity, float ilum) {
 
 //lcd.printf("viudhiud%sfdis%s", " vfhvo ",  " dnois")
 //>> viudhiud vfhvo sfdis dnois
+void LCD::printf(const char* s) {
+  lcd.print(s);
+}
 template<typename T, typename... Args>
 void LCD::printf(const char *s, T value, Args... args) {
     while (*s) {
