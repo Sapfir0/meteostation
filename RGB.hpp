@@ -13,23 +13,55 @@
 class RGB
 {
 private:
-    struct currentColor
-    {
+
+  public:
+    struct Color  {
         uint8_t greenPercent;
         uint8_t bluePercent;
         uint8_t redPercent;
     };
 
-  public:
-    uint8_t goToBlueColor(uint8_t currentColor);
-    uint8_t goToRedColor(uint8_t currentColor);
-    uint8_t goToGreenColor(uint8_t currentColor);
 
-    int getCurrentWeater();
+    int getCurrentWeatherID();
+    void setColor(RGB::Color, int currentWeatherID);
 
 };
 
- int RGB::getCurrentWeater() {
+
+ int RGB::getCurrentWeatherID() {
      WIFI esp;
      return esp.getWeatherID;
  }
+
+ RGB::Color RGB::getCurrentColor() {
+
+ }
+
+void RGB::setColor(RGB::Color, int currentWeatherID) {
+    
+    if (currentWeatherID >= 200 and currentWeatherID <= 232 ) {
+
+    }
+    else if (currentWeatherID >= 300 and currentWeatherID <= 321) {
+
+    }
+    else if (currentWeatherID >= 500 and currentWeatherID <= 531) {
+    
+    }
+    else if (currentWeatherID >= 600 and currentWeatherID <= 622) {
+    
+    }
+    else if (currentWeatherID >= 700 and currentWeatherID <= 781) {
+    
+    }
+    else if (currentWeatherID == 800) {
+    
+    }
+    else if (currentWeatherID >= 801 and currentWeatherID <= 804) {
+    
+    }
+    else {
+        bug();
+    }
+}
+
