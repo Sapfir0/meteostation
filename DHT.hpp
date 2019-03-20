@@ -20,6 +20,7 @@ class Gradusnik {
   void start();
   float getIluminating();
 
+int analyzeEnivromentQuality();
 };
 
 void Gradusnik::start() { dht.begin(); }

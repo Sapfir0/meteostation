@@ -55,7 +55,7 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
 
   lcd.print(" H:");  // Printing Humidity
   lcd.print(Humidity, 0);
-  lcd.print(" %%");
+  lcd.print(" %");
 
   lcd.setCursor(0, 1);  // Printing Pressure
   lcd.print("P: ");

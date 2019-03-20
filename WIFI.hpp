@@ -142,7 +142,7 @@ String WIFI::getCountry() { return Country; }
 float WIFI::getTemperature() { return Temperature; }
 float WIFI::getHumidity() { return Humidity; }
 float WIFI::getPressure() { return Pressure; }
-void WIFI::getWeatherID() {
+int WIFI::getWeatherID() {
   return weatherID;
 }
 

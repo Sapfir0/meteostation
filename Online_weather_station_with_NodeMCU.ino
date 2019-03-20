@@ -1,9 +1,11 @@
 #include "DHT.hpp"
 #include "LCD.hpp"
+#include "RGB.hpp"
 
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
+RGB diod;
 
 void setup() {
   gradusnik.start();
@@ -44,25 +46,13 @@ void changeValuesOnLCD() {
   led.displayConditions(esp8266Module.getTemperature(),
                         esp8266Module.getHumidity(),
                         esp8266Module.toMmRtSt(esp8266Module.getPressure()));
+  //diod.setColor( esp8266Module.getWeatherID() ); //зависает на вызове
   delay(5000);
 
-  static int counter = 0;
-  static int t, h, i;
-  t = gradusnik.getTemperature();
-  h = gradusnik.getHumidity();
+  led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity(),
+                 gradusnik.getIluminating());
 
-  i = gradusnik.getIluminating();
-  while (counter < 2)
-  {
-    if (t != gradusnik.getTemperature() or h != gradusnik.getHumidity() or i != gradusnik.getIluminating())
-    {
-      led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity(),
-                     gradusnik.getIluminating());
-    } ///не особо понял как робит фоторезистор, он какую-то муть показывает
-    counter++;
-    delay(5000); //эффект обновления экрана устранен из-за неработающего фоторезистора
-  }
-  counter = 0;
+  delay(5000); //эффект обновления экрана устранен из-за неработающего фоторезистора
 
   /*цель
   сделать чтобы как минимум последнее было изменяемым во время работы
