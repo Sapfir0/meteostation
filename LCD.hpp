@@ -16,7 +16,8 @@ class LCD {
 
   void displayError();
 
-  void printf(const char* str, ...);
+  template <typename T, typename... Args>
+  void printf(const char *s, T value, Args... args); //eeeee
 
 
 };
@@ -54,7 +55,7 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
 
   lcd.print(" H:");  // Printing Humidity
   lcd.print(Humidity, 0);
-  lcd.print(" %");
+  lcd.print(" %%");
 
   lcd.setCursor(0, 1);  // Printing Pressure
   lcd.print("P: ");
@@ -95,25 +96,23 @@ void LCD::displayDHT(float temperature, float humidity, float ilum) {
 
 //lcd.printf("viudhiud%sfdis%s", " vfhvo ",  " dnois")
 //>> viudhiud vfhvo sfdis dnois
-void LCD::printf(const char* str, ...) {
-  auto nextObj = &str+1;
-  while(*str){
-    if (*str == '%') {
-      if (*(str+1) == 's') {
-        lcd.print(*nextObj);
-        nextObj++;
-      } else {
-        lcd.print(*str);
-        str++;
-      }
-    } else {
-      lcd.print(*str);
+template<typename T, typename... Args>
+void printf(const char *s, T value, Args... args) {
+    while (*s) {
+        if (*s == '%') {
+            if (*(s + 1) == '%') {
+                ++s;
+            }
+            else {
+                lcd.print(value);
+                s += 2; // работает только для спецификаторов формата из двух символов (напр. %d, %f ).Не будет работать с %5.4f
+                printf(s, args...); // вызов происходит даже когда *s == 0, чтобы обнаружить избыточные аргументы
+                return;
+            }
+        }
+        lcd.print(*s++);
     }
-    str++;
-  }
-  
 }
-
 
 void LCD::displayError() {
   lcd.clear();
