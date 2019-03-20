@@ -43,13 +43,14 @@ void changeValuesOnLCD() {
                      esp8266Module.getWeatherDescription(),
                      esp8266Module.getCountry());
   delay(5000);
-  led.displayConditions(esp8266Module.getTemperature(),
-                        esp8266Module.getHumidity(),
-                        esp8266Module.toMmRtSt(esp8266Module.getPressure()));
+  led.displayConditions(esp8266Module.getTemperature(), 
+                        esp8266Module.getHumidity(), 
+                        esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
   //diod.setColor( esp8266Module.getWeatherID() ); //зависает на вызове
   delay(5000);
-
-  led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity(),
+  
+  led.displayDHT(gradusnik.getTemperature(), 
+                 gradusnik.getHumidity(), //зимой 30-45%, летом 30-60% нормальная влажность
                  gradusnik.getIluminating());
 
   delay(5000); //эффект обновления экрана устранен из-за неработающего фоторезистора
