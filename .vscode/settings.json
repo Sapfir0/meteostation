@@ -6,7 +6,8 @@
         "vector": "cpp",
         "xhash": "cpp",
         "xiosbase": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "cstddef": "cpp"
     },
     "editor.formatOnType": true
 }

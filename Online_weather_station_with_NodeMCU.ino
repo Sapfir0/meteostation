@@ -1,12 +1,13 @@
 #include "DHT.hpp"
 #include "LCD.hpp"
 #include "RGB.hpp"
+#include "Snake.hpp"
 
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
 RGB diod;
-
+Snake snake;
 void setup() {
   gradusnik.start();
   led.startLCD();
@@ -32,8 +33,9 @@ void loop() {
   }
   else  {
     counter++;
-    changeValuesOnLCD();
-    delay(1000);
+    //changeValuesOnLCD(); //обычный режим
+    //delay(1000);
+    startGame(); //игровой
   }
 }
 
@@ -55,8 +57,13 @@ void changeValuesOnLCD() {
 
   delay(5000); //эффект обновления экрана устранен из-за неработающего фоторезистора
 
-  /*цель
-  сделать чтобы как минимум последнее было изменяемым во время работы
-  то есть, когда мы отрисовываем этот блок, и поменялось значение, хочу
-  чтобы менялось оно не к следующей отрисовке, а моментально */
+/*цель
+сделать чтобы как минимум последнее было изменяемым во время работы
+то есть, когда мы отрисовываем этот блок, и поменялось значение, хочу
+чтобы менялось оно не к следующей отрисовке, а моментально */
+}
+
+void startGame() {
+  int randWay = rand() % 3 - 1;
+  snake.controlment(randWay, randWay, randWay, randWay);
 }

@@ -60,7 +60,7 @@ void RGB::setColor(int currentWeatherID) {
       Serial.println(currentWeatherID);
 
       for(color.greenPercent=0; color.greenPercent<=255; color.greenPercent++)
-        setRGB(color.redPercent, color.greenPercent, color.bluePercent);
+        analogWrite(BLUE, 150); // Включаем синий свет
     }
     else if (currentWeatherID >= 801 and currentWeatherID <= 804) { //Group 80x: Clouds
     for(color.greenPercent=0; color.greenPercent<=255; color.greenPercent++)

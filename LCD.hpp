@@ -12,14 +12,14 @@ class LCD {
   void displayConditions(float Temperature, float Humidity, float Pressure);
   void displayGettingData();
   void displayDHT(float temperature, float humidity, float ilum);
-  void loadiiing(); //not used now
 
-  void displayError();
 
   template <typename T, typename... Args>
   void printf(const char *s, T value, Args... args); //eeeee
   void printf(const char *s);
-
+  void displayGameOver();
+  void loadiiing(); //not used now
+  void displayError();
 
 };
   LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
@@ -119,4 +119,11 @@ void LCD::printf(const char *s, T value, Args... args) {
 void LCD::displayError() {
   lcd.clear();
   lcd.print("Undefined behavior");
+}
+
+
+void LCD::displayGameOver() {
+   lcd.clear;
+   lcd.setCursor(0, 0);
+   lcd.print("GAME OVER");
 }
