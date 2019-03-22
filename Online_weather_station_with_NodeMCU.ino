@@ -33,9 +33,12 @@ void loop() {
   }
   else  {
     counter++;
-    //changeValuesOnLCD(); //обычный режим
-    //delay(1000);
-    startGame(); //игровой
+    changeValuesOnLCD(); //обычный режим
+    
+//    while(true) {
+//      startGame(); //игровой
+      delay(1000);
+//    }
   }
 }
 
@@ -65,5 +68,7 @@ void changeValuesOnLCD() {
 
 void startGame() {
   int randWay = rand() % 3 - 1;
-  snake.controlment(randWay, randWay, randWay, randWay);
+  // int othersWay ;
+  // if (randWay == -1 or randWay==1) othersWay = 0;
+  snake.controlment(randWay, randWay, 0, 0);
 }

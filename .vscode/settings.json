@@ -7,7 +7,9 @@
         "xhash": "cpp",
         "xiosbase": "cpp",
         "xstring": "cpp",
-        "cstddef": "cpp"
+        "cstddef": "cpp",
+        "functional": "cpp",
+        "xtr1common": "cpp"
     },
     "editor.formatOnType": true
 }

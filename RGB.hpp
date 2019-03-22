@@ -40,41 +40,8 @@ private:
 // }
 
 void RGB::setColor(int currentWeatherID) {
-    Color color;
-    if (currentWeatherID >= 200 and currentWeatherID <= 232 ) { //Group 2xx: Thunderstorm
-
-    }
-    else if (currentWeatherID >= 300 and currentWeatherID <= 321) { //Group 3xx: Drizzle
-
-    }
-    else if (currentWeatherID >= 500 and currentWeatherID <= 531) {//Group 5xx: Rain
-    
-    }
-    else if (currentWeatherID >= 600 and currentWeatherID <= 622) { //Group 6xx: Snow
-    
-    }
-    else if (currentWeatherID >= 700 and currentWeatherID <= 781) {//Group 7xx: Atmosphere
-    
-    }
-    else if (currentWeatherID == 800) {//Group 800: Clear
-      Serial.println(currentWeatherID);
-
-      for(color.greenPercent=0; color.greenPercent<=255; color.greenPercent++)
-        analogWrite(BLUE, 150); // Включаем синий свет
-    }
-    else if (currentWeatherID >= 801 and currentWeatherID <= 804) { //Group 80x: Clouds
-    for(color.greenPercent=0; color.greenPercent<=255; color.greenPercent++)
-        setRGB(color.redPercent, color.greenPercent, color.bluePercent);
-    }
-    else {
-        //bug();
-    }
+    WiFi esp;
+    if ( esp.getTemperature() < ) 
 }
 
 
-void RGB::setRGB(int r,int g,int b) {
-analogWrite(RED,r);
-analogWrite(GREEN,g);
-analogWrite(BLUE,b);
-delay(10);
-}
