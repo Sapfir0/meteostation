@@ -25,8 +25,7 @@ byte bukva_Mz[8]  = {0b10000,0b10000,0b10000,0b11110,0b10001,0b10001,0b11110,0b0
 byte bukva_IYI[8] = {0b10001,0b10001,0b10001,0b11001,0b10101,0b10101,0b11001,0b00000}; // Буква "Ы"
 byte bukva_Yu[8]  = {0b10010,0b10101,0b10101,0b11101,0b10101,0b10101,0b10010,0b00000}; // Буква "Ю"
 byte bukva_Ya[8]  = {0b01111,0b10001,0b10001,0b01111,0b00101,0b01001,0b10001,0b00000}; // Буква "Я"
-String connectingTo = "   Connecting to";
-String gettingData = "Getting data";
+
 
 
 public:
@@ -43,7 +42,8 @@ void displayGameOver();
 void loadiiing();  // not used now
 void displayError();
 
-String utf8rus(String source);
+String parsingDescr(int weatherID);
+
 
 
 };
@@ -51,64 +51,64 @@ String utf8rus(String source);
 
 
 void LCD::startLCD() {
-// lcd.createChar(1, bukva_D);      // Создаем символ под номером 1
-// lcd.createChar(2, bukva_I);      // Создаем символ под номером 2
-// lcd.createChar(3, bukva_Ya);      // Создаем символ под номером 2
   lcd.begin(16, 2);
   lcd.init();
   lcd.backlight();
-  lcd.print(connectingTo);
-  //lcd.print("COE\1\2H\3EMC\3");
-  
+  lcd.print("Connecting to");
   lcd.setCursor(0, 1);
   WIFI obj;
   lcd.print(obj.getSSID());
 }
 
-// template<typename T>
-// void LCD::translateToRussian(T value) { 
-
-
-// }
 
 void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
   lcd.setCursor(0, 0);
-  //printf("%s, %s ", location, Country);
-  lcd.print("BO\2\3O\3PA\1, RU"); 
+  printf("%s, %s ", location, Country);
+  //lcd.print("BO\2\3O\3PA\1, RU"); 
   lcd.setCursor(0, 1);
-  WiFi esp; 
-  printf("%s", parsingDescr(esp.getWeatherID()));
+ lcd.print(description);
+  //parsingDescr(903);
 }
 
 String LCD::parsingDescr(int weatherID) {
-  map<char, String>;
-
+  //map<char, String> mapa;
 
   lcd.createChar(0, bukva_L);      // Создаем символ под номером 1
+  lcd.write(0);
+
   lcd.createChar(1, bukva_G);      // Создаем символ под номером 2
   lcd.createChar(2, bukva_I);      // Создаем символ под номером 2
   lcd.createChar(3, bukva_IY);      // Создаем символ под номером 2
   lcd.createChar(4, bukva_Mz);      // Создаем символ под номером 2
   lcd.createChar(5, bukva_IYI);      // Создаем символ под номером 2
   lcd.createChar(6, bukva_Y);      // Создаем символ под номером 2
-    lcd.createChar(7, bukva_B);      // Создаем символ под номером 2
 
+  lcd.createChar(7, bukva_B);      // Создаем символ под номером 2
+  lcd.createChar(8, bukva_CH);      // Создаем символ под номером 2
+  lcd.createChar(8, bukva_P);      // Создаем символ под номером 2
+  lcd.createChar(9, bukva_Ya);      // Создаем символ под номером 2
 
   String light = "C\0A\7\5\3";
   String heavy = "C\2\0\4H\5\3";
   String fog = "T\6MAH";
+  String cloudy = "O\7\0A\8HO";
+  String with = " C ";
+  String broken = "\8PO\8CHTH\2\9M\2";
 
 
   switch (weatherID)
   {
     case 200:
-      return
+      
       break;
   
+    case 903:
+      break;
     default:
       break;
   }
+  return "AF";
 }
 /*
 Group 2xx: Thunderstorm
@@ -178,8 +178,8 @@ Group 80x: Clouds
 ID 	Main 	Description 	Icon
 801 	Clouds 	few clouds: 11-25% 	02d 02n
 802 	Clouds 	scattered clouds: 25-50% 	03d 03n
-803 	Clouds 	broken clouds: 51-84% 	04d 04n
-804 	Clouds 	overcast clouds: 85-100% */*/
+803 	Clouds 	broken clouds: 51-84% 	04d 04n  облачно с прояснениями
+804 	Clouds 	overcast clouds: 85-100% */
 
 
 void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
@@ -221,7 +221,7 @@ void LCD::displayDHT(float temperature, float humidity, float ilum) {
 
   lcd.print(" H:");  // Printing Humidity
   lcd.print(humidity, 0);
-  lcd.print(" %%");
+  lcd.print(" %");
 
   lcd.setCursor(0, 1);  
   lcd.print("Sansity: ");

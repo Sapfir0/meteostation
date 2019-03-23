@@ -8,6 +8,7 @@ WIFI esp8266Module;
 Gradusnik gradusnik;
 RGB diod;
 Snake snake;
+
 void setup() {
   gradusnik.start();
   led.startLCD();
@@ -18,6 +19,8 @@ void setup() {
   lcd.clear(); // rewrite
   lcd.print("   Connected!");
   Serial.println("Connected");
+
+  diod.startRgb();
   delay(1000);
 }
 
@@ -34,11 +37,11 @@ void loop() {
   else  {
     counter++;
     changeValuesOnLCD(); //обычный режим
-    
-//    while(true) {
-//      startGame(); //игровой
-      delay(1000);
-//    }
+    //diod.setColor(5.1);
+    //    while(true) {
+    //      startGame(); //игровой
+    delay(1000);
+    //    }
   }
 }
 
