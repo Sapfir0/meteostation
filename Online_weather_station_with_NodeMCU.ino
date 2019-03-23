@@ -6,7 +6,7 @@
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
-RGB diod;
+//RGB diod;
 Snake snake;
 
 void setup() {
@@ -20,7 +20,7 @@ void setup() {
   lcd.print("   Connected!");
   Serial.println("Connected");
 
-  diod.startRgb();
+  //diod.startRgb();
   delay(1000);
 }
 
@@ -37,11 +37,8 @@ void loop() {
   else  {
     counter++;
     changeValuesOnLCD(); //обычный режим
-    //diod.setColor(5.1);
-    //    while(true) {
-    //      startGame(); //игровой
     delay(1000);
-    //    }
+
   }
 }
 
@@ -54,7 +51,6 @@ void changeValuesOnLCD() {
   led.displayConditions(esp8266Module.getTemperature(), 
                         esp8266Module.getHumidity(), 
                         esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
-  //diod.setColor( esp8266Module.getWeatherID() ); //зависает на вызове
   delay(5000);
   
   led.displayDHT(gradusnik.getTemperature(), 
