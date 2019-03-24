@@ -42,7 +42,7 @@ void displayGameOver();
 void loadiiing();  // not used now
 void displayError();
 
-String parsingDescr(int weatherID);
+String getRussianDescription(int weatherID);
 
 
 
@@ -71,7 +71,7 @@ void LCD::displayWeather(String location, String description, String Country) {
   //parsingDescr(903);
 }
 
-String LCD::parsingDescr(int weatherID) {
+String LCD::getRussianDescription(int weatherID) {
   //map<char, String> mapa;
 
   String thunderstorm = "гроза";
@@ -103,8 +103,7 @@ String LCD::parsingDescr(int weatherID) {
   String sep = ",";
   
 
-  switch (weatherID)
-  {
+  switch (weatherID)  {
     case 200:      return thunderstorm + with2 + weakIy + rainEm; //гроза со слабым доджем
     case 201:      return thunderstorm +' ' + with  + rainEm; //гроза с дождем 
     case 202:      return thunderstorm + with + heavyIm + rainEm;
@@ -125,46 +124,46 @@ String LCD::parsingDescr(int weatherID) {
     case 313:      return rainB + "и" + drizzle;
     case 321:      return drizzle;
 
-    case 500: return weakIy  + rainB; //легкий дождь
-    case 501: return moderate +rainB;
-    case 502: return heavyIy + rainB;//сильный дождь
-    case 503: return heavyRainB; //ливень
-    case 504: return heavyIy +heavyRainB; //экстремальный дождь
-    case 511: return freezing  + rainB; //замерзающий дождь
-    case 520: return moderate +heavyRainB; //слабый ливень
-    case 521: return heavyRainB; //ливень
-    case 522: return heavyIy + heavyRainB; //сильный ливень
-    case 531: return mestami + heavyRainB; //местами ливень
+    case 500:     return weakIy  + rainB; //легкий дождь
+    case 501:     return moderate +rainB;
+    case 502:     return heavyIy + rainB;//сильный дождь
+    case 503:     return heavyRainB; //ливень
+    case 504:     return heavyIy +heavyRainB; //экстремальный дождь
+    case 511:     return freezing  + rainB; //замерзающий дождь
+    case 520:     return moderate +heavyRainB; //слабый ливень
+    case 521:     return heavyRainB; //ливень
+    case 522:     return heavyIy + heavyRainB; //сильный ливень
+    case 531:     return mestami + heavyRainB; //местами ливень
 
-    case 600: return weakIy  + snow;	  
-    case 601: return snow;
-    case 602: return heavyIy + snow	; 
-    case 611: return gololed	  ;
-    case 612: return small  + gololed;
-    case 613: return 	grad  ;
-    case 615: return weakIy + rainB + with2 + snegOm ;  
-    case 616: return rainB + with2 + snegOm ;
-    case 620: return weakIy + grad;
-    case 621: return shower + snegOm ;
-    case 622: return heavyIy + shower + sneg ;
+    case 600:     return weakIy  + snow;	  
+    case 601:     return snow;
+    case 602:     return heavyIy + snow	; 
+    case 611:     return gololed	  ;
+    case 612:     return small  + gololed;
+    case 613:     return 	grad  ;
+    case 615:     return weakIy + rainB + with2 + snegOm ;  
+    case 616:     return rainB + with2 + snegOm ;
+    case 620:     return weakIy + grad;
+    case 621:     return shower + snegOm ;
+    case 622:     return heavyIy + shower + sneg ;
 
-    case 701: return fog;
-    case 711: return "дымка"	;
-    case 721: return "мгла"	;
-    case 731: return "песчаная буря";
-    case 741: return "густой"+fog;
-    case 751: return "песочно";
-    case 761: return "пыльно"	;
-    case 762: return "ВУЛКАНИЧЕСКИЙ ПЕПЕЛ ГОСПОДИ МЫ ВСЕ УМРЕМ";
-    case 771: return "шквал	";
-    case 781: return "торнадо" ;
+    case 701:     return fog;
+    case 711:     return "дымка"	;
+    case 721:     return "мгла"	;
+    case 731:     return "песчаная буря";
+    case 741:     return "густой"+fog;
+    case 751:     return "песочно";
+    case 761:     return "пыльно"	;
+    case 762:     return "ВУЛКАНИЧЕСКИЙ ПЕПЕЛ ГОСПОДИ МЫ ВСЕ УМРЕМ";
+    case 771:     return "шквал	";
+    case 781:     return "торнадо" ;
 
-    case 800: return "ясно " ;
+    case 800:     return "ясно " ;
 
-    case 801: return "Немного облачно";
-    case 802: return mestami+"облачно";
-    case 803: return "облачно с прояснениями";
-    case 804: return "пасмурно 	";
+    case 801:     return "Немного облачно";
+    case 802:     return mestami+"облачно";
+    case 803:     return "облачно с прояснениями";
+    case 804:     return "пасмурно 	";
     default:  return  "ERROR";
   }
   return "ERROR X2";

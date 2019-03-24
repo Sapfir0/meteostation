@@ -183,6 +183,6 @@ void WIFI::setPressure(float pressure)
 void WIFI::setWeatherID(int weatherId) {
   this->weatherID = weatherId;
 }
-void WiFi::setWindSpeed(int windSpeed) { 
+void WIFI::setWindSpeed(int windSpeed) { 
   this->windSpeed = windSpeed;
 }

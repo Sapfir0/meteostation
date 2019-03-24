@@ -37,7 +37,8 @@ void loop() {
   else  {
     counter++;
     changeValuesOnLCD(); //обычный режим
-    
+    int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) ;
+    diod.setColorByRating(a);
     Serial.println( diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) );
     delay(1000);
 
@@ -49,6 +50,7 @@ void changeValuesOnLCD() {
   led.displayWeather(esp8266Module.getWeatherLocation(),
                      esp8266Module.getWeatherDescription(),
                      esp8266Module.getCountry());
+  //diod.setColor(10);
   delay(5000);
   led.displayConditions(esp8266Module.getTemperature(), 
                         esp8266Module.getHumidity(), 
