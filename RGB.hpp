@@ -6,32 +6,23 @@ class RGB
 {
 private:
   const byte rgbPins[3] = {5,3,4};
-  int dim = 1;
+  uint8_t currentColor[3];
 
-  public:
-    struct Color  {
-        uint8_t greenPercent;
-        uint8_t bluePercent;
-        uint8_t redPercent;
-    };
+ public:
+  int getHorecast(float temp, float humidity, float pressure);
+  void startRgb();
+  void setColorByRating(int raiting);
 
+  bool setPercent();
+  void fading(int red, int green, int blue);
+  bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
+  void analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue);
 
-    int getHorecast(float temp, float humidity, float pressure);
-    void startRgb();
-    void setColorByRating(int raiting);
-
-    bool setPercent();
-    void fading(int red, int green, int blue);
-    bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
-    
-    Color* getColor();
+  uint8_t* getColor();
 };
 
-void RGB::startRgb() {
-
-    analogWrite(rgbPins[0], 0);
-    analogWrite(rgbPins[1], 255);
-    analogWrite(rgbPins[2], 0);
+void RGB::startRgb() { 
+  analogWriteRGB(0, 255, 0); 
 }
 
 void RGB::setColorByRating(int raiting) {
@@ -45,28 +36,31 @@ void RGB::setColorByRating(int raiting) {
       else if (raiting < 50 and raiting > 25) {
         setRGB(254, 254, 34); //желтый
       }
-      else if (raiting < 25) {
+      else if (raiting <= 25) {
         setRGB(139, 0, 0); //красный
       }
       //потом вызывать фейд
 }
 
-bool RGB::setRGB(uint8_t red, uint8_t green, uint8_t blue) {
-  if (red>255 or red <0 or green>255 or green <0 or blue>255 or blue <0)
-    return false;
+void RGB::analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue) {
   analogWrite(rgbPins[0], red);
   analogWrite(rgbPins[1], green);
   analogWrite(rgbPins[2], blue);
+}
 
-   Color d;
-  d.redPercent = red;
-  d.greenPercent = green;
-  d.bluePercent = blue;
+bool RGB::setRGB(uint8_t red, uint8_t green, uint8_t blue) {
+  if (red>255 or red <0 or green>255 or green <0 or blue>255 or blue <0)
+    return false;
+  analogWriteRGB(red, green, blue);
+
+  currentColor[0] = red;
+  currentColor[1]  = green;
+  currentColor[2]  = blue;
   return true;
 }
 
-RGB::Color* RGB::getColor() { ///////////////////
- return Color;
+uint8_t* RGB::getColor() { ///////////////////
+ return currentColor;
 }
 
 int RGB::getHorecast(float temp, float hum, float press) {
@@ -76,6 +70,7 @@ int RGB::getHorecast(float temp, float hum, float press) {
   else if (temp > -20 and temp < 0 or temp < 40 and temp >= 30)    tempRating = 0.5;
   else if ( temp >= 0 and temp<10 or temp<30 and temp > 20 )    tempRating = 0.7;
   else    tempRating = 1.0;
+  
 Serial.println("TempRating: ");
 Serial.println(tempRating);
 /////////////////////////////////////////////////
@@ -100,9 +95,10 @@ void RGB::fading(int red, int green, int blue) { //эффект мерцания
   // fade in from min to max in increments of 5 points:
   for (int fadeValue = 30 ; fadeValue <= 255; fadeValue += 5) {
     // sets the value (range from 0 to 255):
-    analogWrite(red, fadeValue);
-    analogWrite(green, fadeValue);
-    analogWrite(blue, fadeValue);
+    analogWriteRGB(red, green, blue);
+    // analogWrite(red, fadeValue);
+    // analogWrite(green, fadeValue);
+    // analogWrite(blue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
@@ -110,9 +106,10 @@ delay(300);
   // fade out from max to min in increments of 5 points:
   for (int fadeValue = 255 ; fadeValue >= 30; fadeValue -= 5) {
     // sets the value (range from 0 to 255):
-    analogWrite(red, fadeValue);
-    analogWrite(green, fadeValue);
-    analogWrite(blue, fadeValue);
+    analogWriteRGB(red, green, blue);
+    // analogWrite(red, fadeValue);
+    // analogWrite(green, fadeValue);
+    // analogWrite(blue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
