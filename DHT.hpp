@@ -12,7 +12,6 @@ class Gradusnik {
   float temperature;
   float humidity;
   float illumination;
-  //vector<float> pressure;
 
  public:
   float getTemperature();
@@ -40,10 +39,6 @@ float Gradusnik::getIluminating() {
   illumination = analogRead(photoresistor);
   return illumination;
 }
-
-//int Gradusnik::getForecast(float press) {
-//  pressure.append(press);
-//}
 
 int Gradusnik::analyzeEnivromentQuality() {
 

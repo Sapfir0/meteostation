@@ -53,19 +53,28 @@ void RGB::setColor(double raiting) {
     }
 }
 
-double RGB::getHorecast(float temp, float hum, float pressure) {
+double RGB::getHorecast(float temp, float hum, float press) {
   double raiting = 100;
   float tempRating=1, humRating=1, pressRating=1;
   if (temp <= -20 or temp >= 40) tempRating = 0.1;
-  else if (temp > -20 and temp <= 0 or temp < 40 and temp >= 30)    tempRating = 0.3;
-  else if ( temp > 0 and temp<10 or temp<30 and temp > 20 )    tempRating = 0.5;
-  else    tempRating = 0.9;
-
+  else if (temp > -20 and temp < 0 or temp < 40 and temp >= 30)    tempRating = 0.5;
+  else if ( temp >= 0 and temp<10 or temp<30 and temp > 20 )    tempRating = 0.7;
+  else    tempRating = 1.0;
+Serial.println("TempRating: ");
+Serial.println(tempRating);
 /////////////////////////////////////////////////
 //////////////////Блок для других рейтингов
-/////////////////////////////////////////////////
+////////////////////////////////////////////////////рассказать про технологию
+//собрать класетр на малинке
+  if (press > 850 or press < 560) pressRating = 0.3;
+  else if ( press <=850 and press>780 or press >= 560 and press<=720) pressRating=0.5;
+  else if (press >720 and press <= 780 ) pressRating=0.8;
+  else if (press>755 and press >766) pressRating=1.0;
+  else pressRating=1.0;
   
-  
+  Serial.println("pressRating: ");
+  Serial.println(pressRating);
+
   raiting *= tempRating * humRating * pressRating;
   return raiting;
 }

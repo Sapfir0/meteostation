@@ -149,9 +149,9 @@ String LCD::parsingDescr(int weatherID) {
     case 622: return heavyIy + shower + sneg ;
 
     case 701: return fog;
-    case 711: return "дымка	";
+    case 711: return "дымка"	;
     case 721: return "мгла"	;
-    case 731: return "песчаная буря	";
+    case 731: return "песчаная буря";
     case 741: return "густой"+fog;
     case 751: return "песочно";
     case 761: return "пыльно"	;
@@ -166,7 +166,6 @@ String LCD::parsingDescr(int weatherID) {
     case 803: return "облачно с прояснениями";
     case 804: return "пасмурно 	";
     default:  return  "ERROR";
-break;
   }
   return "ERROR X2";
 }
@@ -177,6 +176,7 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   lcd.print(Temperature, 1);
   lcd.print((char)223);
   lcd.print("C H:");
+  
   lcd.print(Humidity, 0); //0 знаков после запятой
   lcd.print(" %");
 
@@ -215,10 +215,7 @@ void LCD::displayDHT(float temperature, float humidity, float ilum) {
   lcd.print(ilum);
 }
 
-//надо сделать свой принтф
-
-//lcd.printf("viudhiud%sfdis%s", " vfhvo ",  " dnois")
-//>> viudhiud vfhvo sfdis dnois
+//свой принтф
 void LCD::printf(const char* s) {
   lcd.print(s);
 }
@@ -247,8 +244,8 @@ void LCD::displayError() {
 
 
 void LCD::displayGameOver() {//compiling error
-//  lcd.clear;
-//  lcd.setCursor(0, 0);
-//  lcd.print("GAME OVER");
-//  delay(3000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("GAME OVER");
+  delay(3000);
 }

@@ -6,7 +6,7 @@
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
-//RGB diod;
+RGB diod;
 Snake snake;
 
 void setup() {
@@ -37,6 +37,8 @@ void loop() {
   else  {
     counter++;
     changeValuesOnLCD(); //обычный режим
+    
+    Serial.println( diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) );
     delay(1000);
 
   }
@@ -67,7 +69,6 @@ void changeValuesOnLCD() {
 
 void startGame() {
   int randWay = rand() % 3 - 1;
-  // int othersWay ;
-  // if (randWay == -1 or randWay==1) othersWay = 0;
+
   snake.controlment(randWay, randWay, 0, 0);
 }

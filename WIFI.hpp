@@ -18,6 +18,7 @@ private:
   float Humidity;
   float Pressure;
   int weatherID;
+  int windSpeed;
 
   const char *ssid = "WiFi-DOM.ru-1520"; // SSID of local network
   const char *password = "sapfir1997";   // Password on network
@@ -38,6 +39,7 @@ public:
   float getHumidity();
   float getPressure();
   int getWeatherID();
+  int getWindSpeed();
   void setWeatherDescription(String weatherDescription);
   void setWeatherLocation(String weatherLocation);
   void setCountry(String country);
@@ -45,6 +47,7 @@ public:
   void setHumidity(float humidity);
   void setPressure(float pressure);
   void setWeatherID(int weatherID);
+  void setWindSpeed(int windSpeed);
 
   const char *getSSID();
   void setSSID(const char *ssid);
@@ -126,6 +129,7 @@ void WIFI::parsingJSON(String json)
   setHumidity(root["main"]["humidity"]);
   setPressure(root["main"]["pressure"]);
   setWeatherID(root["weather"]["id"]);
+  setWindSpeed(root["wind"]["speed"]);
 }
 
 float WIFI::toMmRtSt(float GectoPaskal)
@@ -143,9 +147,8 @@ String WIFI::getCountry() { return Country; }
 float WIFI::getTemperature() { return Temperature; }
 float WIFI::getHumidity() { return Humidity; }
 float WIFI::getPressure() { return Pressure; }
-int WIFI::getWeatherID() {
-  return weatherID;
-}
+int WIFI::getWeatherID() { return weatherID; }
+int WIFI::getWindSpeed() { return windSpeed; }
 
 void WIFI::setSSID(const char *ssid)
 {
@@ -177,7 +180,9 @@ void WIFI::setPressure(float pressure)
 {
   this->Pressure = pressure;
 }
-
 void WIFI::setWeatherID(int weatherId) {
   this->weatherID = weatherId;
+}
+void WiFi::setWindSpeed(int windSpeed) { 
+  this->windSpeed = windSpeed;
 }
