@@ -2,6 +2,7 @@
 #include "LCD.hpp"
 #include "RGB.hpp"
 #include "Snake.hpp"
+//#include <LiquidCrystalRus.h>
 
 LCD led;
 WIFI esp8266Module;
@@ -20,7 +21,6 @@ void setup() {
   lcd.print("   Connected!");
   Serial.println("Connected");
 
-  //diod.startRgb();
   delay(1000);
 }
 
@@ -38,7 +38,9 @@ void loop() {
     counter++;
     changeValuesOnLCD(); //обычный режим
     int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) ;
-    diod.setColorByRating(a);
+    //diod.setColorByRating(a); /не робит даже без блока ниже
+    //while(true) //асинхронный вызов этой херни
+    //  diod.fade();
     Serial.println( diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) );
     delay(1000);
 
@@ -46,11 +48,10 @@ void loop() {
 }
 
 void changeValuesOnLCD() {
-
-  led.displayWeather(esp8266Module.getWeatherLocation(),
-                     esp8266Module.getWeatherDescription(),
-                     esp8266Module.getCountry());
-  //diod.setColor(10);
+  led.displayWeather( esp8266Module.getWeatherLocation(),
+                      esp8266Module.getWeatherDescription(),
+                      //esp8266Module.getRussianDescription(esp8266Module.getWeatherID() ),
+                      esp8266Module.getCountry() );
   delay(5000);
   led.displayConditions(esp8266Module.getTemperature(), 
                         esp8266Module.getHumidity(), 

@@ -51,6 +51,9 @@ public:
 
   const char *getSSID();
   void setSSID(const char *ssid);
+
+  String getRussianDescription(int weatherID);
+
 };
 
 WiFiClient client;
@@ -132,12 +135,113 @@ void WIFI::parsingJSON(String json)
   setWindSpeed(root["wind"]["speed"]);
 }
 
-float WIFI::toMmRtSt(float GectoPaskal)
-{
+float WIFI::toMmRtSt(float GectoPaskal) {
   float res = 0;
   res = GectoPaskal * 100 / 133;
   return res;
 }
+
+
+
+String WIFI::getRussianDescription(int weatherID) {
+  //map<char, String> mapa;
+
+  String thunderstorm = "гроза";
+  String with = " c ";
+  String with2 = " co ";
+  String drizzle = "морось";
+  String rain = "дожд";
+  String weakIy = "слабый";
+  String weakAya = "слабая";
+  String heavyIy = "сильный";
+  String heavyAya = "сильная";
+  String heavyIm = "сильным";
+  String grad = "град";
+  String gololed = "гололедица";
+  String moros = "моросящий";
+  String moderate = "умеренный";
+  String sneg = "снег";
+  String snegOm = "снегом";
+
+  String rainEm = "дождем";
+  String rainB = "дождь";
+  String heavyRainB = "ливень";
+  String fog = "туман";
+  String snow = "снегопад";
+  String mestami = "местами";
+  String freezing = "замерзающий";
+  String shower = "ливневый";
+  String small = "небольшая";
+  String sep = ",";
+  
+
+  switch (weatherID)  {
+    case 200:      return thunderstorm + with2 + weakIy + rainEm; //гроза со слабым доджем
+    case 201:      return thunderstorm +' ' + with  + rainEm; //гроза с дождем 
+    case 202:      return thunderstorm + with + heavyIm + rainEm;
+    case 210:      return weakAya  + thunderstorm;
+    case 211:      return thunderstorm;
+    case 212:      return heavyAya  + thunderstorm;
+    case 221:      return mestami + thunderstorm;
+    case 230:      return thunderstorm + sep + weakAya  + drizzle;
+    case 231:      return thunderstorm + sep + drizzle;
+    case 232:      return thunderstorm + sep + heavyAya + drizzle;
+
+    case 300:      return weakAya + drizzle; //слабая морось
+    case 301:      return drizzle;
+    case 302:      return heavyAya + drizzle;
+    case 310:      return "Слабо"+ moros + rainB;
+    case 311:      return moros  + rainB;
+    case 312:      return heavyAya + "из" + moros;
+    case 313:      return rainB + "и" + drizzle;
+    case 321:      return drizzle;
+
+    case 500:     return weakIy  + rainB; //легкий дождь
+    case 501:     return moderate +rainB;
+    case 502:     return heavyIy + rainB;//сильный дождь
+    case 503:     return heavyRainB; //ливень
+    case 504:     return heavyIy +heavyRainB; //экстремальный дождь
+    case 511:     return freezing  + rainB; //замерзающий дождь
+    case 520:     return moderate +heavyRainB; //слабый ливень
+    case 521:     return heavyRainB; //ливень
+    case 522:     return heavyIy + heavyRainB; //сильный ливень
+    case 531:     return mestami + heavyRainB; //местами ливень
+
+    case 600:     return weakIy  + snow;	  
+    case 601:     return snow;
+    case 602:     return heavyIy + snow	; 
+    case 611:     return gololed	  ;
+    case 612:     return small  + gololed;
+    case 613:     return 	grad  ;
+    case 615:     return weakIy + rainB + with2 + snegOm ;  
+    case 616:     return rainB + with2 + snegOm ;
+    case 620:     return weakIy + grad;
+    case 621:     return shower + snegOm ;
+    case 622:     return heavyIy + shower + sneg ;
+
+    case 701:     return fog;
+    case 711:     return "дымка"	;
+    case 721:     return "мгла"	;
+    case 731:     return "песчаная буря";
+    case 741:     return "густой"+fog;
+    case 751:     return "песочно";
+    case 761:     return "пыльно"	;
+    case 762:     return "ВУЛКАНИЧЕСКИЙ ПЕПЕЛ ГОСПОДИ МЫ ВСЕ УМРЕМ";
+    case 771:     return "шквал	";
+    case 781:     return "торнадо" ;
+
+    case 800:     return "ясно " ;
+
+    case 801:     return "Немного облачно";
+    case 802:     return mestami+"облачно";
+    case 803:     return "облачно с прояснениями";
+    case 804:     return "пасмурно 	";
+    default:  return  "ERROR";
+  }
+  return "ERROR X2";
+}
+
+
 
 const char *WIFI::getSSID() { return ssid; }
 

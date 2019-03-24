@@ -100,20 +100,15 @@ int RGB::getHorecast(float temp, float hum, float press) {
 
 //мб сюда принимать структуру
 void RGB::fading(int red, int green, int blue) {  //эффект мерцания
+  analogWriteRGB(red, green, blue);
   for (int fadeValue = 30; fadeValue <= 255; fadeValue += 5) {
-    analogWriteRGB(red, green, blue);
-    // analogWrite(red, fadeValue);
-    // analogWrite(green, fadeValue);
-    // analogWrite(blue, fadeValue);
+    analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
   delay(300);
   for (int fadeValue = 255; fadeValue >= 30; fadeValue -= 5) {
-    analogWriteRGB(red, green, blue);
-    // analogWrite(red, fadeValue);
-    // analogWrite(green, fadeValue);
-    // analogWrite(blue, fadeValue);
+    analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
