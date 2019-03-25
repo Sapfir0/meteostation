@@ -8,7 +8,6 @@ LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
 RGB diod;
-Snake snake;
 
 void setup() {
   gradusnik.start();
@@ -70,8 +69,8 @@ void changeValuesOnLCD() {
 чтобы менялось оно не к следующей отрисовке, а моментально */
 }
 
-void startGame() {
-  int randWay = rand() % 3 - 1;
+// void startGame() {
+//   int randWay = rand() % 3 - 1;
 
-  snake.controlment(randWay, randWay, 0, 0);
-}
+//   snake.controlment(randWay, randWay, 0, 0);
+// }

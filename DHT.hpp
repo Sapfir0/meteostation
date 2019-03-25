@@ -16,8 +16,8 @@ class Gradusnik {
  public:
   float getTemperature();
   float getHumidity();
-  void setTemperature(float temperature);
-  void setHumidity(float humidity);
+  // void setTemperature(float temperature);
+  // void setHumidity(float humidity);
   void start();
   float getIluminating();
 
@@ -35,8 +35,8 @@ float Gradusnik::getHumidity() {
   return humidity;
 }
 
-float Gradusnik::getIluminating() {
-  illumination = analogRead(photoresistor);
+float Gradusnik::getIluminating() { //при максиммальной освещенности 0
+  illumination = analogRead(photoresistor); //при минимальной 1024
   return illumination;
 }
 
