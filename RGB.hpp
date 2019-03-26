@@ -18,7 +18,7 @@ class RGB {
   void setColorByRating(int raiting);
 
   bool setPercent();
-  void fading(int red, int green, int blue);
+  void fading();
   bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
   void analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue);
 
@@ -34,6 +34,7 @@ void RGB::startRgb() {
 }
 
 void RGB::setColorByRating(int raiting) {
+
   // код хех
   if (raiting >= 75) {
     setRGB(93, 161, 48);  //зеленый
@@ -105,8 +106,10 @@ int RGB::getHorecast(float temp, float hum, float press) {
 }
 
 //мб сюда принимать структуру
-void RGB::fading(int red, int green, int blue) {  //эффект мерцания
-  analogWriteRGB(red, green, blue);
+void RGB::fading() {  //эффект мерцания
+  //myCurentColor = getColor();
+
+  //analogWriteRGB(red, green, blue);
   for (int fadeValue = 30; fadeValue <= 255; fadeValue += 5) {
     analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
