@@ -3,7 +3,7 @@
 
 class RGB {
  private:
-  const byte rgbPins[3] = {5, 3, 4};
+  const byte rgbPins[3] = {9, 10, 11};
 
  public:
   struct Color {
@@ -25,7 +25,13 @@ class RGB {
   Color getColor();
 };
 
-void RGB::startRgb() { analogWriteRGB(0, 255, 0); }
+void RGB::startRgb() { 
+  pinMode(rgbPins[0],OUTPUT); //для ардуино, нода пропустит строки
+  pinMode(rgbPins[1],OUTPUT);
+  pinMode(rgbPins[2],OUTPUT); 
+
+  analogWriteRGB(0, 255, 0);
+}
 
 void RGB::setColorByRating(int raiting) {
   // код хех

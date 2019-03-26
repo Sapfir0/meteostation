@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ArduinoJson.h>
-#include <ESP8266WiFi.h>
+//#include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
 
 class WIFI
 {

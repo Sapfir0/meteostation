@@ -2,10 +2,11 @@
 
 #include "DHT.h"
 
-#define DHTPIN 2
+#define DHTPIN 4
 #define photoresistor A0
 
 DHT dht(DHTPIN, DHT11);
+
 
 class Gradusnik {
  private:
@@ -24,7 +25,11 @@ class Gradusnik {
 int analyzeEnivromentQuality();
 };
 
-void Gradusnik::start() { dht.begin(); }
+void Gradusnik::start() {   
+  pinMode(A0, INPUT); //унести в dht блок
+  pinMode(4, INPUT);
+  dht.begin(); 
+}
 
 float Gradusnik::getTemperature() {
   temperature = dht.readTemperature();
