@@ -31,12 +31,15 @@ void setup() {
 void loop() {
   static int counter = 60;
   static int lag = 5000;
-
   if (counter == 60) {  // Get new data every n minutes
     counter = 0;
     led.displayGettingData();
     delay(1000);
     esp8266Module.getWeatherData();
+    delay(500);
+    
+    esp8266Module.postToThingSpeak(); //нужно бы постить на свой сервер, но пока его нет, сгодится этот
+
   } else {
     counter++;
     //led.changeBrightning();

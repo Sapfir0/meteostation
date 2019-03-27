@@ -2,7 +2,7 @@
 
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
-
+#include "DHT.hpp"
 class WIFI
 {
 private:
@@ -23,7 +23,8 @@ private:
   const char *ssid = "WiFi-DOM.ru-1520"; // SSID of local network
   const char *password = "sapfir1997";   // Password on network
 
-  //LCD led;
+  String apiKey = "I7I84BBE02Z0LZ8G";  // replace with your channel’s thingspeak API key,
+  const char* server = "api.thingspeak.com";
 public:
   void connectToServer(String CityID, String APIKEY);
   String getResponseFromServer(String result);
@@ -54,9 +55,44 @@ public:
 
   String getRussianDescription(int weatherID);
 
+  void postToThingSpeak();
 };
 
 WiFiClient client;
+
+
+void WIFI::postToThingSpeak() {
+  Gradusnik grad;
+  if (client.connect(server, 80))  // "184.106.153.149" or api.thingspeak.com
+  {
+    String postStr = apiKey;
+    postStr +="&field1=";
+    postStr += grad.getTemperature();
+    postStr +="&field2=";
+    postStr += grad.getHumidity();
+    postStr +="&field3=";
+    postStr += getTemperature();
+    postStr +="&field4=";
+    postStr += getHumidity();
+    postStr +="&field5=";
+    postStr += getPressure();
+    postStr += "\r\n\r\n";
+
+    client.print("POST /update HTTP/1.1\n");
+    client.print("Host: api.thingspeak.com\n");
+    client.print("Connection: close\n");
+    client.print("X-THINGSPEAKAPIKEY: "+apiKey+"\n");
+    client.print("Content-Type: application/x-www-form-urlencoded\n");
+    client.print("Content-Length: ");
+    client.print(postStr.length());
+    client.print("\n\n");
+    client.print(postStr);
+  }
+  client.stop();
+
+  Serial.println("Waiting…");       // thingspeak needs minimum 15 sec delay between updates
+  delay(5000);
+}
 
 void WIFI::startWifiModule()
 {
