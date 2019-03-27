@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ArduinoJson.h>
-//#include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
+#include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
 
 class WIFI
 {
@@ -26,7 +26,7 @@ private:
   //LCD led;
 public:
   void connectToServer(String CityID, String APIKEY);
-  String queryToServer(String result);
+  String getResponseFromServer(String result);
   void getWeatherData();
   void startWifiModule();
   void parsingJSON(String json);
@@ -89,7 +89,7 @@ void WIFI::connectToServer(String CityID, String APIKEY)
   }
 }
 
-String WIFI::queryToServer(String result)
+String WIFI::getResponseFromServer(String result)
 {
   while (client.connected() && !client.available())
     delay(1); // waits for data
@@ -108,7 +108,7 @@ void WIFI::getWeatherData() // client function to send/receive GET request
                             // data.
 {
   connectToServer(CityID, APIKEY);
-  result = queryToServer(result);
+  result = getResponseFromServer(result);
   parsingJSON(result);
 }
 
@@ -141,14 +141,18 @@ float WIFI::toMmRtSt(float GectoPaskal) {
   return res;
 }
 
-
+//String operator + (String a, String b) {
+//  String temp,space = " ";
+//  temp = concat(a, space, b);
+//  return temp;
+//}
 
 String WIFI::getRussianDescription(int weatherID) {
   //map<char, String> mapa;
 
   String thunderstorm = "гроза";
-  String with = " c ";
-  String with2 = " co ";
+  String with = "c";
+  String with2 = "co";
   String drizzle = "морось";
   String rain = "дожд";
   String weakIy = "слабый";
@@ -177,7 +181,7 @@ String WIFI::getRussianDescription(int weatherID) {
 
   switch (weatherID)  {
     case 200:      return thunderstorm + with2 + weakIy + rainEm; //гроза со слабым доджем
-    case 201:      return thunderstorm +' ' + with  + rainEm; //гроза с дождем 
+    case 201:      return thunderstorm + with  + rainEm; //гроза с дождем 
     case 202:      return thunderstorm + with + heavyIm + rainEm;
     case 210:      return weakAya  + thunderstorm;
     case 211:      return thunderstorm;

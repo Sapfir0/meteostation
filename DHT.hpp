@@ -2,11 +2,11 @@
 
 #include "DHT.h"
 
-#define DHTPIN 4
+#define DHTPIN D4
 #define photoresistor A0
+#define LedLight D6
 
 DHT dht(DHTPIN, DHT11);
-
 
 class Gradusnik {
  private:
@@ -17,19 +17,13 @@ class Gradusnik {
  public:
   float getTemperature();
   float getHumidity();
-  // void setTemperature(float temperature);
-  // void setHumidity(float humidity);
   void start();
   float getIluminating();
-
-int analyzeEnivromentQuality();
+  void changeBrightning();
+  int analyzeEnivromentQuality();
 };
 
-void Gradusnik::start() {   
-  pinMode(A0, INPUT); //унести в dht блок
-  pinMode(4, INPUT);
-  dht.begin(); 
-}
+void Gradusnik::start() { dht.begin(); }
 
 float Gradusnik::getTemperature() {
   temperature = dht.readTemperature();
@@ -40,11 +34,22 @@ float Gradusnik::getHumidity() {
   return humidity;
 }
 
-float Gradusnik::getIluminating() { //при максиммальной освещенности 0
-  illumination = analogRead(photoresistor); //при минимальной 1024
+float Gradusnik::getIluminating() { //��� ������������� ������������ 0
+  illumination = analogRead(photoresistor); //��� ����������� 1024
   return illumination;
 }
 
 int Gradusnik::analyzeEnivromentQuality() {
 
+}
+
+void Gradusnik::changeBrightning() {
+  int brightn;
+  brightn = getIluminating() / 4; //при минимальной 1024
+  //возвращаемое значение с порта - 1024 - приводим к 256
+  analogWrite(D6, brightn);
+  Serial.print("Digit: ");
+  Serial.println( analogRead(D6) );
+  Serial.print("analog: ");
+  Serial.println(analogRead(photoresistor));
 }

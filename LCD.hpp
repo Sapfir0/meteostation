@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include "WIFI.hpp"
 
-#define jamperLCDLight 6 //pin, where connect lcd bright
+#define jamperLCDLight D6 //pin, where connect lcd bright
 
 class LCD {
  private:
@@ -23,13 +23,13 @@ void loadiiing();  // not used now
 void displayError();
 void changeBrightning();
 
+
+
 };
   LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
 
 
 void LCD::startLCD() {
-  pinMode(jamperLCDLight, OUTPUT); //унести в лсд блок
-
   lcd.begin(16, 2);
   lcd.init();
   lcd.backlight();
@@ -44,6 +44,7 @@ void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
   lcd.setCursor(0, 0);
   printf("%s, %s ", location, Country);
+  //lcd.print("\x87ndex, RU"); 
   lcd.setCursor(0, 1);
   lcd.print(description);
   
@@ -128,15 +129,4 @@ void LCD::displayGameOver() {//compiling error
   lcd.setCursor(0, 0);
   lcd.print("GAME OVER");
   delay(3000);
-}
-
-void LCD::changeBrightning() {
-  int light, brightn;
-  DHT photores;
-  light = photores.getIluminating();
-  brightn = light / 4; //возвращаемое значение с порта - 1024 - приводим к 256
- 
-  analogWrite(jamperLCDLight, brightn);
-  Serial.println(analogRead(A0));
-
 }
