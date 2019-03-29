@@ -3,7 +3,7 @@
 
 class RGB {
  private:
-  const byte rgbPins[3] = {5, 3, 4};
+  const byte rgbPins[3] = {D5, D8, D7};
 
  public:
   struct Color {
@@ -18,7 +18,8 @@ class RGB {
   void setColorByRating(int raiting);
 
   bool setPercent();
-  void fading(int red, int green, int blue);
+  //void fading(int red, int green, int blue);
+  void fading();
   bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
   void analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue);
 
@@ -99,8 +100,10 @@ int RGB::getHorecast(float temp, float hum, float press) {
 }
 
 //мб сюда принимать структуру
-void RGB::fading(int red, int green, int blue) {  //эффект мерцания
-  analogWriteRGB(red, green, blue);
+void RGB::fading() {  //эффект мерцания
+  //myCurentColor = getColor();
+
+  //analogWriteRGB(red, green, blue);
   for (int fadeValue = 30; fadeValue <= 255; fadeValue += 5) {
     analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
@@ -112,5 +115,5 @@ void RGB::fading(int red, int green, int blue) {  //эффект мерцани�
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
-  delay(300);
+  //delay(300);
 }
