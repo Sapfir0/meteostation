@@ -34,22 +34,22 @@ void loop() {
   if (counter == 60) {  // Get new data every n minutes
     counter = 0;
     led.displayGettingData();
-    delay(1000);
+    gradusnik.changeBrightning();
+    delay(500);
     esp8266Module.getWeatherData();
     delay(500);
-    
     esp8266Module.postToThingSpeak(); //нужно бы постить на свой сервер, но пока его нет, сгодится этот
 
   } else {
     counter++;
-    //led.changeBrightning();
-    //delay(100);
     changeValuesOnLCD(); //обычный режим
 
-    //int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) ;
-    //diod.setColorByRating(a); 
+    static int a = diod.getHorecast(esp8266Module.getTemperature(),
+                         esp8266Module.getHumidity(),
+                         esp8266Module.getPressure());
+    diod.setColorByRating(a); 
 
-    //Serial.println( diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(),esp8266Module.getPressure()) );
+    Serial.println( a );
     delay(1000);
 
   }
@@ -60,16 +60,19 @@ void changeValuesOnLCD() {
                       esp8266Module.getWeatherDescription(),
                       //esp8266Module.getRussianDescription(esp8266Module.getWeatherID() ),
                       esp8266Module.getCountry() );
+  gradusnik.changeBrightning();
   delay(5000);
   led.displayConditions(esp8266Module.getTemperature(), 
                         esp8266Module.getHumidity(), 
                         esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
+  gradusnik.changeBrightning();
   delay(5000);
   
   led.displayDHT(gradusnik.getTemperature(), 
                  gradusnik.getHumidity(), //зимой 30-45%, летом 30-60% нормальная влажность
                  gradusnik.getIluminating());
 
+  gradusnik.changeBrightning();
   delay(5000); //эффект обновления экрана устранен из-за неработающего фоторезистора
 
 /*цель
@@ -77,4 +80,3 @@ void changeValuesOnLCD() {
 то есть, когда мы отрисовываем этот блок, и поменялось значение, хочу
 чтобы менялось оно не к следующей отрисовке, а моментально */
 }
-

@@ -48,8 +48,8 @@ void Gradusnik::changeBrightning() {
   brightn = getIluminating() / 4; //при минимальной 1024
   //возвращаемое значение с порта - 1024 - приводим к 256
   analogWrite(D6, brightn);
-  Serial.print("Digit: ");
-  Serial.println( analogRead(D6) );
-  Serial.print("analog: ");
-  Serial.println(analogRead(photoresistor));
+  // Serial.print("Digit: ");
+  // Serial.println( analogRead(D6) );
+  // Serial.print("analog: ");
+  // Serial.println(analogRead(photoresistor));
 }
