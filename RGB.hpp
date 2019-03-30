@@ -2,31 +2,33 @@
 #include "WIFI.hpp"
 
 class RGB {
- private:
-  const byte rgbPins[3] = {D5, D8, D7};
+  private:
+    const byte rgbPins[3] = {D5, D8, D7};
 
- public:
-  struct Color {
-    uint8_t greenPercent;
-    uint8_t bluePercent;
-    uint8_t redPercent;
-  };
-  Color myCurentColor;
+  public:
+    struct Color {
+      uint8_t greenPercent;
+      uint8_t bluePercent;
+      uint8_t redPercent;
+    };
+    Color myCurentColor;
 
-  int getHorecast(float temp, float humidity, float pressure);
-  void startRgb();
-  void setColorByRating(int raiting);
+    int getHorecast(float temp, float humidity, float pressure);
+    void startRgb();
+    void setColorByRating(int raiting);
 
-  bool setPercent();
-  //void fading(int red, int green, int blue);
-  void fading();
-  bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
-  void analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue);
+    bool setPercent();
+    //void fading(int red, int green, int blue);
+    void fading();
+    bool setRGB(uint8_t red, uint8_t green, uint8_t blue);
+    void analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue);
 
-  Color getColor();
+    Color getColor();
 };
 
-void RGB::startRgb() { analogWriteRGB(0, 255, 0); }
+void RGB::startRgb() {
+  analogWriteRGB(0, 255, 0);
+}
 
 void RGB::setColorByRating(int raiting) {
   // код хех

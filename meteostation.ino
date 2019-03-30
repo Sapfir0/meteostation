@@ -34,17 +34,17 @@ void setup() {
   delay(200);
 
 
-myTimer2.setInterval(5000);   // настроить интервал 5 сек
-myTimer2.setMode(MANUAL); // ручной режим
-myTimer1.setMode(MANUAL); // ручной режим
-myTimer15.setMode(MANUAL); // ручной режим
-myTimer5.setMode(MANUAL); // ручной режим
+  myTimer2.setInterval(5000);   // настроить интервал 5 сек
+  myTimer2.setMode(MANUAL); // ручной режим
+  myTimer1.setMode(MANUAL); // ручной режим
+  myTimer15.setMode(MANUAL); // ручной режим
+  myTimer5.setMode(MANUAL); // ручной режим
 }
 
 void loop() {
   static int counter = 0;
   static int logger = 0;
-  
+
 
   if (myTimer5.isReady() || counter == 0) {
     counter++;
@@ -56,7 +56,7 @@ void loop() {
     //пока его нет, сгодится этот
   }
 
-  
+
   if (myTimer1.isReady() ) {
     gradusnik.changeBrightning();
     myTimer1.reset();
@@ -68,7 +68,7 @@ void loop() {
                         esp8266Module.getCountry() );
     logger = 1;
     myTimer2.reset();
-    delay(10);// хз чет не робит 
+    delay(10);// хз чет не робит
   }
   if (myTimer2.isReady() && logger == 1 ) {
     led.displayConditions(esp8266Module.getTemperature(),
@@ -93,7 +93,7 @@ void loop() {
     myTimer15.reset();
   }
 
-//    if (myTimer1.isReady() ) {
-//      diod.fading();
-//    }
+  //    if (myTimer1.isReady() ) {
+  //      diod.fading();
+  //    }
 }

@@ -9,21 +9,23 @@
 DHT dht(DHTPIN, DHT11);
 
 class Gradusnik {
- private:
-  float temperature;
-  float humidity;
-  float illumination;
+  private:
+    float temperature;
+    float humidity;
+    float illumination;
 
- public:
-  float getTemperature();
-  float getHumidity();
-  void start();
-  float getIluminating();
-  void changeBrightning();
-  int analyzeEnivromentQuality();
+  public:
+    float getTemperature();
+    float getHumidity();
+    void start();
+    float getIluminating();
+    void changeBrightning();
+    int analyzeEnivromentQuality();
 };
 
-void Gradusnik::start() { dht.begin(); }
+void Gradusnik::start() {
+  dht.begin();
+}
 
 float Gradusnik::getTemperature() {
   temperature = dht.readTemperature();
@@ -48,8 +50,4 @@ void Gradusnik::changeBrightning() {
   brightn = getIluminating() / 4; //при минимальной 1024
   //возвращаемое значение с порта - 1024 - приводим к 256
   analogWrite(D6, brightn);
-  // Serial.print("Digit: ");
-  // Serial.println( analogRead(D6) );
-  // Serial.print("analog: ");
-  // Serial.println(analogRead(photoresistor));
 }

@@ -5,57 +5,57 @@
 #include "DHT.hpp"
 class WIFI
 {
-private:
-  String CityID = "472757"; // Your City ID
-  String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";
-  String result;
+  private:
+    String CityID = "472757"; // Your City ID
+    String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";
+    String result;
 
-  //мм свойства
-  String weatherDescription = "";
-  String weatherLocation = "";
-  String Country;
-  float Temperature;
-  float Humidity;
-  float Pressure;
-  int weatherID;
-  int windSpeed;
+    //мм свойства
+    String weatherDescription = "";
+    String weatherLocation = "";
+    String Country;
+    float Temperature;
+    float Humidity;
+    float Pressure;
+    int weatherID;
+    int windSpeed;
 
-  const char *ssid = "WiFi-DOM.ru-1520"; // SSID of local network
-  const char *password = "sapfir1997";   // Password on network
+    const char *ssid = "WiFi-DOM.ru-1520"; // SSID of local network
+    const char *password = "sapfir1997";   // Password on network
 
-  String apiKey = "I7I84BBE02Z0LZ8G";  // replace with your channel’s thingspeak API key,
-  const char* server = "api.thingspeak.com";
-public:
-  void connectToServer(String CityID, String APIKEY);
-  String getResponseFromServer(String result);
-  void getWeatherData();
-  void startWifiModule();
-  void parsingJSON(String json);
-  float toMmRtSt(float GectoPaskal);
+    String apiKey = "I7I84BBE02Z0LZ8G";  // replace with your channel’s thingspeak API key,
+    const char* server = "api.thingspeak.com";
+  public:
+    void connectToServer(String CityID, String APIKEY);
+    String getResponseFromServer(String result);
+    void getWeatherData();
+    void startWifiModule();
+    void parsingJSON(String json);
+    float toMmRtSt(float GectoPaskal);
 
-  String getWeatherDescription();
-  String getWeatherLocation();
-  String getCountry();
-  float getTemperature();
-  float getHumidity();
-  float getPressure();
-  int getWeatherID();
-  int getWindSpeed();
-  void setWeatherDescription(String weatherDescription);
-  void setWeatherLocation(String weatherLocation);
-  void setCountry(String country);
-  void setTemperature(float temperature);
-  void setHumidity(float humidity);
-  void setPressure(float pressure);
-  void setWeatherID(int weatherID);
-  void setWindSpeed(int windSpeed);
+    String getWeatherDescription();
+    String getWeatherLocation();
+    String getCountry();
+    float getTemperature();
+    float getHumidity();
+    float getPressure();
+    int getWeatherID();
+    int getWindSpeed();
+    void setWeatherDescription(String weatherDescription);
+    void setWeatherLocation(String weatherLocation);
+    void setCountry(String country);
+    void setTemperature(float temperature);
+    void setHumidity(float humidity);
+    void setPressure(float pressure);
+    void setWeatherID(int weatherID);
+    void setWindSpeed(int windSpeed);
 
-  const char *getSSID();
-  void setSSID(const char *ssid);
+    const char *getSSID();
+    void setSSID(const char *ssid);
 
-  String getRussianDescription(int weatherID);
+    String getRussianDescription(int weatherID);
 
-  void postToThingSpeak();
+    void postToThingSpeak();
 };
 
 WiFiClient client;
@@ -66,22 +66,22 @@ void WIFI::postToThingSpeak() {
   if (client.connect(server, 80))  // "184.106.153.149" or api.thingspeak.com
   {
     String postStr = apiKey;
-    postStr +="&field1=";
+    postStr += "&field1=";
     postStr += grad.getTemperature();
-    postStr +="&field2=";
+    postStr += "&field2=";
     postStr += grad.getHumidity();
-    postStr +="&field3=";
+    postStr += "&field3=";
     postStr += getTemperature();
-    postStr +="&field4=";
+    postStr += "&field4=";
     postStr += getHumidity();
-    postStr +="&field5=";
+    postStr += "&field5=";
     postStr += getPressure();
     postStr += "\r\n\r\n";
 
     client.print("POST /update HTTP/1.1\n");
     client.print("Host: api.thingspeak.com\n");
     client.print("Connection: close\n");
-    client.print("X-THINGSPEAKAPIKEY: "+apiKey+"\n");
+    client.print("X-THINGSPEAKAPIKEY: " + apiKey + "\n");
     client.print("Content-Type: application/x-www-form-urlencoded\n");
     client.print("Content-Length: ");
     client.print(postStr.length());
@@ -141,7 +141,7 @@ String WIFI::getResponseFromServer(String result)
 }
 
 void WIFI::getWeatherData() // client function to send/receive GET request
-                            // data.
+// data.
 {
   connectToServer(CityID, APIKEY);
   result = getResponseFromServer(result);
@@ -213,11 +213,11 @@ String WIFI::getRussianDescription(int weatherID) {
   String shower = "ливневый";
   String small = "небольшая";
   String sep = ",";
-  
+
 
   switch (weatherID)  {
     case 200:      return thunderstorm + with2 + weakIy + rainEm; //гроза со слабым доджем
-    case 201:      return thunderstorm + with  + rainEm; //гроза с дождем 
+    case 201:      return thunderstorm + with  + rainEm; //гроза с дождем
     case 202:      return thunderstorm + with + heavyIm + rainEm;
     case 210:      return weakAya  + thunderstorm;
     case 211:      return thunderstorm;
@@ -230,30 +230,30 @@ String WIFI::getRussianDescription(int weatherID) {
     case 300:      return weakAya + drizzle; //слабая морось
     case 301:      return drizzle;
     case 302:      return heavyAya + drizzle;
-    case 310:      return "Слабо"+ moros + rainB;
+    case 310:      return "Слабо" + moros + rainB;
     case 311:      return moros  + rainB;
     case 312:      return heavyAya + "из" + moros;
     case 313:      return rainB + "и" + drizzle;
     case 321:      return drizzle;
 
     case 500:     return weakIy  + rainB; //легкий дождь
-    case 501:     return moderate +rainB;
+    case 501:     return moderate + rainB;
     case 502:     return heavyIy + rainB;//сильный дождь
     case 503:     return heavyRainB; //ливень
-    case 504:     return heavyIy +heavyRainB; //экстремальный дождь
+    case 504:     return heavyIy + heavyRainB; //экстремальный дождь
     case 511:     return freezing  + rainB; //замерзающий дождь
-    case 520:     return moderate +heavyRainB; //слабый ливень
+    case 520:     return moderate + heavyRainB; //слабый ливень
     case 521:     return heavyRainB; //ливень
     case 522:     return heavyIy + heavyRainB; //сильный ливень
     case 531:     return mestami + heavyRainB; //местами ливень
 
-    case 600:     return weakIy  + snow;	  
+    case 600:     return weakIy  + snow;
     case 601:     return snow;
-    case 602:     return heavyIy + snow	; 
+    case 602:     return heavyIy + snow	;
     case 611:     return gololed	  ;
     case 612:     return small  + gololed;
     case 613:     return 	grad  ;
-    case 615:     return weakIy + rainB + with2 + snegOm ;  
+    case 615:     return weakIy + rainB + with2 + snegOm ;
     case 616:     return rainB + with2 + snegOm ;
     case 620:     return weakIy + grad;
     case 621:     return shower + snegOm ;
@@ -263,7 +263,7 @@ String WIFI::getRussianDescription(int weatherID) {
     case 711:     return "дымка"	;
     case 721:     return "мгла"	;
     case 731:     return "песчаная буря";
-    case 741:     return "густой"+fog;
+    case 741:     return "густой" + fog;
     case 751:     return "песочно";
     case 761:     return "пыльно"	;
     case 762:     return "ВУЛКАНИЧЕСКИЙ ПЕПЕЛ ГОСПОДИ МЫ ВСЕ УМРЕМ";
@@ -273,7 +273,7 @@ String WIFI::getRussianDescription(int weatherID) {
     case 800:     return "ясно " ;
 
     case 801:     return "Немного облачно";
-    case 802:     return mestami+"облачно";
+    case 802:     return mestami + "облачно";
     case 803:     return "облачно с прояснениями";
     case 804:     return "пасмурно 	";
     default:  return  "ERROR";
@@ -283,16 +283,34 @@ String WIFI::getRussianDescription(int weatherID) {
 
 
 
-const char *WIFI::getSSID() { return ssid; }
+const char *WIFI::getSSID() {
+  return ssid;
+}
 
-String WIFI::getWeatherDescription() { return weatherDescription; }
-String WIFI::getWeatherLocation() { return weatherLocation; }
-String WIFI::getCountry() { return Country; }
-float WIFI::getTemperature() { return Temperature; }
-float WIFI::getHumidity() { return Humidity; }
-float WIFI::getPressure() { return Pressure; }
-int WIFI::getWeatherID() { return weatherID; }
-int WIFI::getWindSpeed() { return windSpeed; }
+String WIFI::getWeatherDescription() {
+  return weatherDescription;
+}
+String WIFI::getWeatherLocation() {
+  return weatherLocation;
+}
+String WIFI::getCountry() {
+  return Country;
+}
+float WIFI::getTemperature() {
+  return Temperature;
+}
+float WIFI::getHumidity() {
+  return Humidity;
+}
+float WIFI::getPressure() {
+  return Pressure;
+}
+int WIFI::getWeatherID() {
+  return weatherID;
+}
+int WIFI::getWindSpeed() {
+  return windSpeed;
+}
 
 void WIFI::setSSID(const char *ssid)
 {
@@ -327,6 +345,6 @@ void WIFI::setPressure(float pressure)
 void WIFI::setWeatherID(int weatherId) {
   this->weatherID = weatherId;
 }
-void WIFI::setWindSpeed(int windSpeed) { 
+void WIFI::setWindSpeed(int windSpeed) {
   this->windSpeed = windSpeed;
 }

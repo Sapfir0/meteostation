@@ -6,27 +6,27 @@
 #define jamperLCDLight D6 //pin, where connect lcd bright
 
 class LCD {
- private:
+  private:
 
-public:
-void startLCD();
-void displayWeather(String location, String description, String Country);
-void displayConditions(float Temperature, float Humidity, float Pressure);
-void displayGettingData();
-void displayDHT(float temperature, float humidity, float ilum);
+  public:
+    void startLCD();
+    void displayWeather(String location, String description, String Country);
+    void displayConditions(float Temperature, float Humidity, float Pressure);
+    void displayGettingData();
+    void displayDHT(float temperature, float humidity, float ilum);
 
-template <typename T, typename... Args>
-void printf(const char *s, T value, Args... args);  // eeeee
-void printf(const char *s);
-void displayGameOver();
-void loadiiing();  // not used now
-void displayError();
-void changeBrightning();
+    template <typename T, typename... Args>
+    void printf(const char *s, T value, Args... args);  // eeeee
+    void printf(const char *s);
+    void displayGameOver();
+    void loadiiing();  // not used now
+    void displayError();
+    void changeBrightning();
 
 
 
 };
-  LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
+LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
 
 
 void LCD::startLCD() {
@@ -44,10 +44,10 @@ void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
   lcd.setCursor(0, 0);
   printf("%s, %s ", location, Country);
-  //lcd.print("\x87ndex, RU"); 
+  //lcd.print("\x87ndex, RU");
   lcd.setCursor(0, 1);
   lcd.print(description);
-  
+
 }
 
 
@@ -57,7 +57,7 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   lcd.print(Temperature, 1);
   lcd.print((char)223);
   lcd.print("C H:");
-  
+
   lcd.print(Humidity, 0); //0 знаков после запятой
   lcd.print(" %");
 
@@ -74,8 +74,8 @@ void LCD::displayGettingData() {
 }
 
 void LCD::loadiiing() {
-  static int cursorPosition=0; //не особо важный код для точечек на LCD
-  lcd.setCursor(cursorPosition,2); 
+  static int cursorPosition = 0; //не особо важный код для точечек на LCD
+  lcd.setCursor(cursorPosition, 2);
   lcd.print(".");
   cursorPosition++;
 }
@@ -91,7 +91,7 @@ void LCD::displayDHT(float temperature, float humidity, float ilum) {
   lcd.print(humidity, 0);
   lcd.print(" %");
 
-  lcd.setCursor(0, 1);  
+  lcd.setCursor(0, 1);
   lcd.print("Sansity: ");
   lcd.print(ilum);
 }
@@ -102,20 +102,20 @@ void LCD::printf(const char* s) {
 }
 template<typename T, typename... Args>
 void LCD::printf(const char *s, T value, Args... args) {
-    while (*s) {
-        if (*s == '%') {
-            if (*(s + 1) == '%') {
-                ++s;
-            }
-            else {
-                lcd.print(value);
-                s += 2; // работает только для спецификаторов формата из двух символов (напр. %d, %f ).Не будет работать с %5.4f
-                printf(s, args...); // вызов происходит даже когда *s == 0, чтобы обнаружить избыточные аргументы
-                return;
-            }
-        }
-        lcd.print(*s++);
+  while (*s) {
+    if (*s == '%') {
+      if (*(s + 1) == '%') {
+        ++s;
+      }
+      else {
+        lcd.print(value);
+        s += 2; // работает только для спецификаторов формата из двух символов (напр. %d, %f ).Не будет работать с %5.4f
+        printf(s, args...); // вызов происходит даже когда *s == 0, чтобы обнаружить избыточные аргументы
+        return;
+      }
     }
+    lcd.print(*s++);
+  }
 }
 
 void LCD::displayError() {

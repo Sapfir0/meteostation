@@ -1,13 +1,13 @@
 #include "LCD.hpp"
 
 class Snake  {
-private:
-    byte square[8] = {0b11111,0b11111,0b11111,0b11111,0b11111,0b11111,0b11111,0b11111};
-    int x,y;
+  private:
+    byte square[8] = {0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111};
+    int x, y;
     int xspeed, yspeed;
     LCD led;
 
-   public:
+  public:
     Snake(/* args */);
     int updateSnake(int x, int y);
     void controlment(int LEFT_ARROW, int RIGHT_ARROW, int UP_ARROW, int DOWN_ARROW);
@@ -15,9 +15,9 @@ private:
 };
 
 Snake::Snake(/* args */) { //потом придумаю способ ввода
-    x = 0, y = 0, xspeed = 0, yspeed = 0;
-    lcd.clear();
-    lcd.createChar(0, square); //змея
+  x = 0, y = 0, xspeed = 0, yspeed = 0;
+  lcd.clear();
+  lcd.createChar(0, square); //змея
 
 }
 
@@ -27,7 +27,7 @@ int Snake::updateSnake(int x, int y) {
   lcd.setCursor(x, y);
   lcd.print(char(0));
   delay(600);
-    
+
   return 0;
 }
 //так ебать
@@ -39,15 +39,15 @@ int Snake::updateSnake(int x, int y) {
 void Snake::controlment(int LEFT_ARROW, int RIGHT_ARROW, int UP_ARROW, int DOWN_ARROW) {
   static int resulting;
   if (UP_ARROW) {
-    resulting=updateSnake(0,1);
+    resulting = updateSnake(0, 1);
   }  else if (DOWN_ARROW) {
-    resulting=updateSnake(0,-1);
+    resulting = updateSnake(0, -1);
   }  else if (RIGHT_ARROW) {
-    resulting=updateSnake(1,0);
+    resulting = updateSnake(1, 0);
   }  else if (LEFT_ARROW) {
-    resulting=updateSnake(-1,0);
+    resulting = updateSnake(-1, 0);
   }
-   if( resulting == -1) 
+  if ( resulting == -1)
     led.displayGameOver();
 
 
