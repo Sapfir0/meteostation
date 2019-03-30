@@ -1,13 +1,13 @@
 #pragma once
-#include <LiquidCrystal_I2C.h>
-#include <Wire.h>
+//#include <LiquidCrystal_I2C.h>
+//#include <Wire.h>
 #include "WIFI.hpp"
-
-#define jamperLCDLight D6 //pin, where connect lcd bright
-
+#include "DHT.hpp"
+#include <LCD_1602_RUS.h>
 class LCD {
   private:
-
+    WIFI esp;
+    Gradusnik grad;
   public:
     void startLCD();
     void displayWeather(String location, String description, String Country);
@@ -23,11 +23,8 @@ class LCD {
     void displayError();
     void changeBrightning();
 
-
-
 };
-LiquidCrystal_I2C lcd(0x27, 16, 2);  // Address of your i2c LCD back pack should be updated.
-
+LCD_1602_RUS lcd(0x27, 16, 2);
 
 void LCD::startLCD() {
   lcd.begin(16, 2);
@@ -39,25 +36,26 @@ void LCD::startLCD() {
   lcd.print(obj.getSSID());
 }
 
-
 void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
   lcd.setCursor(0, 0);
   printf("%s, %s ", location, Country);
-  //lcd.print("\x87ndex, RU");
   lcd.setCursor(0, 1);
   lcd.print(description);
 
 }
 
-
 void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
+  //  float t = esp.getTemperature();
+  //  float h = esp.getHumidity();
+  //  float p = esp.getPressure();
   lcd.clear();  // Printing Temperature
+  //printf("T: %f", Temperature);
   lcd.print("T:");
   lcd.print(Temperature, 1);
   lcd.print((char)223);
   lcd.print("C H:");
-
+  //printf("C H: %f %%", Humidity);
   lcd.print(Humidity, 0); //0 знаков после запятой
   lcd.print(" %");
 
@@ -119,14 +117,11 @@ void LCD::printf(const char *s, T value, Args... args) {
 }
 
 void LCD::displayError() {
-  lcd.clear();
-  lcd.print("Undefined behavior");
+  printf("Undefined behavior");
 }
 
 
 void LCD::displayGameOver() {//compiling error
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("GAME OVER");
+  printf("GAME OVER");
   delay(3000);
 }
