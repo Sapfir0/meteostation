@@ -1,9 +1,8 @@
 #pragma once
-//#include <LiquidCrystal_I2C.h>
-//#include <Wire.h>
 #include "WIFI.hpp"
 #include "DHT.hpp"
 #include <LCD_1602_RUS.h>
+
 class LCD {
   private:
     WIFI esp;
@@ -13,7 +12,7 @@ class LCD {
     void displayWeather(String location, String description, String Country);
     void displayConditions(float Temperature, float Humidity, float Pressure);
     void displayGettingData();
-    void displayDHT(float temperature, float humidity, float ilum);
+    void displayDHT();
 
     template <typename T, typename... Args>
     void printf(const char *s, T value, Args... args);  // eeeee
@@ -57,7 +56,7 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   lcd.print("C H:");
   //printf("C H: %f %%", Humidity);
   lcd.print(Humidity, 0); //0 знаков после запятой
-  lcd.print(" %");
+  lcd.print(" %%");
 
   lcd.setCursor(0, 1);
   lcd.print("P: ");
@@ -78,20 +77,19 @@ void LCD::loadiiing() {
   cursorPosition++;
 }
 
-void LCD::displayDHT(float temperature, float humidity, float ilum) {
+void LCD::displayDHT() {
   lcd.clear();
   lcd.print("T:");
-  lcd.print(temperature, 1);
+  lcd.print(grad.getTemperature(), 1);
   lcd.print((char)223); //кружок для градуса
-  lcd.print("C ");
 
-  lcd.print(" H:");  // Printing Humidity
-  lcd.print(humidity, 0);
-  lcd.print(" %");
+  lcd.print("C  H:");  // Printing Humidity
+  lcd.print(grad.getHumidity(), 0);
+  lcd.print(" %%");
 
   lcd.setCursor(0, 1);
   lcd.print("Sansity: ");
-  lcd.print(ilum);
+  lcd.print(grad.getIluminating());
 }
 
 //свой принтф

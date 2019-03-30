@@ -12,6 +12,7 @@ GTimer_ms changeBrightning(10); //обновление экрана
 GTimer_ms lightDiode(20000); //смена цвета диода и дача прогноза
 GTimer_ms changeLCD(5000); //1 окно
 GTimer_ms queryToServer(600000); //запрос к серверу
+GTimer_ms fade(500); //обновление экрана
 
 void setup() {
   gradusnik.start();
@@ -63,9 +64,7 @@ void loop() {
     changeLCD.reset();
   }
   if (changeLCD.isReady() && logger == 2) {
-    led.displayDHT(gradusnik.getTemperature(),
-                   gradusnik.getHumidity(), //зимой 30-45%, летом 30-60% нормальная влажность
-                   gradusnik.getIluminating());
+    led.displayDHT();
     logger = 0;
     changeLCD.reset();
   }
@@ -75,7 +74,7 @@ void loop() {
     diod.setColorByRating(a);
   }
 
-  //    if (myTimer1.isReady() ) {
-  //      diod.fading();
-  //    }
+//     if (fade.isReady() ) {
+//       diod.fading();
+//     }
 }

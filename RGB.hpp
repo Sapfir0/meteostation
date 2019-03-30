@@ -77,7 +77,7 @@ int RGB::getHorecast(float temp, float hum, float press) {
   else
     tempRating = 1.0;
 
-  Serial.println("TempRating: ");
+  Serial.print("TempRating: ");
   Serial.println(tempRating);
   /////////////////////////////////////////////////
   //////////////////Блок для других рейтингов
@@ -94,7 +94,7 @@ int RGB::getHorecast(float temp, float hum, float press) {
   else
     pressRating = 1.0;
 
-  Serial.println("pressRating: ");
+  Serial.print("pressRating: ");
   Serial.println(pressRating);
 
   raiting *= tempRating * humRating * pressRating;
@@ -104,18 +104,18 @@ int RGB::getHorecast(float temp, float hum, float press) {
 //мб сюда принимать структуру
 void RGB::fading() {  //эффект мерцания
   //myCurentColor = getColor();
-
+  static int step = 5;
+  static int lowerLight = 30;
   //analogWriteRGB(red, green, blue);
-  for (int fadeValue = 30; fadeValue <= 255; fadeValue += 5) {
+  for (int fadeValue = lowerLight; fadeValue <= 255; fadeValue += step ) {
     analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
   delay(300);
-  for (int fadeValue = 255; fadeValue >= 30; fadeValue -= 5) {
+  for (int fadeValue = 255; fadeValue >= lowerLight; fadeValue -= step ) {
     analogWriteRGB(fadeValue, fadeValue, fadeValue);
     // wait for 30 milliseconds to see the dimming effect
     delay(30);
   }
-  //delay(300);
 }
