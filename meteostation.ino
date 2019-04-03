@@ -51,7 +51,7 @@ void loop() {
   if (changeLCD.isReady() && logger == 0 ) {
     led.displayWeather( esp8266Module.getWeatherLocation(),
                         // esp8266Module.getWeatherDescription(),
-                        esp8266Module.getRussianDescription(esp8266Module.getWeatherID() ),
+                        esp8266Module.getBetterRussianDescription( esp8266Module.getWeatherID() /*615*/ ),
                         esp8266Module.getCountry() );
     logger = 1;
     changeLCD.reset();

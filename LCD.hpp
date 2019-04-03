@@ -38,9 +38,46 @@ void LCD::startLCD() {
 void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
   lcd.setCursor(0, 0);
-  printf("%s, %s ", location, Country);
-  lcd.setCursor(0, 1);
-  lcd.print(description);
+
+  String firstPart, secondPart;
+  firstPart.reserve(30);
+  secondPart.reserve(30);
+  int tempI;
+  Serial.print("Длина строки");
+  Serial.println(description.length());
+  
+  if (description.length() > 26) { //выводит некорректный вывод, думаю из-за представления кириллических символов
+    //то мы выводим только длинное описание погоды в две строки
+    for (int i = 26; i > 0; i--)    {
+      if (description[i] == ' ') { //выбираем символ с которого будем делать перенос - это будет максимально близкий к 16 пробел
+        tempI = i; //нам не нужен пробел
+        break;
+      }
+    }
+    firstPart = description.substring(0,tempI);
+    secondPart = description.substring(tempI,description.length());
+    firstPart.trim();
+    secondPart.trim();
+
+    
+    Serial.print("tempI: ");
+    Serial.println(tempI);
+    Serial.print("Первая часть: ");
+    Serial.println(firstPart);
+    Serial.print("Вторая часть: ");
+    Serial.println(secondPart);
+    Serial.println(description);
+    
+    lcd.print(firstPart);
+    lcd.setCursor(0, 1);
+    lcd.print(secondPart);
+    //lcd.print("слабый л Л б Б");
+  }
+  else {
+    printf("%s, %s ", location, Country);
+    lcd.setCursor(0, 1);
+    lcd.print(description);
+  }
 
 }
 
@@ -49,14 +86,12 @@ void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   //  float h = esp.getHumidity();
   //  float p = esp.getPressure();
   lcd.clear();  // Printing Temperature
-  //printf("T: %f", Temperature);
   lcd.print("T:");
   lcd.print(Temperature, 1);
   lcd.print((char)223);
   lcd.print("C H:");
-  //printf("C H: %f %%", Humidity);
   lcd.print(Humidity, 0); //0 знаков после запятой
-  lcd.print(" %%");
+  lcd.print(" %");
 
   lcd.setCursor(0, 1);
   lcd.print("P: ");
@@ -85,7 +120,7 @@ void LCD::displayDHT() {
 
   lcd.print("C  H:");  // Printing Humidity
   lcd.print(grad.getHumidity(), 0);
-  lcd.print(" %%");
+  lcd.print(" %");
 
   lcd.setCursor(0, 1);
   lcd.print("Sansity: ");
