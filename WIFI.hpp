@@ -1,13 +1,21 @@
 #pragma once
 
+#include "config.hpp"
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
 #include "DHT.hpp"
+
+    extern String CityID; // Your City ID
+    extern String APIKEY;
+    extern const char *_ssid; // SSID of local network
+    extern const char *password;   // Password on network
+
+    extern String apiKey;  // replace with your channel’s thingspeak API key,
+    extern const char* server;
+
 class WIFI
 {
   private:
-    String CityID = "472757"; // Your City ID
-    String APIKEY = "9881fdc10d1d14339a3a6514d415efa4";
     String result;
 
     //мм свойства
@@ -20,11 +28,6 @@ class WIFI
     int weatherID;
     int windSpeed;
 
-    const char *ssid = "WiFi-DOM.ru-1520"; // SSID of local network
-    const char *password = "sapfir1997";   // Password on network
-
-    String apiKey = "I7I84BBE02Z0LZ8G";  // replace with your channel’s thingspeak API key,
-    const char* server = "api.thingspeak.com";
   public:
     void connectToServer(String CityID, String APIKEY);
     String getResponseFromServer(String result);
@@ -97,7 +100,7 @@ void WIFI::postToThingSpeak() {
 
 void WIFI::startWifiModule()
 {
-  WiFi.begin(ssid, password);
+  WiFi.begin(_ssid, password);
 
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -169,7 +172,9 @@ void WIFI::parsingJSON(String json)
   setWindSpeed(root["wind"]["speed"]);
 
   setWeatherDescription(root["weather"]["0"]["description"]);
-  setWeatherID(root["weather"]["0"]["id"]);
+  //setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+  setWeatherID(root["weather"]["id"]);
+  Serial.println(getWeatherID());
 }
 
 float WIFI::toMmRtSt(float GectoPaskal) {
@@ -177,14 +182,7 @@ float WIFI::toMmRtSt(float GectoPaskal) {
   res = GectoPaskal * 100 / 133;
   return res;
 }
-//
-//String operator + (String& b, String& a) {
-//  String temp,space = " ";
-//  
-//  temp = concat(a, space);
-//  temp = concat(temp, b);
-//  return temp;
-//}
+
 
 String WIFI::getBetterRussianDescription(int weatherID) {
   String temp = getRussianDescription(weatherID);
@@ -318,7 +316,7 @@ String WIFI::getRussianDescription(int weatherID) {
 
 
 const char *WIFI::getSSID() {
-  return ssid;
+  return _ssid;
 }
 
 String WIFI::getWeatherDescription() {
@@ -348,7 +346,7 @@ int WIFI::getWindSpeed() {
 
 void WIFI::setSSID(const char *ssid)
 {
-  this->ssid = ssid;
+  _ssid = ssid;
 }
 
 

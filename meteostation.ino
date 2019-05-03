@@ -39,7 +39,7 @@ void loop() {
     delay(200);
     esp8266Module.getWeatherData();
     delay(200);
-    esp8266Module.postToThingSpeak();  //нужно бы постить на свой сервер, но
+    //esp8266Module.postToThingSpeak();  //нужно бы постить на свой сервер, но
     //пока его нет, сгодится этот
   }
 
@@ -49,8 +49,8 @@ void loop() {
   }
   if (changeLCD.isReady() && logger == 0 ) {
     led.displayWeather( esp8266Module.getWeatherLocation(),
-                        // esp8266Module.getWeatherDescription(),
-                        esp8266Module.getBetterRussianDescription( esp8266Module.getWeatherID() /*615*/ ),
+                        //esp8266Module.getWeatherDescription(),
+                        esp8266Module.getBetterRussianDescription( esp8266Module.getWeatherID() ),
                         esp8266Module.getCountry() );
     logger = 1;
     changeLCD.reset();
