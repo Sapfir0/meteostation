@@ -1,10 +1,12 @@
 #pragma once
+#include "config.hpp"
 #include "WIFI.hpp"
 
-class RGB {
-  private:
-    const byte rgbPins[3] = {D5, D8, D7};
+extern byte rgbPins[3];
 
+class RGB {
+  //private:
+    
   public:
     struct Color {
       uint8_t greenPercent;
@@ -35,7 +37,7 @@ void RGB::setColorByRating(int raiting) {
   if (raiting >= 75) {
     setRGB(93, 161, 48);  //зеленый
   } else if (raiting < 75 and raiting >= 50) {
-    setRGB(245, 208, 51);  //рыжый
+    setRGB(245, 208, 51);  //рыжий
   } else if (raiting < 50 and raiting > 25) {
     setRGB(254, 254, 34);  //желтый
   } else if (raiting <= 25) {

@@ -1,10 +1,12 @@
 #pragma once
 
+#include "config.hpp"
 #include "DHT.h"
 
-#define DHTPIN D4
-#define photoresistor A0
-#define LedLight D6
+
+extern int DHTPIN;
+extern int  photoresistor;
+extern int  LedLight;
 
 DHT dht(DHTPIN, DHT11);
 
