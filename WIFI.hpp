@@ -160,9 +160,6 @@ void WIFI::parsingJSON(String json)
   StaticJsonBuffer<1024> json_buf;
   JsonObject &root = json_buf.parseObject(jsonArray);
 
-  //String weather = root["weather"]["main"]; //не особо понятно что это
-
-  setWeatherDescription(root["weather"]["description"]);
   setWeatherLocation(root["name"]);
   setCountry(root["sys"]["country"]);
   setTemperature(root["main"]["temp"]);
@@ -170,6 +167,9 @@ void WIFI::parsingJSON(String json)
   setPressure(root["main"]["pressure"]);
   setWeatherID(root["weather"]["id"]);
   setWindSpeed(root["wind"]["speed"]);
+
+  setWeatherDescription(root["weather"]["0"]["description"]);
+  setWeatherID(root["weather"]["0"]["id"]);
 }
 
 float WIFI::toMmRtSt(float GectoPaskal) {

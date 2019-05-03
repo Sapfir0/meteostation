@@ -1,18 +1,18 @@
 #include "DHT.hpp"
 #include "LCD.hpp"
 #include "RGB.hpp"
-#include "GyverTimer.h"
+#include "parallel.hpp"
 
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
 RGB diod;
 
-GTimer_ms changeBrightning(10); //обновление экрана
-GTimer_ms lightDiode(20000); //смена цвета диода и дача прогноза
-GTimer_ms changeLCD(5000); //1 окно
-GTimer_ms queryToServer(600000); //запрос к серверу
-GTimer_ms fade(500); //обновление экрана
+parallel changeBrightning(10); //обновление экрана
+parallel lightDiode(20000); //смена цвета диода и дача прогноза
+parallel changeLCD(5000); //1 окно
+parallel queryToServer(600000); //запрос к серверу
+parallel fade(500); //обновление экрана
 
 void setup() {
   gradusnik.start();
@@ -27,7 +27,6 @@ void setup() {
 
   delay(200);
 
-  changeLCD.setMode(MANUAL); // ручной режим
 }
 
 void loop() {
