@@ -7,7 +7,7 @@
 
     extern String CityID; // Your City ID
     extern String APIKEY;
-    extern const char *ssid; // SSID of local network
+    extern const char *_ssid; // SSID of local network
     extern const char *password;   // Password on network
 
     extern String apiKey;  // replace with your channel’s thingspeak API key,
@@ -100,7 +100,7 @@ void WIFI::postToThingSpeak() {
 
 void WIFI::startWifiModule()
 {
-  WiFi.begin(ssid, password);
+  WiFi.begin(_ssid, password);
 
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -316,7 +316,7 @@ String WIFI::getRussianDescription(int weatherID) {
 
 
 const char *WIFI::getSSID() {
-  return ssid;
+  return _ssid;
 }
 
 String WIFI::getWeatherDescription() {
@@ -346,7 +346,7 @@ int WIFI::getWindSpeed() {
 
 void WIFI::setSSID(const char *ssid)
 {
-  this->ssid = ssid;
+  _ssid = ssid;
 }
 
 
