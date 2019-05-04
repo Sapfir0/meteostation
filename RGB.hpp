@@ -2,7 +2,7 @@
 #include "config.hpp"
 #include "WIFI.hpp"
 
-extern byte rgbPins[3];
+extern const byte rgbPins[3];
 
 class RGB {
   //private:

@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef config.hpp
-#define config.hpp
+//#define config.hpp
 
 #include <Arduino.h>
 
