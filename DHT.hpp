@@ -6,7 +6,7 @@
 
 extern int DHTPIN;
 extern int  photoresistor;
-extern int  LedLight;
+extern int  LedLight; //соре за глобал переменные, я потом придумаю, как сделать перменные со значениями из-вне членами класса
 
 DHT dht(DHTPIN, DHT11);
 

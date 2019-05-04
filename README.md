@@ -1,21 +1,22 @@
-# meteostation
+# Meteostation in our home!
 
 ## En
 Small meteostation for smart home
 
-<p>Librarys for normally use app: https://yadi.sk/d/TCMbow6C5QRp4w
+<p> <a href="https://yadi.sk/d/TCMbow6C5QRp4w">Librarys for normally use app</a>
 <p>Throw this in /Documents/Arduino/ on Windows
 
 ## Ru
 <p> <a href="https://yadi.sk/d/TCMbow6C5QRp4w">Либы для использования метеостанции </a>
 <p>Кинуть в ~/Documents/Arduino/ на Windows
 <p>Компилим файл meteostation.ino в любой ide
-<p>Пины для подключения модулей настраиваются в глобальных переменных в заголовке модуля.
+<p>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
 
 #### Примерная схема:
 ![alt text][logo]
 
 [logo]: https://pp.userapi.com/c855528/v855528450/36b3a/8wnNPy-strI.jpg "https://www.circuito.io/app?components=513,9088,10167,10820,360216,417986"
+https://www.circuito.io/app?components=513,9088,10167,10820,360216,417986
 
 >RGB модуль не обязателен, он только покажет цветом насколько благоприятная погода на улице.
 
@@ -36,6 +37,9 @@ Small meteostation for smart home
 ![alt text][three]
 
 [three]: https://pp.userapi.com/c846123/v846123459/1f23c9/MBUddAPYiYo.jpg "Third information"
+
+
+## FAQ
 
 
 

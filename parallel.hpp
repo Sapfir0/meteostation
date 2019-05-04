@@ -13,7 +13,6 @@ class parallel
   private:
 	uint32_t timer = 0;
 	uint32_t interval = 0;
-	boolean _mode = false;
 	boolean _state = true;
 };
 
