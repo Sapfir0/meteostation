@@ -23,17 +23,23 @@ https://www.circuito.io/app?components=513,9088,10167,10820,360216,417986
 >Всегда можно снять перемычку и подвести ее к средней ноге потенциометра чтобы сделать настраиваемую подстветку.
 
 
-#### Первый экран:
+### Первый экран:
 ![alt text][one]
 
 [one]: https://pp.userapi.com/c854024/v854024459/35ec1/xTbQma0wmM0.jpg "First information"
 
-#### Второй экран:
+#### Когда погода состоит из нескольких слов, не показывается информация о городе
+
+![alt text][four]
+
+[four]: https://pp.userapi.com/c855036/v855036460/47882/hnfgMcYd_eY.jpg "Long info"
+
+### Второй экран:
 ![alt text][two]
 
 [two]: https://pp.userapi.com/c848736/v848736459/185833/tEAiChO1dEg.jpg "Second information"
 
-#### Третий экран:
+### Третий экран:
 ![alt text][three]
 
 [three]: https://pp.userapi.com/c846123/v846123459/1f23c9/MBUddAPYiYo.jpg "Third information"
