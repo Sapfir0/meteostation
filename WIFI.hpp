@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
 #include "DHT.hpp"
+#include <ctime>
 
     extern const String CityID; // Your City ID
     extern const String APIKEY;
@@ -12,91 +13,110 @@
 
     extern const String apiKey;  // replace with your channel’s thingspeak API key,
     extern const char* server;
+    extern const char *ourServer;
 
-class WIFI
-{
-  private:
-    String result;
+    class WIFI
+    {
+    private:
+      String result;
 
-    //мм свойства
-    String weatherDescription = "";
-    String weatherLocation = "";
-    String Country;
-    float Temperature;
-    float Humidity;
-    float Pressure;
-    int weatherID;
-    int windSpeed;
+      //мм свойства
+      String weatherDescription = "";
+      String weatherLocation = "";
+      String Country;
+      float Temperature;
+      float Humidity;
+      float Pressure;
+      int weatherID;
+      int windSpeed;
 
-  public:
-    void connectToServer(String CityID, String APIKEY);
-    String getResponseFromServer(String result);
-    void getWeatherData();
-    void startWifiModule();
-    void parsingJSON(String json);
-    float toMmRtSt(float GectoPaskal);
+    public:
+      void connectToServer(String CityID, String APIKEY);
+      String getResponseFromServer(String result);
+      void getWeatherData();
+      void startWifiModule();
+      void parsingJSON(String json);
+      float toMmRtSt(float GectoPaskal);
 
-    String getWeatherDescription();
-    String getWeatherLocation();
-    String getCountry();
-    float getTemperature();
-    float getHumidity();
-    float getPressure();
-    int getWeatherID();
-    int getWindSpeed();
-    void setWeatherDescription(String weatherDescription);
-    void setWeatherLocation(String weatherLocation);
-    void setCountry(String country);
-    void setTemperature(float temperature);
-    void setHumidity(float humidity);
-    void setPressure(float pressure);
-    void setWeatherID(int weatherID);
-    void setWindSpeed(int windSpeed);
+      String getWeatherDescription();
+      String getWeatherLocation();
+      String getCountry();
+      float getTemperature();
+      float getHumidity();
+      float getPressure();
+      int getWeatherID();
+      int getWindSpeed();
+      void setWeatherDescription(String weatherDescription);
+      void setWeatherLocation(String weatherLocation);
+      void setCountry(String country);
+      void setTemperature(float temperature);
+      void setHumidity(float humidity);
+      void setPressure(float pressure);
+      void setWeatherID(int weatherID);
+      void setWindSpeed(int windSpeed);
 
-    const char *getSSID();
-    void setSSID(const char *ssid);
+      const char *getSSID();
+      void setSSID(const char *ssid);
 
-    String getRussianDescription(int weatherID);
-    String getBetterRussianDescription(int weatherID);
+      String getRussianDescription(int weatherID);
+      String getBetterRussianDescription(int weatherID);
 
-    void postToThingSpeak();
 };
 
 WiFiClient client;
 
-
-void WIFI::postToThingSpeak() {
+void WIFI::postToOurServer() {
   Gradusnik grad;
-  if (client.connect(server, 80))  // "184.106.153.149" or api.thingspeak.com
-  {
-    String postStr = apiKey;
-    postStr += "&field1=";
-    postStr += grad.getTemperature();
-    postStr += "&field2=";
-    postStr += grad.getHumidity();
-    postStr += "&field3=";
-    postStr += getTemperature();
-    postStr += "&field4=";
-    postStr += getHumidity();
-    postStr += "&field5=";
-    postStr += getPressure();
-    postStr += "\r\n\r\n";
+  // if (!client.connect(server, 80)) {
+  //   Serial.println("connection failed"); 
+  //   return -1;
+  // }
 
-    client.print("POST /update HTTP/1.1\n");
-    client.print("Host: api.thingspeak.com\n");
-    client.print("Connection: close\n");
-    client.print("X-THINGSPEAKAPIKEY: " + apiKey + "\n");
-    client.print("Content-Type: application/x-www-form-urlencoded\n");
-    client.print("Content-Length: ");
-    client.print(postStr.length());
-    client.print("\n\n");
-    client.print(postStr);
-  }
-  client.stop();
+  std::time_t result = std::time(nullptr);
 
-  Serial.println("Waiting…");       // thingspeak needs minimum 15 sec delay between updates
-  delay(5000);
+  DynamicJsonDocument request(1024);
+  request["TempInHome"] = grad.getTemperature();
+  request["HumInHome"] = grad.getHumidity();
+  request["Temperature"] = getTemperature();
+  request["Pressure"] = getPressure();
+  request["WeatherDescription"] = getBetterRussianDescription(getWeatherID());
+  request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result))
+  serializeJson(request, Serial)
+  Serial.println("до этого должен быть джсон");
+  client.println(F("HTTP/1.0 200 OK"));
+  client.println(F("Content-Type: application/json"));
+  client.println(F("Connection: close"));
+  client.print(F("Content-Length: ")); //возможно, нужно кидать длину джсона сначала, проверить это
+  client.println(measureJsonPretty(doc));
+  client.println();
 }
+
+void WIFI::parsingJSON(String json)  { //переход на новую версию
+
+  json.replace('[', ' ');
+  json.replace(']', ' ');
+  Serial.println(json);
+  // char jsonArray[json.length() + 1];
+  // json.toCharArray(jsonArray, sizeof(jsonArray));
+  // jsonArray[json.length() + 1] = '\0';
+  //StaticJsonBuffer<1024> json_buf;
+  //JsonObject root = json_buf.parseObject(jsonArray); //уже не ставится амперсант
+  JsonObject root = json.as<JsonObject>();
+  Serial.println(root)
+  setWeatherLocation(root["name"]);
+  setCountry(root["sys"]["country"]);
+  setTemperature(root["main"]["temp"]);
+  setHumidity(root["main"]["humidity"]);
+  setPressure(root["main"]["pressure"]);
+  setWeatherID(root["weather"]["id"]);
+  setWindSpeed(root["wind"]["speed"]);
+
+  setWeatherDescription(root["weather"]["0"]["description"]);
+  //setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+  setWeatherID(root["weather"]["id"]);
+  Serial.println(getWeatherID());
+}
+
 
 void WIFI::startWifiModule()
 {
@@ -150,31 +170,6 @@ void WIFI::getWeatherData() // client function to send/receive GET request
   connectToServer(CityID, APIKEY);
   result = getResponseFromServer(result);
   parsingJSON(result);
-}
-
-void WIFI::parsingJSON(String json)
-{
-  json.replace('[', ' ');
-  json.replace(']', ' ');
-  Serial.println(json);
-  char jsonArray[json.length() + 1];
-  json.toCharArray(jsonArray, sizeof(jsonArray));
-  jsonArray[json.length() + 1] = '\0';
-  StaticJsonBuffer<1024> json_buf;
-  JsonObject &root = json_buf.parseObject(jsonArray);
-
-  setWeatherLocation(root["name"]);
-  setCountry(root["sys"]["country"]);
-  setTemperature(root["main"]["temp"]);
-  setHumidity(root["main"]["humidity"]);
-  setPressure(root["main"]["pressure"]);
-  setWeatherID(root["weather"]["id"]);
-  setWindSpeed(root["wind"]["speed"]);
-
-  setWeatherDescription(root["weather"]["0"]["description"]);
-  //setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
-  setWeatherID(root["weather"]["id"]);
-  Serial.println(getWeatherID());
 }
 
 float WIFI::toMmRtSt(float GectoPaskal) {

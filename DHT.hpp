@@ -1,7 +1,7 @@
 #pragma once
 
 #include "config.hpp"
-#include "DHT.h"
+#include "DHT.hpp"
 
 
 extern const byte DHTPIN;

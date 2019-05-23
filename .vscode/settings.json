@@ -9,7 +9,13 @@
         "xstring": "cpp",
         "cstddef": "cpp",
         "functional": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "chrono": "cpp",
+        "cstdint": "cpp",
+        "ctime": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp",
+        "type_traits": "cpp"
     },
     "editor.formatOnType": true
 }
