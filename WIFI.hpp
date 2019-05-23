@@ -61,6 +61,8 @@
       String getRussianDescription(int weatherID);
       String getBetterRussianDescription(int weatherID);
 
+      void postToOurServer();
+
 };
 
 WiFiClient client;
@@ -80,14 +82,14 @@ void WIFI::postToOurServer() {
   request["Temperature"] = getTemperature();
   request["Pressure"] = getPressure();
   request["WeatherDescription"] = getBetterRussianDescription(getWeatherID());
-  request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result))
-  serializeJson(request, Serial)
+  request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
+  serializeJson(request, Serial); //выводим в сериал порт
   Serial.println("до этого должен быть джсон");
   client.println(F("HTTP/1.0 200 OK"));
   client.println(F("Content-Type: application/json"));
   client.println(F("Connection: close"));
   client.print(F("Content-Length: ")); //возможно, нужно кидать длину джсона сначала, проверить это
-  client.println(measureJsonPretty(doc));
+  client.println(measureJsonPretty(request));
   client.println();
 }
 
@@ -96,13 +98,16 @@ void WIFI::parsingJSON(String json)  { //переход на новую верс
   json.replace('[', ' ');
   json.replace(']', ' ');
   Serial.println(json);
-  // char jsonArray[json.length() + 1];
-  // json.toCharArray(jsonArray, sizeof(jsonArray));
-  // jsonArray[json.length() + 1] = '\0';
-  //StaticJsonBuffer<1024> json_buf;
-  //JsonObject root = json_buf.parseObject(jsonArray); //уже не ставится амперсант
-  JsonObject root = json.as<JsonObject>();
-  Serial.println(root)
+  char jsonArray[json.length() + 1];
+  json.toCharArray(jsonArray, sizeof(jsonArray));
+  jsonArray[json.length() + 1] = '\0';
+  DynamicJsonDocument root(1024);//StaticJsonBuffer<1024> json_buf;
+  DeserializationError error = deserializeJson(root,jsonArray);//JsonObject &root = json_buf.parseObject(jsonArray);
+  if (error) {
+    Serial.println("Возникла ошибка");
+    return;
+  }
+  
   setWeatherLocation(root["name"]);
   setCountry(root["sys"]["country"]);
   setTemperature(root["main"]["temp"]);
