@@ -79,8 +79,8 @@ int RGB::getHorecast(float temp, float hum, float press) {
   else
     tempRating = 1.0;
 
-  Serial.print("TempRating: ");
-  Serial.println(tempRating);
+  //Serial.print("TempRating: ");
+  //Serial.println(tempRating);
   /////////////////////////////////////////////////
   //////////////////Блок для других рейтингов
   ////////////////////////////////////////////////////
@@ -96,8 +96,8 @@ int RGB::getHorecast(float temp, float hum, float press) {
   else
     pressRating = 1.0;
 
-  Serial.print("pressRating: ");
-  Serial.println(pressRating);
+  //Serial.print("pressRating: ");
+  //Serial.println(pressRating);
 
   raiting *= tempRating * humRating * pressRating;
   return raiting;

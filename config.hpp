@@ -17,5 +17,7 @@
     //не используемый блок
     const String apiKey = "I7I84BBE02Z0LZ8G";  // replace with your channel’s thingspeak API key,
     const char* server = "api.thingspeak.com";
+    //заменяемый блок
+    const char* ourServer = "localhost/5060";
 
 #endif // config.hpp
