@@ -43,8 +43,6 @@ void LCD::displayWeather(String location, String description, String Country) {
   firstPart.reserve(30);
   secondPart.reserve(30);
   int tempI;
-  Serial.print("Длина строки");
-  Serial.println(description.length());
   
   if (description.length() > 26) { //выводит некорректный вывод, думаю из-за представления кириллических символов
     //то мы выводим только длинное описание погоды в две строки
@@ -58,15 +56,6 @@ void LCD::displayWeather(String location, String description, String Country) {
     secondPart = description.substring(tempI,description.length());
     firstPart.trim();
     secondPart.trim();
-
-    
-    Serial.print("tempI: ");
-    Serial.println(tempI);
-    Serial.print("Первая часть: ");
-    Serial.println(firstPart);
-    Serial.print("Вторая часть: ");
-    Serial.println(secondPart);
-    Serial.println(description);
     
     lcd.print(firstPart);
     lcd.setCursor(0, 1);

@@ -69,10 +69,10 @@ WiFiClient client;
 
 void WIFI::postToOurServer() {
   Gradusnik grad;
-  // if (!client.connect(server, 80)) {
-  //   Serial.println("connection failed"); 
-  //   return -1;
-  // }
+  //  if (!client.connect(ourServer, 80)) {
+  //    Serial.println("connection failed"); 
+  //    return;
+  //  }
 
   std::time_t result = std::time(nullptr);
 
@@ -119,7 +119,7 @@ void WIFI::parsingJSON(String json)  { //переход на новую верс
   setWeatherDescription(root["weather"]["0"]["description"]);
   //setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
   setWeatherID(root["weather"]["id"]);
-  Serial.println(getWeatherID());
+  
 }
 
 

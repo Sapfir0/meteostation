@@ -39,8 +39,7 @@ void loop() {
     delay(200);
     esp8266Module.getWeatherData();
     delay(200);
-    //esp8266Module.postToThingSpeak();  //нужно бы постить на свой сервер, но
-    //пока его нет, сгодится этот
+    esp8266Module.postToOurServer();
   }
 
 
@@ -69,7 +68,7 @@ void loop() {
   }
   if (lightDiode.isReady()) {
     static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure());
-    Serial.println( a );
+    //Serial.println( a );
     diod.setColorByRating(a);
   }
 
