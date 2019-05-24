@@ -47,5 +47,7 @@ https://www.circuito.io/app?components=513,9088,10167,10820,360216,417986
 
 ## FAQ
 
+<p> <a href="http://robotclass.ru/articles/node-mcu-arduino-ide-setup/">Инструкция по установке Node mcu в ArduinoIDE</a>
+
 
 

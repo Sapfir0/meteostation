@@ -1,6 +1,5 @@
-#pragma once
-#include "config.hpp"
-#include "WIFI.hpp"
+#include "../config/config.hpp"
+#include "../services/wifi/WIFI.hpp"
 
 extern const byte rgbPins[3];
 

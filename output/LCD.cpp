@@ -1,39 +1,31 @@
-#pragma once
-#include "WIFI.hpp"
-#include "DHT.hpp"
-#include <LCD_1602_RUS.h>
+#include "LCD.hpp"
+#include "../services/wifi/WIFI.hpp"
 
-class LCD {
-  private:
-    WIFI esp;
-    Gradusnik grad;
-  public:
-    void startLCD();
-    void displayWeather(String location, String description, String Country);
-    void displayConditions(float Temperature, float Humidity, float Pressure);
-    void displayGettingData();
-    void displayDHT();
 
-    template <typename T, typename... Args>
-    void printf(const char *s, T value, Args... args);  // eeeee
-    void printf(const char *s);
-    void displayGameOver();
-    void loadiiing();  // not used now
-    void displayError();
-    void changeBrightning();
+void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
+  //  float t = esp.getTemperature();
+  //  float h = esp.getHumidity();
+  //  float p = esp.getPressure();
+  lcd.clear();  // Printing Temperature
+  lcd.print("T:");
+  lcd.print(Temperature, 1);
+  lcd.print((char)223);
+  lcd.print("C H:");
+  lcd.print(Humidity, 0); //0 знаков после запятой
+  lcd.print(" %");
 
-};
-LCD_1602_RUS lcd(0x27, 16, 2);
-
-void LCD::startLCD() {
-  lcd.begin(16, 2);
-  lcd.init();
-  lcd.backlight();
-  lcd.print("Connecting to");
   lcd.setCursor(0, 1);
-  WIFI obj;
-  lcd.print(obj.getSSID());
+  lcd.print("P: ");
+  lcd.print(Pressure, 1);
+  lcd.print(" mm Hg");
+  //lcd.print(" hPa");
 }
+
+void LCD::displayGettingData() {
+  lcd.clear();
+  lcd.print("Getting data");
+}
+
 
 void LCD::displayWeather(String location, String description, String Country) {
   lcd.clear();
@@ -60,7 +52,6 @@ void LCD::displayWeather(String location, String description, String Country) {
     lcd.print(firstPart);
     lcd.setCursor(0, 1);
     lcd.print(secondPart);
-    //lcd.print("слабый л Л б Б");
   }
   else {
     printf("%s, %s ", location, Country);
@@ -70,29 +61,17 @@ void LCD::displayWeather(String location, String description, String Country) {
 
 }
 
-void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
-  //  float t = esp.getTemperature();
-  //  float h = esp.getHumidity();
-  //  float p = esp.getPressure();
-  lcd.clear();  // Printing Temperature
-  lcd.print("T:");
-  lcd.print(Temperature, 1);
-  lcd.print((char)223);
-  lcd.print("C H:");
-  lcd.print(Humidity, 0); //0 знаков после запятой
-  lcd.print(" %");
-
+void LCD::startLCD() {
+  lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Connecting to");
   lcd.setCursor(0, 1);
-  lcd.print("P: ");
-  lcd.print(Pressure, 1);
-  lcd.print(" mm Hg");
-  //lcd.print(" hPa");
+  WIFI obj;
+  lcd.print(obj.getSSID());
 }
 
-void LCD::displayGettingData() {
-  lcd.clear();
-  lcd.print("Getting data");
-}
+
 
 void LCD::loadiiing() {
   static int cursorPosition = 0; //не особо важный код для точечек на LCD
@@ -115,6 +94,8 @@ void LCD::displayDHT() {
   lcd.print("Sansity: ");
   lcd.print(grad.getIluminating());
 }
+
+
 
 //свой принтф
 void LCD::printf(const char* s) {
