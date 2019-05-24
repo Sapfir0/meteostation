@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LCD_H
+#define LCD_H
+
 #include <LCD_1602_RUS.h>
 #include "../services/wifi/WIFI.hpp"
 #include "../sensors/gradusnik.hpp"
@@ -25,4 +27,9 @@ class LCD {
 };
 
 LCD_1602_RUS lcd(0x27, 16, 2);
+
+#include "LCD.cpp"
+
+#endif // LCD_H
+
 

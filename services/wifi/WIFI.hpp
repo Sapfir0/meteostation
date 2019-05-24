@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WIFI_H
+#define WIFI_H
 
 #include "../../config/config.hpp"
 #include <ArduinoJson.h>
@@ -65,3 +66,7 @@
 };
 
 WiFiClient client;
+
+#include "WIFI.cpp"
+
+#endif // WIFI_H

@@ -3,7 +3,7 @@
 #define GRADUSNIK_H
 
 #include "../config/config.hpp"
-#include "DHT.h" //стандартная либа
+#include <DHT.h> //стандартная либа
 
 extern const byte DHTPIN;
 extern const byte photoresistor;
@@ -26,6 +26,8 @@ class Gradusnik {
     void changeBrightning();
     int analyzeEnivromentQuality();
 };
+
+#include "gradusnik.cpp"
 
 #endif // GRADUSNIK_H
 

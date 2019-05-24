@@ -2,6 +2,7 @@
 #include "./output/LCD.hpp"
 #include "./output/RGB.hpp"
 #include "./libs/parallel.hpp"
+#include "./services/wifi/WIFI.hpp"
 
 LCD led;
 WIFI esp8266Module;
