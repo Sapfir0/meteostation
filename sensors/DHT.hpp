@@ -1,7 +1,7 @@
 #pragma once
 
-#include "config.hpp"
-#include "DHT.h"
+#include "./config/config.hpp"
+#include "../sensors/DHT.hpp"
 
 extern const byte DHTPIN;
 extern const byte photoresistor;

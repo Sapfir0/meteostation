@@ -1,7 +1,7 @@
 #include "./sensors/DHT.hpp"
 #include "./output/LCD.hpp"
 #include "./output/RGB.hpp"
-#include "parallel.hpp"
+#include "./parallel.hpp"
 
 LCD led;
 WIFI esp8266Module;
