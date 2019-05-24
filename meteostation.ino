@@ -1,6 +1,6 @@
-#include "DHT.hpp"
-#include "LCD.hpp"
-#include "RGB.hpp"
+#include "./sensors/DHT.hpp"
+#include "./output/LCD.hpp"
+#include "./output/RGB.hpp"
 #include "parallel.hpp"
 
 LCD led;
