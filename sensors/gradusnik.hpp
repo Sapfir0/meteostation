@@ -1,7 +1,9 @@
-#pragma once
+//#pragma once
+#ifndef GRADUSNIK_H
+#define GRADUSNIK_H
 
-#include "./config/config.hpp"
-#include "../sensors/DHT.hpp"
+#include "../config/config.hpp"
+#include "DHT.h" //стандартная либа
 
 extern const byte DHTPIN;
 extern const byte photoresistor;
@@ -16,6 +18,7 @@ class Gradusnik {
     float illumination;
 
   public:
+    Gradusnik();
     float getTemperature();
     float getHumidity();
     void start();
@@ -23,3 +26,6 @@ class Gradusnik {
     void changeBrightning();
     int analyzeEnivromentQuality();
 };
+
+#endif // GRADUSNIK_H
+

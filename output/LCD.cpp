@@ -1,4 +1,6 @@
 #include "LCD.hpp"
+#include "../services/wifi/WIFI.hpp"
+
 
 void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
   //  float t = esp.getTemperature();

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../config/config.hpp"
+#include "../../config/config.hpp"
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
-#include "../sensors/DHT.hpp"
 #include <ctime>
 
     extern const String CityID; // Your City ID

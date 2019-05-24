@@ -1,7 +1,7 @@
 #pragma once
-#include "../services/wifi/WIFI.hpp"
-#include "../sensors/DHT.hpp"
 #include <LCD_1602_RUS.h>
+#include "../services/wifi/WIFI.hpp"
+#include "../sensors/gradusnik.hpp"
 
 class LCD {
   private:

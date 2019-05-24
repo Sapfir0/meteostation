@@ -1,5 +1,9 @@
-#include "DHT.hpp"
+#include "gradusnik.hpp"
 
+Gradusnik::Gradusnik()
+{
+
+}
 
 void Gradusnik::start() {
   dht.begin();

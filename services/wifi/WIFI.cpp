@@ -1,5 +1,6 @@
 #include "WIFI.hpp"
 
+#include "../../sensors/gradusnik.hpp"
 
 
 void WIFI::postToOurServer() {

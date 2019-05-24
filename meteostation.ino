@@ -1,7 +1,7 @@
-#include "./sensors/DHT.hpp"
+#include "./sensors/gradusnik.hpp"
 #include "./output/LCD.hpp"
 #include "./output/RGB.hpp"
-#include "./parallel.hpp"
+#include "./libs/parallel.hpp"
 
 LCD led;
 WIFI esp8266Module;
