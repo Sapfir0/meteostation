@@ -1,4 +1,3 @@
-#include "gradusnik.hpp"
 
 Gradusnik::Gradusnik()
 {

@@ -3,11 +3,13 @@
 #include "./output/RGB.hpp"
 #include "./libs/parallel.hpp"
 #include "./services/wifi/WIFI.hpp"
+#include "./services/translating/rus.hpp"
 
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
 RGB diod;
+rus rus;
 
 parallel changeBrightning(10); //обновление экрана
 parallel lightDiode(20000); //смена цвета диода и дача прогноза
@@ -50,7 +52,7 @@ void loop() {
   if (changeLCD.isReady() && logger == 0 ) {
     led.displayWeather( esp8266Module.getWeatherLocation(),
                         //esp8266Module.getWeatherDescription(),
-                        esp8266Module.getBetterRussianDescription( esp8266Module.getWeatherID() ),
+                        rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
                         esp8266Module.getCountry() );
     logger = 1;
     changeLCD.reset();

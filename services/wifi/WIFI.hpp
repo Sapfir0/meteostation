@@ -58,8 +58,6 @@
       const char *getSSID();
       void setSSID(const char *ssid);
 
-      String getRussianDescription(int weatherID);
-      String getBetterRussianDescription(int weatherID);
 
       void postToOurServer();
 
