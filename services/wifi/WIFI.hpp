@@ -11,9 +11,7 @@
     extern const char *_ssid; // SSID of local network
     extern const char *password;   // Password on network
 
-    extern const String apiKey;  // replace with your channel’s thingspeak API key,
-    extern const char* server;
-    extern const char *ourServer;
+    extern const String ourServer;
 
     class WIFI
     {
@@ -32,6 +30,7 @@
 
     public:
       void connectToServer(String CityID, String APIKEY);
+      void postToOurServer();
       String getResponseFromServer(String result);
       void getWeatherData();
       void startWifiModule();
@@ -57,9 +56,6 @@
 
       const char *getSSID();
       void setSSID(const char *ssid);
-
-
-      void postToOurServer();
 
 };
 

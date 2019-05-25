@@ -2,11 +2,20 @@
 
 #include "../translating/rus.hpp"
 
+void WIFI::getWeatherData()  { // client function to send/receive GET request data.
+    connectToServer(CityID, APIKEY);
+    result = getResponseFromServer(result);
+    parsingJSON(result);
+}
+
 void WIFI::postToOurServer() {
     Gradusnik grad;
-    if (!client.connect(ourServer, 80)) {
+    if (!client.connect("https://meteo-server.herokuapp.com", 80)) { // второй параметр - это порт
         Serial.println("connection failed");
-        //return;
+        return;
+    }
+    else {
+      Serial.println("connection successful");
     }
     rus rus;
 
@@ -18,23 +27,21 @@ void WIFI::postToOurServer() {
     request["Temperature"] = getTemperature();
     request["Pressure"] = getPressure();
     request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
-    request["CURRENTTIMESTAMP"] = std::asctime(std::localtime( & result));
+    request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
     serializeJson(request, Serial); //выводим в сериал порт
 
-    Serial.println("до этого должен быть джсон");
-
-    client.println(F("POST localhost:5060/ HTTP/1.0"));
-    client.println(F("Content-Type: application/json;charset=utf-8"));
-    client.print(F("Content-Length: ")); //возможно, нужно кидать длину джсона сначала, проверить это
-    client.println(request.size());
+    client.println("GET meteo-server.herokuapp.com/ HTTP/1.0");
+    client.println("Content-Type: application/json;charset=utf-8");
+    client.println("Content-Length: "); //возможно, нужно кидать длину джсона сначала, проверить это
+    //client.print(request.size());
     client.println(measureJsonPretty(request));
-    client.println(F("Connection: close"));
+    //client.println("Connection: close");
     client.println();
-    // serializeJson(request, client);
+    auto data = serializeJsonPretty(request, client);
+    Serial.println(data);
 }
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
-
     json.replace('[', ' ');
     json.replace(']', ' ');
     Serial.println(json);
@@ -100,13 +107,6 @@ String WIFI::getResponseFromServer(String result) {
     return result;
 }
 
-void WIFI::getWeatherData() // client function to send/receive GET request data.
-{
-    connectToServer(CityID, APIKEY);
-    result = getResponseFromServer(result);
-    parsingJSON(result);
-}
-
 float WIFI::toMmRtSt(float GectoPaskal) {
     float res = 0;
     res = GectoPaskal * 100 / 133;
@@ -147,26 +147,26 @@ void WIFI::setSSID(const char * ssid) {
 }
 
 void WIFI::setWeatherDescription(String weatherDescription) {
-    this - > weatherDescription = weatherDescription;
+    this->weatherDescription = weatherDescription;
 }
 void WIFI::setWeatherLocation(String weatherLocation) {
-    this - > weatherLocation = weatherLocation;
+    this -> weatherLocation = weatherLocation;
 }
 void WIFI::setCountry(String country) {
-    this - > Country = country;
+    this->Country = country;
 }
 void WIFI::setTemperature(float temperature) {
-    this - > Temperature = temperature;
+    this->Temperature = temperature;
 }
 void WIFI::setHumidity(float humidity) {
-    this - > Humidity = humidity;
+    this->Humidity = humidity;
 }
 void WIFI::setPressure(float pressure) {
-    this - > Pressure = pressure;
+    this->Pressure = pressure;
 }
 void WIFI::setWeatherID(int weatherId) {
-    this - > weatherID = weatherId;
+    this->weatherID = weatherId;
 }
 void WIFI::setWindSpeed(int windSpeed) {
-    this - > windSpeed = windSpeed;
+    this->windSpeed = windSpeed;
 }
