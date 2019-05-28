@@ -17,5 +17,6 @@
 
     //заменяемый блок
     const String ourServer = "https://meteo-server.herokuapp.com/";
+    const String ourServer2 = "localhost:5060/arduinoData/;
 
 #endif // config.hpp

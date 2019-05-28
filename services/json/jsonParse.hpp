@@ -1,12 +1,17 @@
 #ifndef JSON_H
 #define JSON_H
 
-class json
+#include <ArduinoJson.h>
+
+
+class ourJson
 {
 private:
 public:
-    void serializeJSON();
-    void deserializeJSON();
+    void createJSON();
+    DynamicJsonDocument parseJSON(String json);
 };
+
+#include "jsonParse.cpp"
 
 #endif // JSON_H

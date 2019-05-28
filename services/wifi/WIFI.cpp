@@ -1,7 +1,7 @@
 #include "../../sensors/gradusnik.hpp"
 
 #include "../translating/rus.hpp"
-
+#include "../json/jsonParse.hpp"
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
     connectToServer(CityID, APIKEY);
     result = getResponseFromServer(result);
@@ -10,7 +10,7 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
 
 void WIFI::postToOurServer() {
     Gradusnik grad;
-    if (!client.connect("https://meteo-server.herokuapp.com", 80)) { // второй параметр - это порт
+    if (!client.connect(ourServer, 80)) { // второй параметр - это порт
         Serial.println("connection failed");
         return;
     }
@@ -30,10 +30,11 @@ void WIFI::postToOurServer() {
     request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
     serializeJson(request, Serial); //выводим в сериал порт
 
-    client.println("GET meteo-server.herokuapp.com/ HTTP/1.0");
+    client.println("GET / ");
     client.println("Content-Type: application/json;charset=utf-8");
-    client.println("Content-Length: "); //возможно, нужно кидать длину джсона сначала, проверить это
+    //client.println("Content-Length: "); //возможно, нужно кидать длину джсона сначала, проверить это
     //client.print(request.size());
+    client.print(" HTTP/1.1");
     client.println(measureJsonPretty(request));
     //client.println("Connection: close");
     client.println();
@@ -42,19 +43,8 @@ void WIFI::postToOurServer() {
 }
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
-    json.replace('[', ' ');
-    json.replace(']', ' ');
-    Serial.println(json);
-    char jsonArray[json.length() + 1];
-    json.toCharArray(jsonArray, sizeof(jsonArray));
-    jsonArray[json.length() + 1] = '\0';
-    DynamicJsonDocument root(1024); //StaticJsonBuffer<1024> json_buf;
-    DeserializationError error = deserializeJson(root, jsonArray); //JsonObject &root = json_buf.parseObject(jsonArray);
-    if (error) {
-        Serial.println("Возникла ошибка");
-        return;
-    }
-
+    ourJson ourjson;
+    DynamicJsonDocument root = ourjson.parseJSON(json);
     setWeatherLocation(root["name"]);
     setCountry(root["sys"]["country"]);
     setTemperature(root["main"]["temp"]);
