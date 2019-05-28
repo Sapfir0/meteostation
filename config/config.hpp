@@ -16,7 +16,7 @@
     const byte LedLight = D6;
 
     //заменяемый блок
-    const String ourServer = "https://meteo-server.herokuapp.com/";
-    const String ourServer2 = "localhost:5060/arduinoData/;
+    const String ourServer = "https://meteo-server.herokuapp.com";
+    const String ourServer2 = "https://localhost";
 
 #endif // config.hpp

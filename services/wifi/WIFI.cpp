@@ -2,25 +2,17 @@
 
 #include "../translating/rus.hpp"
 #include "../json/jsonParse.hpp"
+
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
     connectToServer(CityID, APIKEY);
     result = getResponseFromServer(result);
     parsingJSON(result);
 }
 
-void WIFI::postToOurServer() {
+DynamicJsonDocument WIFI::setJSON() {    
     Gradusnik grad;
-    if (!client.connect(ourServer, 80)) { // второй параметр - это порт
-        Serial.println("connection failed");
-        return;
-    }
-    else {
-      Serial.println("connection successful");
-    }
     rus rus;
-
     std::time_t result = std::time(nullptr);
-
     DynamicJsonDocument request(1024);
     request["TempInHome"] = grad.getTemperature();
     request["HumInHome"] = grad.getHumidity();
@@ -28,18 +20,42 @@ void WIFI::postToOurServer() {
     request["Pressure"] = getPressure();
     request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
     request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
-    serializeJson(request, Serial); //выводим в сериал порт
+    return request;
+}
 
-    client.println("GET / ");
-    client.println("Content-Type: application/json;charset=utf-8");
-    //client.println("Content-Length: "); //возможно, нужно кидать длину джсона сначала, проверить это
-    //client.print(request.size());
-    client.print(" HTTP/1.1");
+void WIFI::postToOurServer() {
+    int port = 80;
+    if (!client.connect("https://meteo-server.herokuapp.com", port)) { //чет не работет, если сюда переменную кинуть
+        Serial.println("connection failed");
+        return;
+    }
+    else {
+      Serial.println("connection successful");
+    }
+
+    DynamicJsonDocument request = setJSON();
+    serializeJson(request, Serial); //выводим в сериал порт
+    
+    char c;
+    while (client.available()) 
+        c =client.read();
+    Serial.print(c);
+
+    // Write response headers
+    client.println("HTTP/1.0 200 OK");
+    client.println("Content-Type: application/json");
+    //client.println("Content-Type: text/html");
+    client.println("Connection: close");
+    client.print("Content-Length: ");
     client.println(measureJsonPretty(request));
-    //client.println("Connection: close");
+    //client.print("sosu");
     client.println();
     auto data = serializeJsonPretty(request, client);
-    Serial.println(data);
+    client.stop();
+
+    Serial.println("Я записал байт: ")
+    Serial.print(data);
+        
 }
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
