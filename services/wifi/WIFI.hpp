@@ -36,7 +36,7 @@
       void startWifiModule();
       void parsingJSON(String json);
       float toMmRtSt(float GectoPaskal);
-      DynamicJsonDocument setJSON();
+      //DynamicJsonDocument setJSON();
 
       String getWeatherDescription();
       String getWeatherLocation();

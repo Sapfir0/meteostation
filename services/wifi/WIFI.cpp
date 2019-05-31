@@ -9,53 +9,69 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
     parsingJSON(result);
 }
 
-DynamicJsonDocument WIFI::setJSON() {    
-    Gradusnik grad;
-    rus rus;
-    std::time_t result = std::time(nullptr);
-    DynamicJsonDocument request(1024);
-    request["TempInHome"] = grad.getTemperature();
-    request["HumInHome"] = grad.getHumidity();
-    request["Temperature"] = getTemperature();
-    request["Pressure"] = getPressure();
-    request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
-    request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
-    return request;
-}
+// DynamicJsonDocument WIFI::setJSON() {    
+//     Gradusnik grad;
+//     rus rus;
+//     std::time_t result = std::time(nullptr);
+//     DynamicJsonDocument request(1024);
+//     request["TempInHome"] = grad.getTemperature();
+//     request["HumInHome"] = grad.getHumidity();
+//     request["Temperature"] = getTemperature();
+//     request["Pressure"] = getPressure();
+//     request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
+//     request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
+//     return request;
+// }
 
 void WIFI::postToOurServer() {
     int port = 80;
-    if (!client.connect("https://meteo-server.herokuapp.com", port)) { //чет не работет, если сюда переменную кинуть
+    if (!client.connect("meteo-server.herokuapp.com", port)) { //чет не работет, если сюда переменную кинуть
         Serial.println("connection failed");
         return;
     }
     else {
       Serial.println("connection successful");
     }
-
-    DynamicJsonDocument request = setJSON();
-    serializeJson(request, Serial); //выводим в сериал порт
-    
-    char c;
-    while (client.available()) 
-        c =client.read();
-    Serial.print(c);
-
-    // Write response headers
-    client.println("HTTP/1.0 200 OK");
-    client.println("Content-Type: application/json");
-    //client.println("Content-Type: text/html");
-    client.println("Connection: close");
-    client.print("Content-Length: ");
-    client.println(measureJsonPretty(request));
-    //client.print("sosu");
+ 
+    //DynamicJsonDocument request = setJSON();
+    //serializeJson(request, Serial); //выводим в сериал порт
+    Gradusnik grad;
+    rus rus;
+    std::time_t result = std::time(nullptr);
+    client.print( "POST /arduinoData?"); //я так решил
+    client.print("temperatureInHome="); // ахаха все равно ничего не робит
+    client.print( grad.getTemperature() ); //да, ошибка в приведении типов(я так думаю)
+    client.print("&");
+    client.print("humidityInHome=");
+    client.print( grad.getHumidity() );
+    client.print("&");
+    client.print("temperature=");
+    client.print( getTemperature() );
+    client.print("&");
+    client.print("humidity=");
+    client.print( getHumidity() );
+    client.print("&");
+    client.print("pressure=");
+    client.print( getPressure() );
+    client.print("&");
+    client.print("weatherDescription=");
+    client.print( getWeatherDescription() ); //кидаем объявлении погоды на английском, пока я не придумал кодировку для русского языка, чтобы корректно передавлась кириллица в строке урла
+    client.print("&");
+    client.print("CURRENTTIMESTAMP=");
+    client.print( std::asctime(std::localtime(&result)))
+    client.print( " HTTP/1.1");
+    client.println( "Host: meteo-server.herokuapp.com" );
+    client.println("User-Agent: ArduinoWiFi/1.1");
+    client.println( "Connection: close" );
     client.println();
-    auto data = serializeJsonPretty(request, client);
+    client.println();
     client.stop();
-
-    Serial.println("Я записал байт: ")
-    Serial.print(data);
-        
+    client.flush();
+ 
+    if (client.println() == 0) {
+        Serial.println(F("Failed to send request"));
+    return;
+  }
 }
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
