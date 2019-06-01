@@ -17,7 +17,7 @@ DynamicJsonDocument ourJson::parseJSON(String json)  {
     DynamicJsonDocument root(1024); //StaticJsonBuffer<1024> json_buf;
     DeserializationError error = deserializeJson(root, jsonArray); //JsonObject &root = json_buf.parseObject(jsonArray);
     if (error) {
-        Serial.println("Возникла ошибка");
+        Serial.println("Error while parsing json");
         //return;
     }
     return root;

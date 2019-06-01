@@ -29,12 +29,12 @@
       int windSpeed;
 
     public:
+      WIFI();
       void connectToServer(String CityID, String APIKEY);
       void postToOurServer();
-      String getResponseFromServer(String result);
       void getWeatherData();
       void startWifiModule();
-      void parsingJSON(String json);
+      void parsingJSON(String json); //мне не нравится, что это здесь
       float toMmRtSt(float GectoPaskal);
       //DynamicJsonDocument setJSON();
 

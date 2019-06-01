@@ -1,11 +1,16 @@
 #include "../../sensors/gradusnik.hpp"
-
 #include "../translating/rus.hpp"
 #include "../json/jsonParse.hpp"
+#include "../http/http.hpp"
+
+WIFI::WIFI() {
+    weatherDescription="unknown";
+}
 
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
+    http req;
     connectToServer(CityID, APIKEY);
-    result = getResponseFromServer(result);
+    result = req.getResponseFromServer(result);
     parsingJSON(result);
 }
 
@@ -25,7 +30,7 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
 
 void WIFI::postToOurServer() {
     int port = 80;
-    if (!client.connect("meteo-server.herokuapp.com", port)) { //чет не работет, если сюда переменную кинуть
+    if (!client.connect(ourServer, port)) { //чет не работет, если сюда переменную кинуть
         Serial.println("connection failed");
         return;
     }
@@ -41,25 +46,13 @@ void WIFI::postToOurServer() {
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(getPressure())
-        + "&weatherDescription=" + String(getWeatherDescription() )
+        + "&weatherDescription=" + getWeatherDescription()
         //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result)))
         ;  
     Serial.println(requestStr + " Размер запроса+'0' " + requestStr.length()+1 );
+    http req;
+    req.postQuery(ourServer, "/arduinoData",requestStr);
 
-    client.println("POST /arduinoData HTTP/1.1");
-    client.println("Host: meteo-server.herokuapp.com" );
-    client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println("Content-Length: " + requestStr.length()+1  );
-    client.println("Content-Type: application/x-www-form-urlencoded" );
-    client.println("Connection: close" );
-    client.println();
-    client.println();
-    client.println(requestStr );
- 
-    if (client.println() == 0) {
-        Serial.println(F("Failed to send request"));
-    return;
-  }
 }
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
@@ -90,32 +83,11 @@ void WIFI::startWifiModule() {
 }
 
 void WIFI::connectToServer(String CityID, String APIKEY) {
-    if (client.connect("api.openweathermap.org", 80)) {
-        // starts client connection, checks for connection
-        client.println("GET /data/2.5/weather?id=" + CityID +
-            "&units=metric&APPID=" + APIKEY);
-        client.println("Host: api.openweathermap.org");
-        client.println("User-Agent: ArduinoWiFi/1.1");
-        client.println("Connection: close");
-        client.println();
-    } else {
-        Serial.println("connection failed"); // error message if no client connect
-        Serial.println();
-    }
+    String requestStr = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
+    http req;
+    req.getQuery("api.openweathermap.org", "/data/2.5/weather", requestStr);
 }
 
-String WIFI::getResponseFromServer(String result) {
-    while (client.connected() && !client.available())
-        delay(1); // waits for data
-    while (client.connected() || client.available()) {
-        // connected or data available
-        char c = client.read(); // gets byte from ethernet buffer
-        result = result + c;
-    }
-    client.stop(); // stop client
-
-    return result;
-}
 
 float WIFI::toMmRtSt(float GectoPaskal) {
     float res = 0;
