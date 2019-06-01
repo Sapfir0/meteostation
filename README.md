@@ -4,11 +4,11 @@
 Small meteostation for smart home
 
 <p> <a href="https://yadi.sk/d/TCMbow6C5QRp4w">Librarys for normally use app</a>
-<p>Throw this in /Documents/Arduino/ on Windows
+<p>Throw this in /Documents/Arduino/ on Windows or in ~/Arduino on Linux(with default settings)
 
 ## Ru
 <p> <a href="https://yadi.sk/d/TCMbow6C5QRp4w">Либы для использования метеостанции </a>
-<p>Кинуть в ~/Documents/Arduino/ на Windows
+<p>Кинуть в ~/Documents/Arduino/ на Windows или в ~/Arduino на Linux(по дефолту)
 <p>Компилим файл meteostation.ino в любой ide
 <p>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
 

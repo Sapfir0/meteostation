@@ -32,41 +32,29 @@ void WIFI::postToOurServer() {
     else {
       Serial.println("connection successful");
     }
- 
-    //DynamicJsonDocument request = setJSON();
-    //serializeJson(request, Serial); //выводим в сериал порт
+
     Gradusnik grad;
     rus rus;
     std::time_t result = std::time(nullptr);
-    client.print( "POST /arduinoData?"); //я так решил
-    client.print("temperatureInHome="); // ахаха все равно ничего не робит
-    client.print( grad.getTemperature() ); //да, ошибка в приведении типов(я так думаю)
-    client.print("&");
-    client.print("humidityInHome=");
-    client.print( grad.getHumidity() );
-    client.print("&");
-    client.print("temperature=");
-    client.print( getTemperature() );
-    client.print("&");
-    client.print("humidity=");
-    client.print( getHumidity() );
-    client.print("&");
-    client.print("pressure=");
-    client.print( getPressure() );
-    client.print("&");
-    client.print("weatherDescription=");
-    client.print( getWeatherDescription() ); //кидаем объявлении погоды на английском, пока я не придумал кодировку для русского языка, чтобы корректно передавлась кириллица в строке урла
-    client.print("&");
-    client.print("CURRENTTIMESTAMP=");
-    client.print( std::asctime(std::localtime(&result)))
-    client.print( " HTTP/1.1");
-    client.println( "Host: meteo-server.herokuapp.com" );
+    String requestStr = "temperatureInHome=" + String(grad.getTemperature())
+        + "&humidityInHome=" + String(grad.getHumidity()) 
+        + "&temperature=" + String(getTemperature())
+        + "&humidity=" + String(getHumidity())
+        + "&pressure=" + String(getPressure())
+        + "&weatherDescription=" + String(getWeatherDescription() )
+        //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result)))
+        ;  
+    Serial.println(requestStr + " Размер запроса+'0' " + requestStr.length()+1 );
+
+    client.println("POST /arduinoData HTTP/1.1");
+    client.println("Host: meteo-server.herokuapp.com" );
     client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println( "Connection: close" );
+    client.println("Content-Length: " + requestStr.length()+1  );
+    client.println("Content-Type: application/x-www-form-urlencoded" );
+    client.println("Connection: close" );
     client.println();
     client.println();
-    client.stop();
-    client.flush();
+    client.println(requestStr );
  
     if (client.println() == 0) {
         Serial.println(F("Failed to send request"));
