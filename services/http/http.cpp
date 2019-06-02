@@ -1,43 +1,48 @@
-//надо сделать так, чтобы последний аргумент был необязательным, но
-// если он задается, то к пути в конце добавляется вопрос
-//в wifi.cpp вопрос убрать
 
-bool http::postQuery(String host, String path, String requestStr="\0") {
-    if (requestStr != "\0") {
-        path+="?";
-    }
-    else {
-        Serial.println("Warning: in post query should be query");
-    }
+bool http::postQuery(String host, String path, String requestStr) {
+    //Serial.println("Content-Length: " + requestStr.length()+1   );
 
-    if (!client.connect(host, 80)) {
-        Serial.println("Failed connect with " + host);
-        return false;
-    }
+    connectToHost(host);
 
     client.println("POST " + path +" HTTP/1.1");
     client.println("Host: " + host );
     client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println("Content-Length: " + requestStr.length()+1  );
     client.println("Content-Type: application/x-www-form-urlencoded" );
+    client.println("Content-Length: " + requestStr.length()+1   );
     client.println("Connection: keep-alive" );
     client.println();
+    //client.println();
     client.println(requestStr );
 
     countWritenBytes();
     checkResponse();
+
+
+    skipHttpHeaders();
+    String res="";
+    res=getResponseFromServer(res);
+    Serial.println(res);
+
 }
 
+bool http::skipHttpHeaders() {
+    char endOfHeaders[] = "\r\n\r\n";
+    if (!client.find(endOfHeaders)) {
+        Serial.println(F("Invalid response"));
+        return false;
+    }
+    else {
+        Serial.println(F("VALID"));
+    }
+}
 
 bool http::getQuery(String host, String path, String requestStr="\0") {
     if (requestStr != "\0") {
         path+="?";
     }
     
-    if (!client.connect(host, 80)) {
-        Serial.println("Failed connect with " + host);
-        return false;
-    }
+    connectToHost(host);
+
     client.println("GET " + path + requestStr );
     client.println("Host: " + host);
     client.println("User-Agent: ArduinoWiFi/1.1");
@@ -76,4 +81,11 @@ String http::getResponseFromServer(String result) {
     client.stop(); // stop client
 
     return result;
+}
+
+bool http::connectToHost(String host) {
+        if (!client.connect(host, 80)) {
+        Serial.println("Failed connect with " + host);
+        return false;
+    }
 }

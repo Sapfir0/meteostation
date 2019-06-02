@@ -36,12 +36,12 @@ void loop() {
   static int counter = 0;
   static int logger = 0;
 
-  if (queryToServer.isReady() || counter == 0) {
+  if (queryToServer.isReady() || counter == 0) { // произойдет ошибка при втором и последующем запуске: метеостанция не может получить данные, потом зависает и перезагружается
     counter++;
     led.displayGettingData();
-    delay(200);
+    delay(50);
     esp8266Module.getWeatherData();
-    delay(200);
+    delay(500);
     esp8266Module.postToOurServer();
   }
 
@@ -69,8 +69,9 @@ void loop() {
     logger = 0;
     changeLCD.reset();
   }
+  
   if (lightDiode.isReady()) {
-    static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure());
+    static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure()); //лол я прошу диод дать прогноз че за херня
     //Serial.println( a );
     diod.setColorByRating(a);
   }

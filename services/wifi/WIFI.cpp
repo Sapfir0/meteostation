@@ -38,20 +38,24 @@ void WIFI::postToOurServer() {
       Serial.println("connection successful");
     }
 
+
     Gradusnik grad;
     rus rus;
-    std::time_t result = std::time(nullptr);
+    //Serial.println("Описание погоды " + rus.getRussianDescription(getWeatherID()) );
+
+    //std::time_t result = std::time(nullptr);
     String requestStr = "temperatureInHome=" + String(grad.getTemperature())
         + "&humidityInHome=" + String(grad.getHumidity()) 
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
-        + "&pressure=" + String(getPressure())
+        + "&pressure=" + String(toMmRtSt(getPressure()))
         + "&weatherDescription=" + getWeatherDescription()
         //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result)))
         ;  
-    Serial.println(requestStr + " Размер запроса+'0' " + requestStr.length()+1 );
+
+    //Serial.println(requestStr);
     http req;
-    req.postQuery(ourServer, "/arduinoData",requestStr);
+    req.postQuery(ourServer, "/arduinoData/", requestStr);
 
 }
 

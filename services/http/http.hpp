@@ -13,6 +13,8 @@ public:
     String getResponseFromServer(String result);
     bool countWritenBytes();
     bool checkResponse();
+    bool connectToHost(String host);
+    bool skipHttpHeaders();
 };
 
 #include "http.cpp"
