@@ -4,7 +4,9 @@
 #include "../http/http.hpp"
 
 WIFI::WIFI() {
-    weatherDescription="unknown";
+    WiFi.begin(_ssid, password);
+
+
 }
 
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
@@ -65,13 +67,13 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
 }
 
 void WIFI::startWifiModule() {
-    WiFi.begin(_ssid, password);
-
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.println("Connection isnt successful");
         //led.loadiiing();  //надо как-то кидать исключение на лсд
     }
+    
+    weatherDescription="unknown";
 }
 
 void WIFI::connectToServer(String CityID, String APIKEY) {

@@ -12,21 +12,8 @@ bool http::postQuery(String host, String path, String requestStr) {
     client.println( requestStr );
 
 //переопределить оператор << на принтлн
-/// блок дебага
-    //checkConnection();
-
-    Serial.println("**********НАЧАЛО ЗАПРОСА*******");
-    Serial.println("POST " + path +" HTTP/1.1");
-    Serial.println("Host: " + host );
-    Serial.println("User-Agent: ArduinoWiFi/1.1");
-    Serial.println("Content-Type: application/x-www-form-urlencoded" );
-    Serial.println("Content-Length: " + String(requestStr.length() + 1)   ); 
-    Serial.println("Connection: close" );
-    Serial.println();
-    Serial.println(requestStr );
-    Serial.println("**********КОНЕЦ ЗАПРОСА*******");
-
-// конец
+    //checkConnection(); //вроде не нужно
+    debugSerial(host, path, requestStr);
 
     countWritenBytes();
     checkResponse();
@@ -59,6 +46,20 @@ bool http::skipHttpHeaders() {
         return false;
     }
     
+}
+
+void http::debugSerial(String host, String path, String requestStr) {
+    Serial.println("**********НАЧАЛО ЗАПРОСА*******");
+    Serial.println("POST " + path +" HTTP/1.1");
+    Serial.println("Host: " + host );
+    Serial.println("User-Agent: ArduinoWiFi/1.1");
+    Serial.println("Content-Type: application/x-www-form-urlencoded" );
+    Serial.println("Content-Length: " + String(requestStr.length() + 1)   ); 
+    Serial.println("Connection: close" );
+    Serial.println();
+    Serial.println(requestStr );
+    Serial.println("**********КОНЕЦ ЗАПРОСА*******");
+
 }
 
 bool http::getQuery(String host, String path, String requestStr="\0") {

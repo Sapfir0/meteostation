@@ -4,9 +4,7 @@
 
 
 void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
-    //  float t = esp.getTemperature();
-    //  float h = esp.getHumidity();
-    //  float p = esp.getPressure();
+
     lcd.clear(); // Printing Temperature
     lcd.print("T:");
     lcd.print(Temperature, 1);
@@ -96,7 +94,8 @@ void LCD::displayDHT() {
 void LCD::printf(const char * s) {
     lcd.print(s);
 }
-template < typename T, typename...Args >
+
+template <typename T, typename...Args>
     void LCD::printf(const char * s, T value, Args...args) {
         while ( * s) {
             if ( * s == '%') {

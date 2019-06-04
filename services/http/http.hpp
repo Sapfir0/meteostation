@@ -17,6 +17,7 @@ public:
     bool skipHttpHeaders();
 
     void checkConnection();
+    void debugSerial(String host, String path, String requestStr);
 };
 
 #include "http.cpp"

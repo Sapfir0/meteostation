@@ -43,6 +43,7 @@ void loop() {
     esp8266Module.getWeatherData();
     delay(500);
     esp8266Module.postToOurServer();
+    queryToServer.reset();
   }
 
 
@@ -74,6 +75,7 @@ void loop() {
     static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure()); //лол я прошу диод дать прогноз че за херня
     //Serial.println( a );
     diod.setColorByRating(a);
+    lightDiode.reset();
   }
 
 //     if (fade.isReady() ) {
