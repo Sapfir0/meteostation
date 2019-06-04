@@ -10,6 +10,8 @@ private:
 public:
     void createJSON();
     DynamicJsonDocument parseJSON(String json);
+    //DynamicJsonDocument setJSON();
+
 };
 
 #include "jsonParse.cpp"

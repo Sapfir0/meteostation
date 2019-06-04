@@ -15,6 +15,8 @@ public:
     bool checkResponse();
     bool connectToHost(String host);
     bool skipHttpHeaders();
+
+    void checkConnection()
 };
 
 #include "http.cpp"

@@ -14,19 +14,7 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
     parsingJSON(result);
 }
 
-// DynamicJsonDocument WIFI::setJSON() {    
-//     Gradusnik grad;
-//     rus rus;
-//     std::time_t result = std::time(nullptr);
-//     DynamicJsonDocument request(1024);
-//     request["TempInHome"] = grad.getTemperature();
-//     request["HumInHome"] = grad.getHumidity();
-//     request["Temperature"] = getTemperature();
-//     request["Pressure"] = getPressure();
-//     request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
-//     request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
-//     return request;
-// }
+
 
 void WIFI::postToOurServer() {
     int port = 80;
@@ -53,9 +41,9 @@ void WIFI::postToOurServer() {
         //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result)))
         ;  
 
-    //Serial.println(requestStr);
+    Serial.println(requestStr);
     http req;
-    req.postQuery(ourServer, "/arduinoData/", requestStr);
+    req.postQuery(ourServer, "/arduinoData", requestStr);
 
 }
 

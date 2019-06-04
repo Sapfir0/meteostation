@@ -1,6 +1,5 @@
 
 bool http::postQuery(String host, String path, String requestStr) {
-    //Serial.println("Content-Length: " + requestStr.length()+1   );
 
     connectToHost(host);
 
@@ -8,11 +7,28 @@ bool http::postQuery(String host, String path, String requestStr) {
     client.println("Host: " + host );
     client.println("User-Agent: ArduinoWiFi/1.1");
     client.println("Content-Type: application/x-www-form-urlencoded" );
-    client.println("Content-Length: " + requestStr.length()+1   );
+    Serial.println("Content-Length: " + String(requestStr.length() + 1)   );
     client.println("Connection: keep-alive" );
     client.println();
-    //client.println();
-    client.println(requestStr );
+    client.println( requestStr );
+//переопределить оператор << на принлн
+/// блок дебага
+
+    checkConnection();
+
+    Serial.println( int(requestStr.length() + 1));
+    Serial.println("**********НАЧАЛО ЗАПРОСА*******");
+    Serial.println("POST " + path +" HTTP/1.1");
+    Serial.println("Host: " + host );
+    Serial.println("User-Agent: ArduinoWiFi/1.1");
+    Serial.println("Content-Type: application/x-www-form-urlencoded" );
+    Serial.println("Content-Length: " + String(requestStr.length() + 1)   ); 
+    Serial.println("Connection: keep-alive" );
+    Serial.println();
+    Serial.println(requestStr );
+    Serial.println("**********КОНЕЦ ЗАПРОСА*******");
+
+// конец
 
     countWritenBytes();
     checkResponse();
@@ -23,6 +39,18 @@ bool http::postQuery(String host, String path, String requestStr) {
     res=getResponseFromServer(res);
     Serial.println(res);
 
+}
+
+//bool http::operator <<()
+
+void http::checkConnection() {
+    while (client.connected() && !client.available()) {
+        delay(1); // waits for data
+        Serial.println("ЧИЛЮ");
+    }
+    if (client.connected()) {
+        Serial.println("я сконекчен");
+    }
 }
 
 bool http::skipHttpHeaders() {
@@ -89,3 +117,5 @@ bool http::connectToHost(String host) {
         return false;
     }
 }
+
+
