@@ -1,29 +1,28 @@
+#include <ESP8266HTTPClient.h>
 
 bool http::postQuery(String host, String path, String requestStr) {
 
-    connectToHost(host);
 
     client.println("POST " + path +" HTTP/1.1");
     client.println("Host: " + host );
     client.println("User-Agent: ArduinoWiFi/1.1");
     client.println("Content-Type: application/x-www-form-urlencoded" );
     Serial.println("Content-Length: " + String(requestStr.length() + 1)   );
-    client.println("Connection: keep-alive" );
+    client.println("Connection: close" );
     client.println();
     client.println( requestStr );
-//переопределить оператор << на принлн
+
+//переопределить оператор << на принтлн
 /// блок дебага
+    //checkConnection();
 
-    checkConnection();
-
-    Serial.println( int(requestStr.length() + 1));
     Serial.println("**********НАЧАЛО ЗАПРОСА*******");
     Serial.println("POST " + path +" HTTP/1.1");
     Serial.println("Host: " + host );
     Serial.println("User-Agent: ArduinoWiFi/1.1");
     Serial.println("Content-Type: application/x-www-form-urlencoded" );
     Serial.println("Content-Length: " + String(requestStr.length() + 1)   ); 
-    Serial.println("Connection: keep-alive" );
+    Serial.println("Connection: close" );
     Serial.println();
     Serial.println(requestStr );
     Serial.println("**********КОНЕЦ ЗАПРОСА*******");
@@ -37,7 +36,8 @@ bool http::postQuery(String host, String path, String requestStr) {
     skipHttpHeaders();
     String res="";
     res=getResponseFromServer(res);
-    Serial.println(res);
+
+    Serial.println("Ответ нам: " + res);
 
 }
 
@@ -59,9 +59,7 @@ bool http::skipHttpHeaders() {
         Serial.println(F("Invalid response"));
         return false;
     }
-    else {
-        Serial.println(F("VALID"));
-    }
+    
 }
 
 bool http::getQuery(String host, String path, String requestStr="\0") {
@@ -92,8 +90,9 @@ bool http::checkResponse() {
     char status[32] = {0};
     client.readBytesUntil('\r', status, sizeof(status));
     if (strcmp(status, "HTTP/1.1 200 OK") != 0) {
-        Serial.print(F("Unexpected response: "));
-        Serial.println(status);
+        Serial.println(F("Unexpected response: "));
+        Serial.println("Status is: ");
+        Serial.print(status);
         return false;
     }
 }
@@ -112,7 +111,7 @@ String http::getResponseFromServer(String result) {
 }
 
 bool http::connectToHost(String host) {
-        if (!client.connect(host, 80)) {
+    if (!client.connect(host, 80)) {
         Serial.println("Failed connect with " + host);
         return false;
     }
