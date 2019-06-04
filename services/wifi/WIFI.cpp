@@ -4,9 +4,14 @@
 #include "../http/http.hpp"
 
 WIFI::WIFI() {
-    WiFi.begin(_ssid, password);
-
-
+    // WiFi.begin(_ssid, password);
+    // while (WiFi.status() != WL_CONNECTED) {
+    //     delay(500);
+    //     Serial.println("Connection isnt successful");
+    //     //led.loadiiing();  //надо как-то кидать исключение на лсд
+    // }
+    // Serial.println("Конструктор вифи");
+    weatherDescription="unknown";
 }
 
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
@@ -31,16 +36,19 @@ void WIFI::postToOurServer() {
 
     Gradusnik grad;
     rus rus;
-    //Serial.println("Описание погоды " + rus.getRussianDescription(getWeatherID()) );
+    String rusDescription = rus.getRussianDescription(getWeatherID() ) ;
+    //кодировка описания
 
-    //std::time_t result = std::time(nullptr);
+    rusDescription.trim();
+
+    std::time_t result = std::time(nullptr);
     String requestStr = "temperatureInHome=" + String(grad.getTemperature())
         + "&humidityInHome=" + String(grad.getHumidity()) 
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&weatherDescription=" + getWeatherDescription()
-        //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result)))
+        + "&weatherDescription=" + rusDescription //так просто ты не передаешь кириллицу
+        //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result))) //да и эту херню, тут есть перенос в конце
         ;  
 
     Serial.println(requestStr);
@@ -67,13 +75,13 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
 }
 
 void WIFI::startWifiModule() {
+    WiFi.begin(_ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.println("Connection isnt successful");
         //led.loadiiing();  //надо как-то кидать исключение на лсд
     }
     
-    weatherDescription="unknown";
 }
 
 void WIFI::connectToServer(String CityID, String APIKEY) {
