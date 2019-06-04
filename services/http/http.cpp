@@ -2,8 +2,7 @@
 
 bool http::postQuery(String host, String path, String requestStr) {
 
-
-    client.println("POST " + path +" HTTP/1.1");
+    client.println("POST " + path + "?" + requestStr + " HTTP/1.1");
     client.println("Host: " + host );
     client.println("User-Agent: ArduinoWiFi/1.1");
     client.println("Content-Type: application/x-www-form-urlencoded" );
