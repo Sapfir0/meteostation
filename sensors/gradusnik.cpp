@@ -17,6 +17,7 @@ float Gradusnik::getHumidity() {
 
 float Gradusnik::getIluminating() { //��� ������������� ������������ 0
     illumination = analogRead(photoresistor); //��� ����������� 1024
+    //Serial.println(illumination); // очень трудно его сдвинуть с 1024 // нужно купить спец датчик
     return illumination;
 }
 

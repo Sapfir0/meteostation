@@ -33,13 +33,15 @@ void WIFI::postToOurServer() {
       Serial.println("connection successful");
     }
 
-
+    http req;
     Gradusnik grad;
     rus rus;
     String rusDescription = rus.getRussianDescription(getWeatherID() ) ;
-    //кодировка описания
+    //кодировка русского описания
 
     rusDescription.trim();
+
+    String engDescription = req.deleteSpaceForUrlParams(engDescription);
 
     std::time_t result = std::time(nullptr);
     String requestStr = "temperatureInHome=" + String(grad.getTemperature())
@@ -47,15 +49,17 @@ void WIFI::postToOurServer() {
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&weatherDescription=" + rusDescription //так просто ты не передаешь кириллицу
+        + "&weatherDescription=" + engDescription  //так просто ты не передаешь кириллицу
         //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result))) //да и эту херню, тут есть перенос в конце
-        ;  
+        ;  //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
     Serial.println(requestStr);
-    http req;
     req.postQuery(ourServer, "/arduinoData", requestStr);
 
 }
+///////////////////////***********************
+
+
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
     ourJson ourjson;
@@ -68,9 +72,13 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
     setWeatherID(root["weather"]["id"]);
     setWindSpeed(root["wind"]["speed"]);
 
-    setWeatherDescription(root["weather"]["0"]["description"]);
-    //setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+    setWeatherDescription(root["weather"]["description"]);
     setWeatherID(root["weather"]["id"]);
+    if(getWeatherDescription() == NULL) { // если хотя бы одно провалилось, то можем дальше не проверять
+        Serial.println("Default station isnt exist");
+        setWeatherDescription(root["weather"]["0"]["description"]);
+        setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+    }
 
 }
 

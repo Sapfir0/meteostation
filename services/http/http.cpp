@@ -5,15 +5,14 @@ bool http::postQuery(String host, String path, String requestStr) {
     client.println("POST " + path + "?" + requestStr + " HTTP/1.1");
     client.println("Host: " + host );
     client.println("User-Agent: ArduinoWiFi/1.1");
-    client.println("Content-Type: application/x-www-form-urlencoded" );
+    client.println("Content-Type: application/x-www-form-urlencoded; charset=utf-8" ); //в урле ты так кириллицу не передаешь, ютф только для тела
     Serial.println("Content-Length: " + String(requestStr.length() + 1)   );
     client.println("Connection: close" );
     client.println();
     client.println( requestStr );
 
-//переопределить оператор << на принтлн
+//переопределить оператор << на принтлн //мне лень
     //checkConnection(); //вроде не нужно
-    debugSerial(host, path, requestStr);
 
     countWritenBytes();
     checkResponse();
@@ -27,7 +26,9 @@ bool http::postQuery(String host, String path, String requestStr) {
 
 }
 
-//bool http::operator <<()
+// void http::operator << (String sendValue) {
+//     client.println(sendValue);
+// }
 
 void http::checkConnection() {
     while (client.connected() && !client.available()) {
@@ -46,6 +47,16 @@ bool http::skipHttpHeaders() {
         return false;
     }
     
+}
+
+String http::deleteSpaceForUrlParams(String param) {
+    for(int i=0; i<param.length(); i++) {
+        if(isspace(param[i])) {
+            Serial.println("Пробел");
+            param[i] = '+';
+        }
+    }
+    return param;
 }
 
 void http::debugSerial(String host, String path, String requestStr) {

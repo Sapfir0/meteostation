@@ -36,7 +36,7 @@ void loop() {
   static int counter = 0;
   static int logger = 0;
 
-  if (queryToServer.isReady() || counter == 0) { // произойдет ошибка при втором и последующем запуске: метеостанция не может получить данные, потом зависает и перезагружается
+  if (queryToServer.isReady() || counter == 0) { 
     counter++;
     led.displayGettingData();
     delay(50);

@@ -18,6 +18,8 @@ public:
 
     void checkConnection();
     void debugSerial(String host, String path, String requestStr);
+    //void operator << (String sendValue);
+    String deleteSpaceForUrlParams(String param);
 };
 
 #include "http.cpp"
