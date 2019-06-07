@@ -44,21 +44,28 @@ void WIFI::postToOurServer() {
     String engDescription = req.deleteSpaceForUrlParams(engDescription);
 
     std::time_t result = std::time(nullptr);
-    String requestStr = "temperatureInHome=" + String(grad.getTemperature())
+    String requestStr = 
+        "temperatureInHome=" + String(grad.getTemperature())
         + "&humidityInHome=" + String(grad.getHumidity()) 
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&weatherDescription=" + engDescription  //так просто ты не передаешь кириллицу
+        + "&weatherDescription=" + cp1251_to_utf8(engDescription)  //так просто ты не передаешь кириллицу
+        + "&engWeatherDescription=" + rusDescription
+        + "&sansity=" + String(grad.getIluminating()) 
+        + "&weatherId" + String(getWeatherID())
+        + "&windSpreed=" + String(getWindSpeed()) 
+        + "&windDeg=" + String(getWindDeg()) 
+        + "&icon=" + getIcon()
         //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result))) //да и эту херню, тут есть перенос в конце
         ;  //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
+
+//определить как скоро будет дождь
 
     Serial.println(requestStr);
     req.postQuery(ourServer, "/arduinoData", requestStr);
 
 }
-///////////////////////***********************
-
 
 
 void WIFI::parsingJSON(String json) { //переход на новую версию
@@ -69,15 +76,17 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
     setTemperature(root["main"]["temp"]);
     setHumidity(root["main"]["humidity"]);
     setPressure(root["main"]["pressure"]);
-    setWeatherID(root["weather"]["id"]);
     setWindSpeed(root["wind"]["speed"]);
 
     setWeatherDescription(root["weather"]["description"]);
     setWeatherID(root["weather"]["id"]);
+    setIcon(root["weather"]["icon"])
     if(getWeatherDescription() == NULL) { // если хотя бы одно провалилось, то можем дальше не проверять
         Serial.println("Default station isnt exist");
         setWeatherDescription(root["weather"]["0"]["description"]);
         setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+        setIcon(root["weather"]["0"]["icon"])
+
     }
 
 }
@@ -134,6 +143,16 @@ int WIFI::getWindSpeed() {
     return windSpeed;
 }
 
+int WIFI::getWindDeg() {
+    return windDeg;
+}
+
+String WiFi::getIcon() {
+    return icon;
+}
+
+
+
 void WIFI::setSSID(const char * ssid) {
     _ssid = ssid;
 }
@@ -161,4 +180,12 @@ void WIFI::setWeatherID(int weatherId) {
 }
 void WIFI::setWindSpeed(int windSpeed) {
     this->windSpeed = windSpeed;
+}
+
+void WIFI::setWindDeg(int windDeg) {
+    this->windDeg = windDeg;
+}
+
+void WIFI::setIcon(String icon) {
+    this->icon = icon;
 }

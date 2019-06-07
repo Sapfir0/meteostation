@@ -27,6 +27,8 @@
       float Pressure;
       int weatherID;
       int windSpeed;
+      String icon;
+      int windDeg;
 
     public:
       WIFI();
@@ -45,6 +47,8 @@
       float getPressure();
       int getWeatherID();
       int getWindSpeed();
+      String getIcon();
+      int getWindDeg();
       void setWeatherDescription(String weatherDescription);
       void setWeatherLocation(String weatherLocation);
       void setCountry(String country);
@@ -53,6 +57,8 @@
       void setPressure(float pressure);
       void setWeatherID(int weatherID);
       void setWindSpeed(int windSpeed);
+      void setIcon(String icon);
+      void setWindDeg(int windDeg);
 
       const char *getSSID();
       void setSSID(const char *ssid);
