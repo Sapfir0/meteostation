@@ -41,23 +41,30 @@ void WIFI::postToOurServer() {
 
     rusDescription.trim();
 
-    String engDescription = req.deleteSpaceForUrlParams(engDescription);
+    String engDescription = req.deleteSpaceForUrlParams(getWeatherDescription());
+    Serial.println(engDescription);
 
-    std::time_t result = std::time(nullptr);
+    std::time_t curTime = std::time(nullptr);
+    auto timeStamp = std::asctime(std::localtime(&curTime)); //омагад
+    auto CURRENTTIMESTAMP = req.deleteSpaceForUrlParams(timeStamp);
+    Serial.println(CURRENTTIMESTAMP);
+
+    Serial.println(getWindDeg());
+
     String requestStr = 
         "temperatureInHome=" + String(grad.getTemperature())
         + "&humidityInHome=" + String(grad.getHumidity()) 
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&rusWeatherDescription=" + rusDescription  
-        + "&engWeatherDescription=" + engDescription
-        + "&sansity=" + String(grad.getIluminating()) 
-        + "&weatherId" + String(getWeatherID())
-        + "&windSpreed=" + String(getWindSpeed()) 
+        + "&sansity=" + String(grad.getIluminating()) //еще нужно качество освещения
+        + "&weatherId=" + String(getWeatherID())
+        + "&windSpeed=" + String(getWindSpeed()) 
         + "&windDeg=" + String(getWindDeg()) 
-        + "&icon=" + getIcon()
-        //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result))) //да и эту херню, тут есть перенос в конце
+        + "&icon=" + String(getIcon())
+        //+ "&rusWeatherDescription=" + rusDescription  
+        + "&engWeatherDescription=" + engDescription
+        + "&CURRENTTIMESTAMP=" + CURRENTTIMESTAMP
         ;  //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
 //определить как скоро будет дождь
@@ -77,6 +84,7 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
     setHumidity(root["main"]["humidity"]);
     setPressure(root["main"]["pressure"]);
     setWindSpeed(root["wind"]["speed"]);
+    setWindDeg(root["wind"]["deg"]);
 
     setWeatherDescription(root["weather"]["description"]);
     setWeatherID(root["weather"]["id"]);
