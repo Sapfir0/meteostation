@@ -91,8 +91,14 @@ void LCD::displayDHT() {
 }
 
 //свой принтф
-void LCD::printf(const char * s) {
+void LCD::printf(const char* s) {
     lcd.print(s);
+}
+
+void LCD::printf(String s) {
+    for(int i=0; i<s.length(); i++) {
+        lcd.print(s[i]);
+    }
 }
 
 template <typename T, typename...Args>
@@ -112,8 +118,8 @@ template <typename T, typename...Args>
         }
     }
 
-void LCD::displayError() {
-    printf("Undefined behavior");
+void LCD::displayError(String error) {
+    printf(error);
 }
 
 void LCD::displayGameOver() { //compiling error

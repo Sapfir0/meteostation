@@ -39,13 +39,12 @@ void loop() {
   if (queryToServer.isReady() || counter == 0) { 
     counter++;
     led.displayGettingData();
-    delay(50);
+    delay(200);
     esp8266Module.getWeatherData();
-    delay(500);
+    delay(1000);
     esp8266Module.postToOurServer();
     queryToServer.reset();
   }
-
 
   if (changeBrightning.isReady() ) {
     gradusnik.changeBrightning();

@@ -26,8 +26,10 @@ int Gradusnik::analyzeEnivromentQuality() {
 }
 
 void Gradusnik::changeBrightning() {
-    int brightn;
-    brightn = getIluminating() / 4; //при минимальной 1024
+    int brightn; //так, это вроде адаптивная яркость, но она работала и без фоторезистора
+    // вот это крипота
+    brightn = getIluminating() / 4; 
+    //при минимальной 1024
     //возвращаемое значение с порта - 1024 - приводим к 256
     analogWrite(D6, brightn);
 }

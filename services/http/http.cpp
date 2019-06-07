@@ -1,4 +1,3 @@
-#include <ESP8266HTTPClient.h>
 
 bool http::postQuery(String host, String path, String requestStr) {
 
@@ -122,8 +121,21 @@ String http::getResponseFromServer(String result) {
 }
 
 bool http::connectToHost(String host) {
+
+    if (!client.connected()) {
+        client.connect(host, 80);
+        Serial.println("Доп проверка ");
+    }
+     while (client.connected() && !client.available()) {
+        led.displayError("Клиент не доступен. Ожидаю... " );
+        delay(1);
+     }
+
+    
     if (!client.connect(host, 80)) {
         Serial.println("Failed connect with " + host);
+        led.displayError("Failed connect with " + host);
+        delay(2000);
         return false;
     }
 }

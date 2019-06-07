@@ -42,14 +42,7 @@ void WIFI::postToOurServer() {
     rusDescription.trim();
 
     String engDescription = req.deleteSpaceForUrlParams(getWeatherDescription());
-    Serial.println(engDescription);
 
-    std::time_t curTime = std::time(nullptr);
-    auto timeStamp = std::asctime(std::localtime(&curTime)); //омагад
-    auto CURRENTTIMESTAMP = req.deleteSpaceForUrlParams(timeStamp);
-    Serial.println(CURRENTTIMESTAMP);
-
-    Serial.println(getWindDeg());
 
     String requestStr = 
         "temperatureInHome=" + String(grad.getTemperature())
@@ -64,8 +57,8 @@ void WIFI::postToOurServer() {
         + "&icon=" + String(getIcon())
         //+ "&rusWeatherDescription=" + rusDescription  
         + "&engWeatherDescription=" + engDescription
-        + "&CURRENTTIMESTAMP=" + CURRENTTIMESTAMP
-        ;  //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
+        ;  
+        //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
 //определить как скоро будет дождь
 

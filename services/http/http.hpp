@@ -2,11 +2,14 @@
 #define HPP_H
 
 #include <ArduinoJson.h>
+#include "../../output/LCD.hpp"
 
 
 class http
 {
 private:
+    LCD led;
+
 public:
     bool postQuery(String host, String path, String requestStr);
     bool getQuery(String host, String path, String requestStr);
