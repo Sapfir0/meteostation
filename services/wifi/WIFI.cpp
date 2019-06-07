@@ -50,8 +50,8 @@ void WIFI::postToOurServer() {
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&weatherDescription=" + cp1251_to_utf8(engDescription)  //так просто ты не передаешь кириллицу
-        + "&engWeatherDescription=" + rusDescription
+        + "&rusWeatherDescription=" + rusDescription  
+        + "&engWeatherDescription=" + engDescription
         + "&sansity=" + String(grad.getIluminating()) 
         + "&weatherId" + String(getWeatherID())
         + "&windSpreed=" + String(getWindSpeed()) 
@@ -80,12 +80,12 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
 
     setWeatherDescription(root["weather"]["description"]);
     setWeatherID(root["weather"]["id"]);
-    setIcon(root["weather"]["icon"])
+    setIcon(root["weather"]["icon"]);
     if(getWeatherDescription() == NULL) { // если хотя бы одно провалилось, то можем дальше не проверять
         Serial.println("Default station isnt exist");
         setWeatherDescription(root["weather"]["0"]["description"]);
         setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
-        setIcon(root["weather"]["0"]["icon"])
+        setIcon(root["weather"]["0"]["icon"]);
 
     }
 
@@ -147,7 +147,7 @@ int WIFI::getWindDeg() {
     return windDeg;
 }
 
-String WiFi::getIcon() {
+String WIFI::getIcon() {
     return icon;
 }
 
