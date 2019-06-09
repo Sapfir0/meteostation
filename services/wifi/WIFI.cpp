@@ -4,13 +4,6 @@
 #include "../http/http.hpp"
 
 WIFI::WIFI() {
-    // WiFi.begin(_ssid, password);
-    // while (WiFi.status() != WL_CONNECTED) {
-    //     delay(500);
-    //     Serial.println("Connection isnt successful");
-    //     //led.loadiiing();  //надо как-то кидать исключение на лсд
-    // }
-    // Serial.println("Конструктор вифи");
     weatherDescription="unknown";
 }
 
@@ -22,15 +15,14 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
 }
 
 
-
 void WIFI::postToOurServer() {
     int port = 80;
     if (!client.connect(ourServer, port)) { //чет не работет, если сюда переменную кинуть
-        Serial.println("connection failed");
+        Serial.println(F("connection failed"));
         return;
     }
     else {
-      Serial.println("connection successful");
+      Serial.println(F("connection successful"));
     }
 
     http req;
@@ -41,7 +33,7 @@ void WIFI::postToOurServer() {
 
     rusDescription.trim();
 
-    String engDescription = req.deleteSpaceForUrlParams(engDescription);
+    String engDescription = req.deleteSpaceForUrlParams(getWeatherDescription());
 
     std::time_t result = std::time(nullptr);
     String requestStr = 
@@ -50,20 +42,20 @@ void WIFI::postToOurServer() {
         + "&temperature=" + String(getTemperature())
         + "&humidity=" + String(getHumidity())
         + "&pressure=" + String(toMmRtSt(getPressure()))
-        + "&rusWeatherDescription=" + rusDescription  
+        //+ "&rusWeatherDescription=" + rusDescription  
         + "&engWeatherDescription=" + engDescription
         + "&sansity=" + String(grad.getIluminating()) 
-        + "&weatherId" + String(getWeatherID())
-        + "&windSpreed=" + String(getWindSpeed()) 
+        + "&weatherId=" + String(getWeatherID())
+        + "&windSpeed=" + String(getWindSpeed()) 
         + "&windDeg=" + String(getWindDeg()) 
         + "&icon=" + getIcon()
-        //+ "&CURRENTTIMESTAMP=" + String(std::asctime(std::localtime(&result))) //да и эту херню, тут есть перенос в конце
+        + "&id=" + String(id)
         ;  //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
 //определить как скоро будет дождь
 
     Serial.println(requestStr);
-    req.postQuery(ourServer, "/arduinoData", requestStr);
+    req.postQuery(ourServer, "/meteostationData", requestStr);
 
 }
 
@@ -95,7 +87,7 @@ void WIFI::startWifiModule() {
     WiFi.begin(_ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
-        Serial.println("Connection isnt successful");
+        Serial.println(F("Connection isnt successful"));
         //led.loadiiing();  //надо как-то кидать исключение на лсд
     }
     

@@ -10,7 +10,7 @@
     extern const String APIKEY;
     extern const char *_ssid; // SSID of local network
     extern const char *password;   // Password on network
-
+    extern const int id;
     extern const String ourServer;
 
     class WIFI
