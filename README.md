@@ -12,6 +12,9 @@ Small meteostation for smart home
 <p>Компилим файл meteostation.ino в любой ide
 <p>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
 
+[Центральная вики, объединяющая все невозможное](https://github.com/Sapfir0/Meteo-Server/wiki)
+
+
 #### Примерная схема:
 ![alt text][logo]
 

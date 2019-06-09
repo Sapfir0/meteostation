@@ -4,13 +4,7 @@
 #include "../http/http.hpp"
 
 WIFI::WIFI() {
-    // WiFi.begin(_ssid, password);
-    // while (WiFi.status() != WL_CONNECTED) {
-    //     delay(500);
-    //     Serial.println("Connection isnt successful");
-    //     //led.loadiiing();  //надо как-то кидать исключение на лсд
-    // }
-    // Serial.println("Конструктор вифи");
+
     weatherDescription="unknown";
 }
 
@@ -57,13 +51,14 @@ void WIFI::postToOurServer() {
         + "&icon=" + String(getIcon())
         //+ "&rusWeatherDescription=" + rusDescription  
         + "&engWeatherDescription=" + engDescription
+        + "&id=" + String(meteostationId)
         ;  
         //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
 //определить как скоро будет дождь
 
     Serial.println(requestStr);
-    req.postQuery(ourServer, "/arduinoData", requestStr);
+    req.postQuery(ourServer, "/meteostationData", requestStr);
 
 }
 

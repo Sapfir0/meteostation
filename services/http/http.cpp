@@ -22,6 +22,8 @@ bool http::postQuery(String host, String path, String requestStr) {
     res=getResponseFromServer(res);
 
     Serial.println("Ответ нам: " + res);
+    client.stop(); // стоп происходит в респонсе выше
+
 
 }
 
@@ -126,15 +128,12 @@ bool http::connectToHost(String host) {
         client.connect(host, 80);
         Serial.println("Доп проверка ");
     }
-     while (client.connected() && !client.available()) {
-        led.displayError("Клиент не доступен. Ожидаю... " );
-        delay(1);
-     }
+    delay(100);
 
     
     if (!client.connect(host, 80)) {
         Serial.println("Failed connect with " + host);
-        led.displayError("Failed connect with " + host);
+        //led.displayError("Failed connect with " + host);
         delay(2000);
         return false;
     }

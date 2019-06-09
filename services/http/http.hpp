@@ -8,7 +8,7 @@
 class http
 {
 private:
-    LCD led;
+    //LCD led;
 
 public:
     bool postQuery(String host, String path, String requestStr);
