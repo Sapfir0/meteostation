@@ -51,7 +51,7 @@ void WIFI::postToOurServer() {
         + "&icon=" + String(getIcon())
         //+ "&rusWeatherDescription=" + rusDescription  
         + "&engWeatherDescription=" + engDescription
-        + "&id=" + String(meteostationId)
+        + "&meteostationId=" + String(meteostationId)
         ;  
         //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 

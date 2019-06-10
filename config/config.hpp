@@ -17,6 +17,6 @@
     const byte rgbPins[3] = {D5, D8, D7};
 
     const String ourServer = "meteo-server.herokuapp.com";
-    const int meteostationId = 0;
+    const int meteostationId = 1;
 
 #endif // config.hpp
