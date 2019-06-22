@@ -20,7 +20,7 @@ void WIFI::getWeatherData()  { // client function to send/receive GET request da
 void WIFI::postToOurServer() {
     int port = 80;
     if (!client.connect(ourServer, port)) { //чет не работет, если сюда переменную кинуть
-        Serial.println("connection failed");
+        Serial.println("connection with" + ourServer + "failed");
         return;
     }
     else {
