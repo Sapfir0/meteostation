@@ -52,6 +52,9 @@ void WIFI::postToOurServer() {
         //+ "&rusWeatherDescription=" + rusDescription  
         + "&engWeatherDescription=" + engDescription
         + "&meteostationId=" + String(meteostationId)
+        + "&sunriseTime=" + String(getSunriseTime())
+        + "&sunsetTime=" + String(getSunsetTime())
+        
         ;  
         //можно еще передавать основное описание погоды, которое будет доступно по всплывающей подсказке
 
@@ -73,6 +76,9 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
     setPressure(root["main"]["pressure"]);
     setWindSpeed(root["wind"]["speed"]);
     setWindDeg(root["wind"]["deg"]);
+    setSunriseTime(root["sys"]["sunrise"]);
+    setSunsetTime(root["sys"]["sunset"]);
+
 
     setWeatherDescription(root["weather"]["description"]);
     setWeatherID(root["weather"]["id"]);
@@ -82,7 +88,6 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
         setWeatherDescription(root["weather"]["0"]["description"]);
         setWeatherID(root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
         setIcon(root["weather"]["0"]["icon"]);
-
     }
 
 }
@@ -147,6 +152,13 @@ String WIFI::getIcon() {
     return icon;
 }
 
+long WIFI::getSunsetTime() {
+    return sunsetTime;
+}
+
+long WIFI::getSunriseTime() {
+    return sunriseTime;
+}
 
 
 void WIFI::setSSID(const char * ssid) {
@@ -184,4 +196,12 @@ void WIFI::setWindDeg(int windDeg) {
 
 void WIFI::setIcon(String icon) {
     this->icon = icon;
+}
+
+void WIFI::setSunsetTime(long sunsetTime) {
+    this->sunsetTime = sunsetTime;
+}
+
+void WIFI::setSunriseTime(long sunriseTime) {
+    this->sunriseTime = sunriseTime;
 }

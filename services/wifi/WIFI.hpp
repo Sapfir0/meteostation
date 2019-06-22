@@ -30,6 +30,8 @@
       int windSpeed;
       String icon;
       int windDeg;
+      long sunsetTime;
+      long sunriseTime;
 
     public:
       WIFI();
@@ -50,6 +52,8 @@
       int getWindSpeed();
       String getIcon();
       int getWindDeg();
+      long getSunsetTime();
+      long getSunriseTime();
       void setWeatherDescription(String weatherDescription);
       void setWeatherLocation(String weatherLocation);
       void setCountry(String country);
@@ -60,6 +64,8 @@
       void setWindSpeed(int windSpeed);
       void setIcon(String icon);
       void setWindDeg(int windDeg);
+      void setSunsetTime(long sunsetTime);
+      void setSunriseTime(long sunriseTime);
 
       const char *getSSID();
       void setSSID(const char *ssid);
