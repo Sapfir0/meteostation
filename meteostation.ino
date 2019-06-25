@@ -43,10 +43,11 @@ void loop() {
     delay(200);
     esp8266Module.getWeatherData();
     delay(1000);
-    esp8266Module.postToOurServer();
-    queryToServer.reset();
     if(counter != 1) //перезапускаем только если это не 1 запуск
       ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
+    esp8266Module.postToOurServer();
+    queryToServer.reset();
+
   }
 
   if (changeBrightning.isReady() ) {
