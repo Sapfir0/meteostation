@@ -4,18 +4,27 @@
 #include "../http/http.hpp"
 
 WIFI::WIFI() {
-
     weatherDescription="unknown";
 }
 
 void WIFI::getWeatherData()  { // client function to send/receive GET request data.
     http req;
-    connectToServer(CityID, APIKEY);
+    String requestStr = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
+    req.getQuery("api.openweathermap.org", "/data/2.5/weather", requestStr);
     result = req.getResponseFromServer(result);
-    parsingJSON(result);
+    parseWeatherJSON(result);
+    
+    getUVindexData();
 }
 
-
+void WIFI::getUVindexData() {
+    //http://api.openweathermap.org/data/2.5/uvi?lat=48.72&lon=44.5&appid=9881fdc10d1d14339a3a6514d415efa4
+    http req;
+    String requestStr = "lat=48.72&lon=44.5&APPID=" + APIKEY; //брать широту и долготу из первого запроса(или понять как делать по сити айди)
+    req.getQuery("api.openweathermap.org", "/data/2.5/uvi", requestStr);
+    result = req.getResponseFromServer(result);
+    parseUV_JSON(result);
+}
 
 void WIFI::postToOurServer() {
     int port = 80;
@@ -63,7 +72,7 @@ void WIFI::postToOurServer() {
 }
 
 
-void WIFI::parsingJSON(String json) { //переход на новую версию
+void WIFI::parseWeatherJSON(String json) { //переход на новую версию
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
     setWeatherLocation(root["name"]);
@@ -84,8 +93,18 @@ void WIFI::parsingJSON(String json) { //переход на новую верс�
         setIcon(root["weather"]["0"]["icon"]);
 
     }
-
 }
+
+void WIFI::parseUV_JSON(String json) {
+    ourJson ourjson;
+    DynamicJsonDocument root = ourjson.parseJSON(json);
+    //Serial.println(root);
+    setUVindex(root["value"]);
+    double puk2 = root["value"];
+    Serial.println(getUVindex());
+    Serial.println(puk2);
+}
+
 
 void WIFI::startWifiModule() {
     WiFi.begin(_ssid, password);
@@ -97,11 +116,6 @@ void WIFI::startWifiModule() {
     
 }
 
-void WIFI::connectToServer(String CityID, String APIKEY) {
-    String requestStr = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
-    http req;
-    req.getQuery("api.openweathermap.org", "/data/2.5/weather", requestStr);
-}
 
 
 float WIFI::toMmRtSt(float GectoPaskal) {
@@ -113,7 +127,6 @@ float WIFI::toMmRtSt(float GectoPaskal) {
 const char * WIFI::getSSID() {
     return _ssid;
 }
-
 String WIFI::getWeatherDescription() {
     return weatherDescription;
 }
@@ -138,13 +151,14 @@ int WIFI::getWeatherID() {
 int WIFI::getWindSpeed() {
     return windSpeed;
 }
-
 int WIFI::getWindDeg() {
     return windDeg;
 }
-
 String WIFI::getIcon() {
     return icon;
+}
+double WIFI::getUVindex() {
+    return uvindex;
 }
 
 
@@ -152,7 +166,6 @@ String WIFI::getIcon() {
 void WIFI::setSSID(const char * ssid) {
     _ssid = ssid;
 }
-
 void WIFI::setWeatherDescription(String weatherDescription) {
     this->weatherDescription = weatherDescription;
 }
@@ -177,11 +190,12 @@ void WIFI::setWeatherID(int weatherId) {
 void WIFI::setWindSpeed(int windSpeed) {
     this->windSpeed = windSpeed;
 }
-
 void WIFI::setWindDeg(int windDeg) {
     this->windDeg = windDeg;
 }
-
 void WIFI::setIcon(String icon) {
     this->icon = icon;
+}
+void WIFI::setUVindex(double uvindex) {
+    this->uvindex = uvindex;
 }
