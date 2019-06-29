@@ -4,6 +4,7 @@
 #include "./libs/parallel.hpp"
 #include "./services/wifi/WIFI.hpp"
 #include "./services/translating/rus.hpp"
+#include <Esp.h>
 
 LCD led;
 WIFI esp8266Module;
@@ -42,8 +43,11 @@ void loop() {
     delay(200);
     esp8266Module.getWeatherData();
     delay(1000);
+    if(counter != 1) //перезапускаем только если это не 1 запуск
+      ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
     esp8266Module.postToOurServer();
     queryToServer.reset();
+
   }
 
   if (changeBrightning.isReady() ) {

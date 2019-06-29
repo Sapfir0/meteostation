@@ -89,6 +89,8 @@ bool http::getQuery(String host, String path, String requestStr="\0") {
 
     countWritenBytes();
 
+    //client.close();
+    //client.stop();
 }
 
 bool http::countWritenBytes() {

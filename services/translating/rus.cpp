@@ -24,6 +24,7 @@ String rus::getRussianDescription(int weatherID) {
   String with2 =  " co " ;
   String drizzle =  " морось " ;
   String weakIy =  " слабый " ;
+  String weakIm =  " слабым " ;
   String weakAya =  " слабая " ;
   String heavyIy =  " сильный " ;
   String heavyAya =  " сильная " ;
@@ -65,7 +66,7 @@ String rus::getRussianDescription(int weatherID) {
   String murky =  " пасмурно " ;
 
     switch (weatherID) {
-      case 200:        return thunderstorm + with2 + weakIy + rainEm;  //гроза со слабым доджем
+      case 200:        return thunderstorm + with2 + weakIm + rainEm;  //гроза со слабым доджем
       case 201:        return thunderstorm + with + rainEm;  //гроза с дождем
       case 202:        return thunderstorm + with + heavyIm + rainEm;
       case 210:        return weakAya + thunderstorm;
