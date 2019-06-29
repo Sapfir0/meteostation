@@ -30,16 +30,19 @@
       int windSpeed;
       String icon;
       int windDeg;
+      double uvindex;
       long sunsetTime;
       long sunriseTime;
 
+
     public:
       WIFI();
-      void connectToServer(String CityID, String APIKEY);
       void postToOurServer();
       void getWeatherData();
+      void getUVindexData();
       void startWifiModule();
-      void parsingJSON(String json); //мне не нравится, что это здесь
+      void parseWeatherJSON(String json); //мне не нравится, что это здесь
+      void parseUV_JSON(String json);
       float toMmRtSt(float GectoPaskal);
 
       String getWeatherDescription();
@@ -51,6 +54,7 @@
       int getWeatherID();
       int getWindSpeed();
       String getIcon();
+      double getUVindex();
       int getWindDeg();
       long getSunsetTime();
       long getSunriseTime();
@@ -64,8 +68,10 @@
       void setWindSpeed(int windSpeed);
       void setIcon(String icon);
       void setWindDeg(int windDeg);
+      void setUVindex(double uvindex);
       void setSunsetTime(long sunsetTime);
       void setSunriseTime(long sunriseTime);
+
 
       const char *getSSID();
       void setSSID(const char *ssid);
