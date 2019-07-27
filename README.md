@@ -12,6 +12,17 @@ Small meteostation for smart home
 <p>Компилим файл meteostation.ino в любой ide
 <p>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
 
+Библиотеки:
+* Обязательные:
+    0. Библиотека для работы с DHT11
+    0. Библиотека для работы с LCD 1602
+    0. Все зависимости для них
+* Необязательные
+    0. LCD russian
+
+Информация о прошивках:
+Если воспользовался [злой метеостанцией](https://github.com/Sapfir0/evil-meteostation), то нужно откатиться к дефолтной прошивке по [ссылке](https://www.espressif.com/en/support/download/other-tools?keys=&field_type_tid%5B%5D=14), или [прямая ссыль](https://www.espressif.com/sites/default/files/tools/flash_download_tools_v3.6.6_0.zip). Просто жмякаешь старт и произойдет откат.
+
 [Центральная вики, объединяющая все невозможное](https://github.com/Sapfir0/Meteo-Server/wiki)
 
 
