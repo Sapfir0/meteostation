@@ -1,10 +1,11 @@
 #include "./sensors/gradusnik.hpp"
 #include "./output/LCD.hpp"
 #include "./output/RGB.hpp"
-#include "./libs/parallel.hpp"
 #include "./services/wifi/WIFI.hpp"
 #include "./services/translating/rus.hpp"
 #include <Esp.h>
+#include <event_loop.h>
+#include <interval.h>
 
 LCD led;
 WIFI esp8266Module;
@@ -12,11 +13,28 @@ Gradusnik gradusnik;
 RGB diod;
 rus rus;
 
-parallel changeBrightning(10); //обновление экрана
-parallel lightDiode(20000); //смена цвета диода и дача прогноза
-parallel changeLCD(5000); //1 окно
-parallel queryToServer(600000); //запрос к серверу
-parallel fade(500); //обновление экрана
+int lightDiodeTime = 20000;
+int changeBrightningTime = 10;
+int displayOnLCDTime =  5000;
+int queryToServerTime = 60000;
+
+
+uint32_t tiker() {
+    return millis();
+}
+
+EventLoop event_loop;
+
+void query(firstRun) { 
+  led.displayGettingData();
+  delay(200);
+  esp8266Module.getWeatherData();
+  delay(1000);
+  if(!firstRun) //перезапускаем только если это не 1 запуск
+    ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
+  esp8266Module.postToOurServer();
+  return false // не хочу тут просто возвращать фолс
+}
 
 void setup() {
   gradusnik.start();
@@ -31,57 +49,41 @@ void setup() {
 
   delay(200);
 
+  query(); // первый запуск который должен быть всегда
+
+  event_t queryToServer((Event*) new Interval([](){
+      firstRun = false
+      query();
+    }, queryToServerTime, tiker)); 
+
+  event_t display1((Event*) new Interval([](){
+      led.displayConditions(esp8266Module.getTemperature(),
+                            esp8266Module.getHumidity(),
+                            esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
+    }, displayOnLCDTime, tiker)); 
+
+  event_t display2((Event*) new Interval([](){
+      led.displayWeather( esp8266Module.getWeatherLocation(),
+                          //esp8266Module.getWeatherDescription(),
+                          rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
+                          esp8266Module.getCountry() );
+    }, displayOnLCDTime, tiker)); 
+
+  event_t display3((Event*) new Interval([](){
+      led.displayDHT();
+    }, displayOnLCDTime, tiker)); 
+
+
+  event_t changeBrightning((Event*) new Interval([](){
+        gradusnik.changeBrightning();
+    }, changeBrightningTime, tiker)); 
+
+  event_t lightDiode((Event*) new Interval([](){
+      static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure()); //лол я прошу диод дать прогноз че за херня
+      diod.setColorByRating(a);
+    }, lightDiodeTime, tiker)); 
+
+
 }
 
-void loop() {
-  static int counter = 0;
-  static int logger = 0;
-
-  if (queryToServer.isReady() || counter == 0) { 
-    counter++;
-    led.displayGettingData();
-    delay(200);
-    esp8266Module.getWeatherData();
-    delay(1000);
-    if(counter != 1) //перезапускаем только если это не 1 запуск
-      ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
-    esp8266Module.postToOurServer();
-    queryToServer.reset();
-
-  }
-
-  if (changeBrightning.isReady() ) {
-    gradusnik.changeBrightning();
-  }
-  if (changeLCD.isReady() && logger == 0 ) {
-    led.displayWeather( esp8266Module.getWeatherLocation(),
-                        //esp8266Module.getWeatherDescription(),
-                        rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
-                        esp8266Module.getCountry() );
-    logger = 1;
-    changeLCD.reset();
-  }
-  if (changeLCD.isReady() && logger == 1 ) {
-    led.displayConditions(esp8266Module.getTemperature(),
-                          esp8266Module.getHumidity(),
-                          esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
-    logger = 2;
-    changeLCD.reset();
-  }
-  if (changeLCD.isReady() && logger == 2) {
-    led.displayDHT();
-    logger = 0;
-    changeLCD.reset();
-  }
-  
-  if (lightDiode.isReady()) {
-    static int a = diod.getHorecast(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.getPressure()); //лол я прошу диод дать прогноз че за херня
-    //Serial.println( a );
-    diod.setColorByRating(a);
-    lightDiode.reset();
-  }
-
-//     if (fade.isReady() ) {
-//       diod.fading();
-//     }
-}
+void loop() { }
