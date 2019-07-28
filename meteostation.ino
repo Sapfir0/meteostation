@@ -25,7 +25,7 @@ uint32_t tiker() {
 
 EventLoop event_loop;
 
-void query(firstRun) { 
+bool queryToWeatherServer(bool firstRun=false) { 
   led.displayGettingData();
   delay(200);
   esp8266Module.getWeatherData();
@@ -33,7 +33,7 @@ void query(firstRun) {
   if(!firstRun) //перезапускаем только если это не 1 запуск
     ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
   esp8266Module.postToOurServer();
-  return false // не хочу тут просто возвращать фолс
+  return false; // не хочу тут просто возвращать фолс
 }
 
 void setup() {
@@ -49,11 +49,10 @@ void setup() {
 
   delay(200);
 
-  query(); // первый запуск который должен быть всегда
+  queryToWeatherServer(true); // первый запуск который должен быть всегда
 
   event_t queryToServer((Event*) new Interval([](){
-      firstRun = false
-      query();
+      queryToWeatherServer();
     }, queryToServerTime, tiker)); 
 
   event_t display1((Event*) new Interval([](){
