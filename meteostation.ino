@@ -59,9 +59,11 @@ void setup() {
       led.displayConditions(esp8266Module.getTemperature(),
                             esp8266Module.getHumidity(),
                             esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
+       event_loop.addEvent((Event*) new Timer([counter, &event_loop](){
+        }, display1, tiker)); 
     }, displayOnLCDTime, tiker)); 
 
-  event_t display2((Event*) new Interval([](){
+  event_t display2((Event*) new Interval([](){  
       led.displayWeather( esp8266Module.getWeatherLocation(),
                           //esp8266Module.getWeatherDescription(),
                           rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
@@ -82,6 +84,14 @@ void setup() {
       diod.setColorByRating(a);
     }, lightDiodeTime, tiker)); 
 
+    event_loop.addEvent(lightDiode);
+    event_loop.addEvent(changeBrightning);
+    event_loop.addEvent(display1);
+    event_loop.addEvent(display2);
+    event_loop.addEvent(display3);
+    event_loop.addEvent(queryToServer);
+
+    event_loop.exec(); // запускаем цикл событий
 
 }
 
