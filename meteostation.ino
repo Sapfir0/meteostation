@@ -6,6 +6,7 @@
 #include <Esp.h>
 #include <event_loop.h>
 #include <interval.h>
+#include <timer.h>
 
 LCD led;
 WIFI esp8266Module;
@@ -59,21 +60,24 @@ void setup() {
       led.displayConditions(esp8266Module.getTemperature(),
                             esp8266Module.getHumidity(),
                             esp8266Module.toMmRtSt(esp8266Module.getPressure())); //765мм рт ст - норма
-       event_loop.addEvent((Event*) new Timer([counter, &event_loop](){
-        }, display1, tiker)); 
     }, displayOnLCDTime, tiker)); 
 
-  event_t display2((Event*) new Interval([](){  
-      led.displayWeather( esp8266Module.getWeatherLocation(),
-                          //esp8266Module.getWeatherDescription(),
-                          rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
-                          esp8266Module.getCountry() );
-    }, displayOnLCDTime, tiker)); 
+  event_loop.addEvent((Event*) new Timer([&event_loop](){
+    event_t display2((Event*) new Interval([](){  
+        led.displayWeather( esp8266Module.getWeatherLocation(),
+                            //esp8266Module.getWeatherDescription(),
+                            rus.getBetterRussianDescription( esp8266Module.getWeatherID() ),
+                            esp8266Module.getCountry() );
+      }, displayOnLCDTime, tiker)); 
+      event_loop.addEvent(display2);
+   }, 5000, tiker)); 
 
-  event_t display3((Event*) new Interval([](){
-      led.displayDHT();
-    }, displayOnLCDTime, tiker)); 
-
+  event_loop.addEvent((Event*) new Timer([&event_loop](){
+    event_t display3((Event*) new Interval([](){
+        led.displayDHT();
+      }, displayOnLCDTime, tiker)); 
+    event_loop.addEvent(display3);
+  }, 10000, tiker)); 
 
   event_t changeBrightning((Event*) new Interval([](){
         gradusnik.changeBrightning();
@@ -87,8 +91,8 @@ void setup() {
     event_loop.addEvent(lightDiode);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(display1);
-    event_loop.addEvent(display2);
-    event_loop.addEvent(display3);
+
+    
     event_loop.addEvent(queryToServer);
 
     event_loop.exec(); // запускаем цикл событий
