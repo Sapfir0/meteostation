@@ -51,7 +51,7 @@ void setup() {
   delay(200);
 
   queryToWeatherServer(true); // первый запуск который должен быть всегда
-
+  
   event_t queryToServer((Event*) new Interval([](){
       queryToWeatherServer();
     }, queryToServerTime, tiker)); 
@@ -88,10 +88,14 @@ void setup() {
       diod.setColorByRating(a);
     }, lightDiodeTime, tiker)); 
 
+    event_t delaying((Event*) new Interval([](){
+      yield();
+    }, 1000, tiker)); 
+
     event_loop.addEvent(lightDiode);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(display1);
-
+    event_loop.addEvent(delaying);
     
     event_loop.addEvent(queryToServer);
 
