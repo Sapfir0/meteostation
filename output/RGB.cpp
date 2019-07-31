@@ -1,3 +1,11 @@
+#include "RGB.hpp"
+
+RGB::RGB(byte rgbpin1, byte rgbpin2, byte rgbpin3) {
+    rgbPins[0] = rgbpin1;
+    rgbPins[1] = rgbpin2;
+    rgbPins[2] = rgbpin3;
+}
+
 void RGB::startRgb() {
     analogWriteRGB(0, 255, 0);
 }
@@ -23,8 +31,10 @@ void RGB::analogWriteRGB(uint8_t red, uint8_t green, uint8_t blue) {
 }
 
 bool RGB::setRGB(uint8_t red, uint8_t green, uint8_t blue) {
+    // необходимо ли это юинт8 же точно больше 0 и точно не больше 255 хмм
     if (red > 255 or red < 0 or green > 255 or green < 0 or blue > 255 or blue < 0)
         return false;
+        
     analogWriteRGB(red, green, blue);
 
     myCurentColor.redPercent = red;
@@ -37,7 +47,7 @@ RGB::Color RGB::getColor() { ///////////////////
     return myCurentColor;
 }
 
-int RGB::getHorecast(float temp, float hum, float press) {
+int RGB::weatherDataToRating(float temp, float hum, float press) {
     int raiting = 100;
     float tempRating = 1, humRating = 1, pressRating = 1;
     if (temp <= -20 or temp >= 40)
@@ -76,8 +86,8 @@ int RGB::getHorecast(float temp, float hum, float press) {
 //мб сюда принимать структуру
 void RGB::fading() { //эффект мерцания
     //myCurentColor = getColor();
-    static int step = 5;
-    static int lowerLight = 30;
+    int step = 5;
+    int lowerLight = 30;
     //analogWriteRGB(red, green, blue);
     for (int fadeValue = lowerLight; fadeValue <= 255; fadeValue += step) {
         analogWriteRGB(fadeValue, fadeValue, fadeValue);

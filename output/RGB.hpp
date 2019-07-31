@@ -1,23 +1,23 @@
 #ifndef RGB_H
 #define RGB_H
 
-#include "../config/config.hpp"
 #include "../services/wifi/WIFI.hpp"
 
-extern const byte rgbPins[3];
-
 class RGB {
-  //private:
-    
+  private:
+    byte rgbPins[3];
   public:
+    RGB(byte rgbpin1, byte rgbpin2, byte rgbpin3);
+
     struct Color {
       uint8_t greenPercent;
       uint8_t bluePercent;
       uint8_t redPercent;
     };
+
     Color myCurentColor;
 
-    int getHorecast(float temp, float humidity, float pressure);
+    static int weatherDataToRating(float temp, float humidity, float pressure);
     void startRgb();
     void setColorByRating(int raiting);
 

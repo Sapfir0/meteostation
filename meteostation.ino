@@ -1,3 +1,4 @@
+#include "./config/config.hpp"
 #include "./sensors/gradusnik.hpp"
 #include "./output/LCD.hpp"
 #include "./output/RGB.hpp"
@@ -11,13 +12,13 @@
 LCD led;
 WIFI esp8266Module;
 Gradusnik gradusnik;
-RGB diod;
+RGB diod(rgbPins[0], rgbPins[1], rgbPins[2]);
 rus rus;
 
-const int lightDiodeTime = 20000; // 20000
-const int changeBrightningTime = 10; // 10
-const int displayOnLCDTime = 20000; // 5000
-const int queryToServerTime = 60000; // 60000
+const int lightDiodeTime = 20000;
+const int changeBrightningTime = 10;
+const int displayOnLCDTime = 20000;
+const int queryToServerTime = 60000;
 
 uint32_t tiker() {
     return millis();
@@ -28,15 +29,19 @@ EventLoop event_loop;
 /**
  * пояснение к странной функции
  */
-void queryToWeatherServer(bool firstRun = false) {
+void queryToWeatherServer() {
     led.displayGettingData();
     delay(200);
     esp8266Module.getWeatherData();
     delay(1000);
-    if (!firstRun)   //перезапускаем только если это не 1 запуск
+
+    static bool firstRun = true;
+    if (firstRun)   //перезапускаем только если это не 1 запуск
+        firstRun = false;
+    else 
         ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
+    
     esp8266Module.postToOurServer();
-    // return false; // не хочу тут просто возвращать фолс
 }
 
 void showDisplayCondition() {
@@ -51,8 +56,8 @@ void showDisplayWeather() {
 
 
 void setDiodeColorByRating() {
-    static int a = diod.getHorecast(esp8266Module.getTemperature(),  esp8266Module.getHumidity(),  esp8266Module.getPressure()); //лол я прошу диод дать прогноз че за херня
-    diod.setColorByRating(a);
+    auto rating = RGB::weatherDataToRating(esp8266Module.getTemperature(),  esp8266Module.getHumidity(),  esp8266Module.getPressure()); // weather rating
+    diod.setColorByRating(rating);
 }
 
 void setup() {
