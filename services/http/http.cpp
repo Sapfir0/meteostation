@@ -27,10 +27,6 @@ bool http::postQuery(String host, String path, String requestStr) {
 
 }
 
-// void http::operator << (String sendValue) {
-//     client.println(sendValue);
-// }
-
 void http::checkConnection() {
     while (client.connected() && !client.available()) {
         delay(1); // waits for data
@@ -53,7 +49,6 @@ bool http::skipHttpHeaders() {
 String http::deleteSpaceForUrlParams(String param) {
     for(int i=0; i<param.length(); i++) {
         if(isspace(param[i])) {
-            Serial.println("Пробел");
             param[i] = '+';
         }
     }
@@ -128,7 +123,6 @@ bool http::connectToHost(String host) {
 
     if (!client.connected()) {
         client.connect(host, 80);
-        Serial.println("Доп проверка ");
     }
     delay(100);
 

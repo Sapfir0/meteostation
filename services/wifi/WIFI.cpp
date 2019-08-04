@@ -103,11 +103,8 @@ void WIFI::parseWeatherJSON(String json) { //переход на новую ве
 void WIFI::parseUV_JSON(String json) {
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
-    //Serial.println(root);
     setUVindex(root["value"]);
     double puk2 = root["value"];
-    Serial.println(getUVindex());
-    Serial.println(puk2);
 }
 
 

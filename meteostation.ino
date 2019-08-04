@@ -18,7 +18,7 @@ rus rus;
 const int lightDiodeTime = 20000;
 const int changeBrightningTime = 10;
 const int displayOnLCDTime = 20000;
-const int queryToServerTime = 60000;
+const int queryToServerTime = 600000;
 
 uint32_t tiker() {
     return millis();
@@ -33,14 +33,7 @@ void queryToWeatherServer() {
     led.displayGettingData();
     delay(200);
     esp8266Module.getWeatherData();
-    delay(1000);
-
-    static bool firstRun = true;
-    if (firstRun)   //перезапускаем только если это не 1 запуск
-        firstRun = false;
-    else 
-        ESP.reset(); //АХАХАХ я просто жестко перезапускаю ардинку
-    
+    delay(1000);    
     esp8266Module.postToOurServer();
 }
 
@@ -73,7 +66,7 @@ void setup() {
 
     delay(200);
 
-    queryToWeatherServer(true); // первый запуск который должен быть всегда
+    queryToWeatherServer(); // первый запуск который должен быть всегда
 
     event_t queryToServer(makeInterval([]() {
         queryToWeatherServer();
