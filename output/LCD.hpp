@@ -2,8 +2,8 @@
 #define LCD_H
 
 #include <LCD_1602_RUS.h>
-#include "../services/wifi/WIFI.hpp"
-#include "../sensors/gradusnik.hpp"
+#include "services/wifi/WIFI.hpp"
+#include "sensors/gradusnik.hpp"
 
 class LCD {
   private:

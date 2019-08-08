@@ -1,9 +1,7 @@
-
-
 String urlEncode::urlEncode(String rusString) {
-  //когда-нибудь я дореализую эту шнягу, но пока буду юзать инглиш
-  map <const char*, String> russianChars = 
-    {
+    // когда-нибудь я дореализую эту шнягу, но пока буду юзать инглиш
+    // первый обязательно должон иметь перегруженный оператор меньше
+    map <String, const char*> russianChars = {
         { "а", "%D0%B0" },
         { "б", "%D0%B1" }, 
         { "в", "%D0%B2" },
@@ -33,7 +31,7 @@ String urlEncode::urlEncode(String rusString) {
         { "ъ", "%D1%8A" },
         { "ы", "%D1%8B" },
         { "ь", "%D1%8C" },
-        { "э", "%D1%8D"}, 
+        { "э", "%D1%8D" }, 
         { "ю", "%D1%8E" },
         { "я", "%D1%8F" },
         { "А", "%D0%90" },
@@ -69,14 +67,17 @@ String urlEncode::urlEncode(String rusString) {
         { "Ю", "%D0%AE" },
         { "Я", "%D0%AF" }
     };
-    // String codedString ="";
-    // for(int i=0; i<rusString.size(); i++) {
-    //     for(int j=0; j<russianChars.size(); j++) {
-    //         if(rusString[i]==russianChars[j] ) {
-    //             Serial.println(rusString[i] + " == " + russianChars[j])
-                
-    //         }
-    //     }
 
-    // }
+    String res = "";
+
+    for(int i = 0; i < rusString.length(); i++) {
+        auto itOnRusChar = russianChars.find(rusString[i])
+        if (itOnRusChar == russianChars.end()) {
+            res += rusString[i]; // не преобразовываем
+        } else {
+            res += itOnRusChar->second; // пушим в новом виде
+        }
+    }
+
+    return res;
 }

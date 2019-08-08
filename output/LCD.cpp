@@ -1,7 +1,6 @@
 #include "LCD.hpp"
 
-#include "../services/wifi/WIFI.hpp"
-
+#include "services/wifi/WIFI.hpp"
 
 void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
 
@@ -102,21 +101,21 @@ void LCD::printf(String s) {
 }
 
 template <typename T, typename...Args>
-    void LCD::printf(const char * s, T value, Args...args) {
-        while ( * s) {
-            if ( * s == '%') {
-                if ( * (s + 1) == '%') {
-                    ++s;
-                } else {
-                    lcd.print(value);
-                    s += 2; // работает только для спецификаторов формата из двух символов (напр. %d, %f ).Не будет работать с %5.4f
-                    printf(s, args...); // вызов происходит даже когда *s == 0, чтобы обнаружить избыточные аргументы
-                    return;
-                }
+void LCD::printf(const char * s, T value, Args...args) {
+    while ( * s) {
+        if ( * s == '%') {
+            if ( * (s + 1) == '%') {
+                ++s;
+            } else {
+                lcd.print(value);
+                s += 2; // работает только для спецификаторов формата из двух символов (напр. %d, %f ).Не будет работать с %5.4f
+                printf(s, args...); // вызов происходит даже когда *s == 0, чтобы обнаружить избыточные аргументы
+                return;
             }
-            lcd.print( * s++);
         }
+        lcd.print( * s++);
     }
+}
 
 void LCD::displayError(String error) {
     printf(error);
