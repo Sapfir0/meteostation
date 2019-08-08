@@ -5,11 +5,11 @@
 #include <interval.h>
 #include <timer.h>
 
-#include "sensors/gradusnik.hpp"
-#include "output/LCD.hpp"
-#include "output/RGB.hpp"
-#include "services/wifi/WIFI.hpp"
-#include "services/translating/rus.hpp"
+#include "./sensors/gradusnik.hpp"
+#include "./output/LCD.hpp"
+#include "./output/RGB.hpp"
+#include "./services/wifi/WIFI.hpp"
+#include "./services/translating/rus.hpp"
 
 extern const byte rgbPins[];
 
@@ -134,6 +134,6 @@ void showNextDisplay() {
             break;
 
         default:
-            Serial.print('Error in showNextDisplay');
+            Serial.print("Error in showNextDisplay");
     }
 }

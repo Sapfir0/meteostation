@@ -1,5 +1,7 @@
 #include "jsonParse.hpp"
 
+#include <Arduino.h>
+
 void ourJson::createJSON()  {
 
     DynamicJsonDocument doc(1024);

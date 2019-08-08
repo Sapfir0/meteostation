@@ -3,6 +3,10 @@
 #include "../json/jsonParse.hpp"
 #include "../http/http.hpp"
 
+// бля не ебумба, без нее не компилит
+#include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
+extern WiFiClient client;
+
 extern const String CityID; // Your City ID
 extern const String APIKEY;
 extern const char *_ssid; // SSID of local network
