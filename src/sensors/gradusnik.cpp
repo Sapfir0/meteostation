@@ -2,9 +2,11 @@
 
 #include <DHT.h> //стандартная либа
 
+#include "../config/config.hpp"
+
 extern const byte DHTPIN;
 extern const byte photoresistor;
-extern const byte  LedLight; //соре за глобал переменные, я потом придумаю, как сделать перменные со значениями из-вне членами класса
+extern const byte LedLight; //соре за глобал переменные, я потом придумаю, как сделать перменные со значениями из-вне членами класса
 
 DHT dht(DHTPIN, DHT11);
 

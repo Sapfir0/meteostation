@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include "config.hpp"
 
 const String CityID = "472757"; // Your City ID
 const String APIKEY = "9881fdc10d1d14339a3a6514d415efa4"; //api openweathermap

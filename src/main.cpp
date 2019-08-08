@@ -10,8 +10,8 @@
 #include "./output/RGB.hpp"
 #include "./services/wifi/WIFI.hpp"
 #include "./services/translating/rus.hpp"
+#include "config/config.hpp"
 
-extern const byte rgbPins[];
 
 EventLoop event_loop;
 LCD led; // экран
