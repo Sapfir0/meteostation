@@ -1,13 +1,17 @@
-#include "./config/config.hpp"
-#include "./sensors/gradusnik.hpp"
-#include "./output/LCD.hpp"
-#include "./output/RGB.hpp"
-#include "./services/wifi/WIFI.hpp"
-#include "./services/translating/rus.hpp"
 #include <Esp.h>
+#include <Arduino.h>
+
 #include <event_loop.h>
 #include <interval.h>
 #include <timer.h>
+
+#include "sensors/gradusnik.hpp"
+#include "output/LCD.hpp"
+#include "output/RGB.hpp"
+#include "services/wifi/WIFI.hpp"
+#include "services/translating/rus.hpp"
+
+extern const byte rgbPins[];
 
 EventLoop event_loop;
 LCD led; // экран
@@ -41,8 +45,8 @@ void setup() {
     esp8266Module.startWifiModule();
     Serial.begin(115200);
     Serial.println("Connecting");
-    lcd.clear(); // rewrite
-    lcd.print("   Connected!");
+    led.clear(); // rewrite
+    led.printf("   Connected!");
     Serial.println("Connected");
 
     delay(200);
