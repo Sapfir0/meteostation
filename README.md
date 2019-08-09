@@ -11,7 +11,8 @@ Small meteostation for smart home
 
 Кинуть в `~/Documents/Arduino/` на Windows или в `~/Arduino на Linux`(по дефолту)
 
-Компилим файл meteostation.ino в любой ide
+~~Компилим файл meteostation.ino в любой ide~~
+ deprecated
 
 Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
 

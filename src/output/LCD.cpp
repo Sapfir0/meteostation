@@ -122,12 +122,3 @@ void LCD::printf(const char * s, T value, Args...args) {
 void LCD::clear() {
     lcd.clear();
 }
-
-void LCD::displayError(String error) {
-    printf(error);
-}
-
-void LCD::displayGameOver() { //compiling error
-    printf("GAME OVER");
-    delay(3000);
-}

@@ -63,8 +63,8 @@ class WIFI {
         void setSunriseTime(long sunriseTime);
 
 
-        const char *getSSID();
-        void setSSID(const char *ssid);
+        const char * getSSID();
+        void setSSID(const char * ssid);
 };
 
 #endif // WIFI_H
