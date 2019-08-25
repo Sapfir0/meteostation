@@ -53,27 +53,31 @@ float Ourtype::toMmRtSt(float GectoPaskal) {
     return res;
 }
 
+// void Ourtype::operator=() {
+
+// }
+
 void Ourtype::parseWeatherJSON(String json) { 
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
-    weatherLocation = root["name"];
-    Country = (root["sys"]["country"]);
+    weatherLocation = root["name"].as<String>();
+    Country = root["sys"]["country"].as<String>();
     Temperature = (root["main"]["temp"]);
     Humidity = (root["main"]["humidity"]);
     Pressure = (root["main"]["pressure"]);
     windSpeed = (root["wind"]["speed"]);
-    windDeg = (root["wind"]["deg"]);
+    windDeg = root["wind"]["deg"];
     sunriseTime = (root["sys"]["sunrise"]);
     sunsetTime = (root["sys"]["sunset"]);
 
-    weatherDescription = (root["weather"]["description"]);
+    weatherDescription = (root["weather"]["description"]).as<String>();
     weatherID = (root["weather"]["id"]);
-    icon = (root["weather"]["icon"]);
+    icon = (root["weather"]["icon"]).as<String>();
     if(!weatherDescription) { // если хотя бы одно провалилось, то можем дальше не проверять
         Serial.println("Default station isnt exist");
-        weatherDescription = (root["weather"]["0"]["description"]);
+        weatherDescription = (root["weather"]["0"]["description"]).as<String>();
         weatherID = (root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
-        icon = (root["weather"]["0"]["icon"]);
+        icon = (root["weather"]["0"]["icon"]).as<String>();
     }
 }
 

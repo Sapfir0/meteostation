@@ -35,7 +35,7 @@ void queryToWeatherServer();
 /**
  * Сменая цвета диода в зависимости от рейтинга
  */
-void setDiodeColorByRating();
+//void setDiodeColorByRating();
 
 void showNextDisplay();
 
@@ -60,7 +60,7 @@ void setup() {
         gradusnik.changeBrightning();
     }, changeBrightningTime, millis));
 
-    event_t lightDiode = makeInterval(setDiodeColorByRating, lightDiodeTime, millis);
+    //event_t lightDiode = makeInterval(setDiodeColorByRating, lightDiodeTime, millis);
 
     event_t delaying(makeInterval(yield, 400, millis));
 
@@ -68,7 +68,7 @@ void setup() {
 
     // добавляем события
     event_loop.addEvent(delaying);
-    event_loop.addEvent(lightDiode);
+    //event_loop.addEvent(lightDiode);
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
@@ -88,11 +88,10 @@ void queryToWeatherServer() {
     esp8266Module.postToOurServer(currentData);
 }
 
-void setDiodeColorByRating(Ourtype type) {
-    auto rating = RGB::weatherDataToRating(type.Temperature,  type.Humidity,  type.Pressure); // weather rating
-    diod.setColorByRating(rating);
-    
-}
+// void setDiodeColorByRating(Ourtype type) {
+//     auto rating = RGB::weatherDataToRating(type.Temperature,  type.Humidity,  type.Pressure); // weather rating
+//     diod.setColorByRating(rating);
+// }
 
 void showDisplayCondition(Ourtype type) {
     led.displayConditions(type.Temperature, 
