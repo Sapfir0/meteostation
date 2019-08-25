@@ -1,12 +1,12 @@
 #include <ESP8266WiFi.h>
-#include "../../sensors/gradusnik.hpp"
-#include "../translating/rus.hpp"
-#include "../json/jsonParse.hpp"
-#include "../http/http.hpp"
+#include "../../sensors/gradusnik.h"
+#include "../translating/rus.h"
+#include "../json/jsonParse.h"
+#include "../http/http.h"
 
 extern WiFiClient client;
 
-#include "../../config/config.hpp"
+#include "../../config/config.h"
 
 
 Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.

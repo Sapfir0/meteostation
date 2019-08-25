@@ -6,8 +6,8 @@
 #define METEOSTATION_OURTYPE_H
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include "../sensors/gradusnik.hpp"
-#include "../services/json/jsonParse.hpp"
+#include "../sensors/gradusnik.h"
+#include "../services/json/jsonParse.h"
 
 class Ourtype {
     public:

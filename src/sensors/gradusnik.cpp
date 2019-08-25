@@ -1,8 +1,8 @@
-#include "gradusnik.hpp"
+#include "gradusnik.h"
 
 #include <DHT.h> //стандартная либа
 
-#include "../config/config.hpp"
+#include "../config/config.h"
 
 extern const byte DHTPIN;
 extern const byte photoresistor;

@@ -5,24 +5,23 @@
 #include <interval.h>
 #include <timer.h>
 
-#include "./sensors/gradusnik.hpp"
-#include "./output/LCD.hpp"
-#include "./output/RGB.hpp"
-#include "./services/wifi/WIFI.hpp"
-#include "./services/translating/rus.hpp"
-#include "config/config.hpp"
-#include "./services/ourtype.h"
+#include "./sensors/gradusnik.h"
+#include "output/LCD.h"
+#include "output/RGB.h"
+#include "services/wifi/WIFI.h"
+#include "services/translating/rus.h"
+#include "config/config.h"
+#include "services/ourtype.h"
 
 EventLoop event_loop;
 LCD led; // экран
 WIFI esp8266Module; // вифи модуль
 Gradusnik gradusnik; // градусник
-rus rus; // хм
+rus russian; // l18n
 
 Ourtype currentData;
 // время в миллисикундах
-const int lightDiodeTime = 20*1000; // время между миганием диода
-const int changeBrightningTime = 10; // как я то хрень
+const int changeBrightningTime = 10; // смена яркости экрана через потенциометр
 const int displayOnLCDTime = 6*1000; // время между каждым экраном
 const int queryToServerTime = 10*60*1000; // время между отправкой и получением данных на сервер
 
@@ -88,7 +87,7 @@ void showDisplayCondition(Ourtype type) {
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.weatherLocation,
-                                rus.getBetterRussianDescription(type.weatherID), 
+                                russian.getBetterRussianDescription(type.weatherID), 
                                 type.Country);
 }
 

@@ -1,4 +1,4 @@
-#include "RGB.hpp"
+#include "RGB.h"
 
 RGB::RGB(byte rgbpin1, byte rgbpin2, byte rgbpin3) {
     rgbPins[0] = rgbpin1;
