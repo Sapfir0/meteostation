@@ -1,4 +1,4 @@
-#include "http.hpp"
+#include "http.h"
 
 #include <ESP8266WiFi.h> //default library for nodemcu, commit this if u use arduino
 
@@ -52,14 +52,6 @@ bool http::skipHttpHeaders() {
     return true;
 }
 
-String http::deleteSpaceForUrlParams(String param) {
-    for(int i=0; i<param.length(); i++) {
-        if(isspace(param[i])) {
-            param[i] = '+';
-        }
-    }
-    return param;
-}
 
 void http::debugSerial(String host, String path, String requestStr) {
     Serial.println("**********НАЧАЛО ЗАПРОСА*******");

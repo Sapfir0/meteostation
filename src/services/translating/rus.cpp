@@ -1,4 +1,4 @@
-#include "rus.hpp"
+#include "rus.h"
 
 String rus::getBetterRussianDescription(int weatherID) {
   String temp = getRussianDescription(weatherID);

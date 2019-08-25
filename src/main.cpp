@@ -5,24 +5,23 @@
 #include <interval.h>
 #include <timer.h>
 
-#include "./sensors/gradusnik.hpp"
-#include "./output/LCD.hpp"
-#include "./output/RGB.hpp"
-#include "./services/wifi/WIFI.hpp"
-#include "./services/translating/rus.hpp"
-#include "config/config.hpp"
-
+#include "./sensors/gradusnik.h"
+#include "output/LCD.h"
+#include "output/RGB.h"
+#include "services/wifi/WIFI.h"
+#include "services/translating/rus.h"
+#include "config/config.h"
+#include "services/ourtype.h"
 
 EventLoop event_loop;
 LCD led; // экран
 WIFI esp8266Module; // вифи модуль
 Gradusnik gradusnik; // градусник
-RGB diod(rgbPins[0], rgbPins[1], rgbPins[2]); // диод
-rus rus; // хм
+rus russian; // l18n
 
+Ourtype currentData;
 // время в миллисикундах
-const int lightDiodeTime = 20*1000; // время между миганием диода
-const int changeBrightningTime = 10; // как я то хрень
+const int changeBrightningTime = 10; // смена яркости экрана через потенциометр
 const int displayOnLCDTime = 6*1000; // время между каждым экраном
 const int queryToServerTime = 10*60*1000; // время между отправкой и получением данных на сервер
 
@@ -30,11 +29,6 @@ const int queryToServerTime = 10*60*1000; // время между отправ�
  * Отправка данных на сервер
  */
 void queryToWeatherServer();
-
-/**
- * Сменая цвета диода в зависимости от рейтинга
- */
-void setDiodeColorByRating();
 
 void showNextDisplay();
 
@@ -59,15 +53,12 @@ void setup() {
         gradusnik.changeBrightning();
     }, changeBrightningTime, millis));
 
-    event_t lightDiode = makeInterval(setDiodeColorByRating, lightDiodeTime, millis);
-
     event_t delaying(makeInterval(yield, 400, millis));
 
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
     // добавляем события
     event_loop.addEvent(delaying);
-    event_loop.addEvent(lightDiode);
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
@@ -82,24 +73,22 @@ void loop() {
 void queryToWeatherServer() {
     led.displayGettingData();
     delay(200);
-    esp8266Module.getWeatherData();
-    delay(1000);    
-    esp8266Module.postToOurServer();
+    currentData = esp8266Module.getWeatherData();
+    delay(200);    
+    esp8266Module.postToOurServer(currentData);
 }
 
-void setDiodeColorByRating() {
-    auto rating = RGB::weatherDataToRating(esp8266Module.getTemperature(),  esp8266Module.getHumidity(),  esp8266Module.getPressure()); // weather rating
-    diod.setColorByRating(rating);
+
+void showDisplayCondition(Ourtype type) {
+    led.displayConditions(type.Temperature, 
+                          type.Humidity, 
+                          type.Pressure); // 765мм рт ст - норма
 }
 
-void showDisplayCondition() {
-    led.displayConditions(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.toMmRtSt(esp8266Module.getPressure())); // 765мм рт ст - норма
-}
-
-void showDisplayWeather() {
-    led.displayWeather(esp8266Module.getWeatherLocation(),
-                                // esp8266Module.getWeatherDescription(),
-                                rus.getBetterRussianDescription(esp8266Module.getWeatherID()), esp8266Module.getCountry());
+void showDisplayWeather(Ourtype type) {
+    led.displayWeather(type.weatherLocation,
+                                russian.getBetterRussianDescription(type.weatherID), 
+                                type.Country);
 }
 
 void showDisplayDHT() {
@@ -118,7 +107,7 @@ void showNextDisplay() {
 
     switch (currentDisplay) {
         case display::Condition:
-            showDisplayWeather();
+            showDisplayWeather(currentData);
             currentDisplay = display::Weather;
             break;
 
@@ -129,7 +118,7 @@ void showNextDisplay() {
 
         case display::Start: // чтобы мы начали с Condition
         case display::displayDHT:
-            showDisplayCondition();
+            showDisplayCondition(currentData);
             currentDisplay = display::Condition;
             break;
 
