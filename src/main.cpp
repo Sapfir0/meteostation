@@ -5,7 +5,7 @@
 #include <interval.h>
 #include <timer.h>
 
-#include "./sensors/gradusnik.h"
+#include "sensors/gradusnik.h"
 #include "output/LCD.h"
 #include "output/RGB.h"
 #include "services/wifi/WIFI.h"
