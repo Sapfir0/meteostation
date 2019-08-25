@@ -17,7 +17,6 @@ EventLoop event_loop;
 LCD led; // экран
 WIFI esp8266Module; // вифи модуль
 Gradusnik gradusnik; // градусник
-RGB diod(rgbPins[0], rgbPins[1], rgbPins[2]); // диод
 rus rus; // хм
 
 Ourtype currentData;
@@ -31,11 +30,6 @@ const int queryToServerTime = 10*60*1000; // время между отправ�
  * Отправка данных на сервер
  */
 void queryToWeatherServer();
-
-/**
- * Сменая цвета диода в зависимости от рейтинга
- */
-//void setDiodeColorByRating();
 
 void showNextDisplay();
 
@@ -60,15 +54,12 @@ void setup() {
         gradusnik.changeBrightning();
     }, changeBrightningTime, millis));
 
-    //event_t lightDiode = makeInterval(setDiodeColorByRating, lightDiodeTime, millis);
-
     event_t delaying(makeInterval(yield, 400, millis));
 
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
     // добавляем события
     event_loop.addEvent(delaying);
-    //event_loop.addEvent(lightDiode);
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
@@ -88,10 +79,6 @@ void queryToWeatherServer() {
     esp8266Module.postToOurServer(currentData);
 }
 
-// void setDiodeColorByRating(Ourtype type) {
-//     auto rating = RGB::weatherDataToRating(type.Temperature,  type.Humidity,  type.Pressure); // weather rating
-//     diod.setColorByRating(rating);
-// }
 
 void showDisplayCondition(Ourtype type) {
     led.displayConditions(type.Temperature, 
