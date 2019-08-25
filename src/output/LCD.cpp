@@ -4,19 +4,29 @@
 
 LCD_1602_RUS lcd(0x27, 16, 2);
 
-void LCD::displayConditions(float Temperature, float Humidity, float Pressure) {
+LCD::LCD() {
+    lcd.begin(16, 2);
+    lcd.init();
+    lcd.backlight();
+    lcd.print("Connecting to");
+    lcd.setCursor(0, 1);
+    lcd.print(esp.getSSID());
+}
 
-    lcd.clear(); // Printing Temperature
+void LCD::displayConditions(float temperature, float humidity, float pressure) {
+    char celsiusSymbol = (char) 223;
+
+    lcd.clear(); 
     lcd.print("T:");
-    lcd.print(Temperature, 1);
-    lcd.print((char) 223);
+    lcd.print(temperature, 1); //1 знак после запятой
+    lcd.print(celsiusSymbol);
     lcd.print("C H:");
-    lcd.print(Humidity, 0); //0 знаков после запятой
+    lcd.print(humidity, 0); //0 знаков после запятой
     lcd.print(" %");
 
     lcd.setCursor(0, 1);
     lcd.print("P: ");
-    lcd.print(Pressure, 1);
+    lcd.print(pressure, 1);
     lcd.print(" mm Hg");
     //lcd.print(" hPa");
 }
@@ -33,7 +43,7 @@ void LCD::displayWeather(String location, String description, String Country) {
     String firstPart, secondPart;
     firstPart.reserve(30);
     secondPart.reserve(30);
-    int tempI;
+    int tempI = 0;
 
     if (description.length() > 26) { //выводит некорректный вывод, думаю из-за представления кириллических символов
         //то мы выводим только длинное описание погоды в две строки
@@ -59,15 +69,6 @@ void LCD::displayWeather(String location, String description, String Country) {
 
 }
 
-void LCD::startLCD() {
-    lcd.begin(16, 2);
-    lcd.init();
-    lcd.backlight();
-    lcd.print("Connecting to");
-    lcd.setCursor(0, 1);
-    WIFI obj;
-    lcd.print(obj.getSSID());
-}
 
 void LCD::loadiiing() {
     static int cursorPosition = 0; //не особо важный код для точечек на LCD
@@ -87,8 +88,8 @@ void LCD::displayDHT() {
     lcd.print(" %");
 
     lcd.setCursor(0, 1);
-    lcd.print("Sansity: ");
-    lcd.print(grad.getIluminating());
+    lcd.print("Пустота: ");
+    lcd.print(" ");
 }
 
 //свой принтф

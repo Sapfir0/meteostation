@@ -7,7 +7,6 @@
 
 #include "sensors/gradusnik.h"
 #include "output/LCD.h"
-#include "output/RGB.h"
 #include "services/wifi/WIFI.h"
 #include "services/translating/rus.h"
 #include "config/config.h"
@@ -33,10 +32,7 @@ void queryToWeatherServer();
 void showNextDisplay();
 
 void setup() {
-    gradusnik.start();
-    led.startLCD();
     gradusnik.changeBrightning();
-    esp8266Module.startWifiModule();
     Serial.begin(115200);
     Serial.println("Connecting");
     led.clear(); // rewrite
@@ -80,15 +76,15 @@ void queryToWeatherServer() {
 
 
 void showDisplayCondition(Ourtype type) {
-    led.displayConditions(type.Temperature, 
-                          type.Humidity, 
-                          type.Pressure); // 765мм рт ст - норма
+    led.displayConditions(type.temperature, 
+                          type.humidity, 
+                          type.pressure); // 765мм рт ст - норма
 }
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.weatherLocation,
                                 russian.getBetterRussianDescription(type.weatherID), 
-                                type.Country);
+                                type.country);
 }
 
 void showDisplayDHT() {

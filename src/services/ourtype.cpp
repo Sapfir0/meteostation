@@ -30,9 +30,9 @@ String Ourtype::toString(Ourtype instance) {
     String requestStr =
         "temperatureInHome=" + String(temperatureInHome)
         + "&humidityInHome=" + String(humidityInHome)
-        + "&temperature=" + String(Temperature)
-        + "&humidity=" + String(Humidity)
-        + "&pressure=" + String(toMmRtSt(Pressure))
+        + "&temperature=" + String(temperature)
+        + "&humidity=" + String(humidity)
+        + "&pressure=" + String(toMmRtSt(pressure))
         + "&weatherId=" + String(weatherID)
         + "&windSpeed=" + String(windSpeed)
         + "&windDeg=" + String(windDeg)
@@ -61,10 +61,10 @@ void Ourtype::parseWeatherJSON(String json) {
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
     weatherLocation = root["name"].as<String>();
-    Country = root["sys"]["country"].as<String>();
-    Temperature = (root["main"]["temp"]);
-    Humidity = (root["main"]["humidity"]);
-    Pressure = (root["main"]["pressure"]);
+    country = root["sys"]["country"].as<String>();
+    temperature = (root["main"]["temp"]);
+    humidity = (root["main"]["humidity"]);
+    pressure = (root["main"]["pressure"]);
     windSpeed = (root["wind"]["speed"]);
     windDeg = root["wind"]["deg"];
     sunriseTime = (root["sys"]["sunrise"]);

@@ -22,10 +22,10 @@ class Ourtype {
 
         String weatherDescription = "";
         String weatherLocation = "";
-        String Country;
-        float Temperature;
-        float Humidity;
-        float Pressure;
+        String country;
+        float temperature;
+        float humidity;
+        float pressure;
         int weatherID;
         int windSpeed;
         String icon;

@@ -4,7 +4,7 @@ String rus::getBetterRussianDescription(int weatherID) {
   String temp = getRussianDescription(weatherID);
   temp.trim();
   //проходим по строке и убираем двойной пробел
-  for(int i = 0; i < temp.length()-2; i++)  {
+  for(uint i = 0; i < temp.length()-2; i++)  {
     if (temp[i] == ' ' and temp[i+1] == ' ') {//почему не isSpace
       temp.remove(i,1); //удалить пробел
     }

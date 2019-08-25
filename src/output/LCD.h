@@ -10,7 +10,7 @@ class LCD {
     WIFI esp;
     Gradusnik grad;
   public:
-    void startLCD();
+    LCD();
     void displayWeather(String location, String description, String Country);
     void displayConditions(float Temperature, float Humidity, float Pressure);
     void displayGettingData();

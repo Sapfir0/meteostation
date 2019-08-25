@@ -35,13 +35,12 @@ void WIFI::postToOurServer(Ourtype data) {
 }
 
 
-void WIFI::startWifiModule() {
+WIFI::WIFI() {
     WiFi.begin(_ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.println("Connection isnt successful");
     }
-    
 }
 
 
