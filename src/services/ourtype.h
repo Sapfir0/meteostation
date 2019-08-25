@@ -11,6 +11,7 @@
 
 class Ourtype {
     public:
+        Ourtype();
         Ourtype(String json);
 
         void parseWeatherJSON(String json);

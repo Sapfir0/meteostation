@@ -20,6 +20,7 @@ Gradusnik gradusnik; // градусник
 RGB diod(rgbPins[0], rgbPins[1], rgbPins[2]); // диод
 rus rus; // хм
 
+Ourtype currentData;
 // время в миллисикундах
 const int lightDiodeTime = 20*1000; // время между миганием диода
 const int changeBrightningTime = 10; // как я то хрень
@@ -82,27 +83,27 @@ void loop() {
 void queryToWeatherServer() {
     led.displayGettingData();
     delay(200);
-    String weatherData = esp8266Module.getWeatherData();
+    currentData = esp8266Module.getWeatherData();
     delay(200);    
-    esp8266Module.postToOurServer(weatherData);
+    esp8266Module.postToOurServer(currentData);
 }
 
-void setDiodeColorByRating() {
-    auto rating = RGB::weatherDataToRating(type.getTemperature(),  type.getHumidity(),  type.getPressure()); // weather rating
+void setDiodeColorByRating(Ourtype type) {
+    auto rating = RGB::weatherDataToRating(type.Temperature,  type.Humidity,  type.Pressure); // weather rating
     diod.setColorByRating(rating);
     
 }
 
-void showDisplayCondition() {
-    led.displayConditions(type.getTemperature(), 
-                          type.getHumidity(), 
-                          type.getPressure()); // 765мм рт ст - норма
+void showDisplayCondition(Ourtype type) {
+    led.displayConditions(type.Temperature, 
+                          type.Humidity, 
+                          type.Pressure); // 765мм рт ст - норма
 }
 
-void showDisplayWeather() {
-    led.displayWeather(type.getWeatherLocation(),
-                                rus.getBetterRussianDescription(type.getWeatherID()), 
-                                type.getCountry());
+void showDisplayWeather(Ourtype type) {
+    led.displayWeather(type.weatherLocation,
+                                rus.getBetterRussianDescription(type.weatherID), 
+                                type.Country);
 }
 
 void showDisplayDHT() {
@@ -121,7 +122,7 @@ void showNextDisplay() {
 
     switch (currentDisplay) {
         case display::Condition:
-            showDisplayWeather();
+            showDisplayWeather(currentData);
             currentDisplay = display::Weather;
             break;
 
@@ -132,7 +133,7 @@ void showNextDisplay() {
 
         case display::Start: // чтобы мы начали с Condition
         case display::displayDHT:
-            showDisplayCondition();
+            showDisplayCondition(currentData);
             currentDisplay = display::Condition;
             break;
 

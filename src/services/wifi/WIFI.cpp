@@ -20,7 +20,7 @@ Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request
 }
 
 
-void WIFI::postToOurServer(String requestStr) {
+void WIFI::postToOurServer(Ourtype data) {
     int port = 80;
     if (!client.connect(ourServer, port)) { //чет не работет, если сюда переменную кинуть
         Serial.println("connection with" + ourServer + "failed");
@@ -29,7 +29,8 @@ void WIFI::postToOurServer(String requestStr) {
     else {
       Serial.println("connection successful");
     }
-    http req;
+    http req; 
+    String requestStr = data.toString(data);
     req.postQuery(ourServer, "/meteostationData", requestStr);
 }
 

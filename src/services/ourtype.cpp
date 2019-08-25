@@ -6,8 +6,12 @@ extern const int meteostationId;
 Ourtype::Ourtype(String json) {
     Gradusnik grad;
     parseWeatherJSON(json);
-    setHumidityInHome(grad.getHumidity());
-    setTemperatureInHome(grad.getTemperature());
+    humidityInHome = (grad.getHumidity());
+    temperatureInHome = (grad.getTemperature());
+}
+
+Ourtype::Ourtype() {
+
 }
 
 String Ourtype::deleteSpaceForUrlParams(String param) {
@@ -21,7 +25,7 @@ String Ourtype::deleteSpaceForUrlParams(String param) {
 
 
 String Ourtype::toString(Ourtype instance) {
-    String engDescription = deleteSpaceForUrlParams(getWeatherDescription());
+    String engDescription = deleteSpaceForUrlParams(weatherDescription);
 
     String requestStr =
         "temperatureInHome=" + String(temperatureInHome)
@@ -52,7 +56,7 @@ float Ourtype::toMmRtSt(float GectoPaskal) {
 void Ourtype::parseWeatherJSON(String json) { 
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
-    weatherLocation = (root["name"]);
+    weatherLocation = root["name"];
     Country = (root["sys"]["country"]);
     Temperature = (root["main"]["temp"]);
     Humidity = (root["main"]["humidity"]);
