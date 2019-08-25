@@ -11,7 +11,7 @@
 #include "./services/wifi/WIFI.hpp"
 #include "./services/translating/rus.hpp"
 #include "config/config.hpp"
-
+#include "./services/ourtype.h"
 
 EventLoop event_loop;
 LCD led; // экран
@@ -82,24 +82,27 @@ void loop() {
 void queryToWeatherServer() {
     led.displayGettingData();
     delay(200);
-    esp8266Module.getWeatherData();
-    delay(1000);    
-    esp8266Module.postToOurServer();
+    String weatherData = esp8266Module.getWeatherData();
+    delay(200);    
+    esp8266Module.postToOurServer(weatherData);
 }
 
 void setDiodeColorByRating() {
-    auto rating = RGB::weatherDataToRating(esp8266Module.getTemperature(),  esp8266Module.getHumidity(),  esp8266Module.getPressure()); // weather rating
+    auto rating = RGB::weatherDataToRating(type.getTemperature(),  type.getHumidity(),  type.getPressure()); // weather rating
     diod.setColorByRating(rating);
+    
 }
 
 void showDisplayCondition() {
-    led.displayConditions(esp8266Module.getTemperature(), esp8266Module.getHumidity(), esp8266Module.toMmRtSt(esp8266Module.getPressure())); // 765мм рт ст - норма
+    led.displayConditions(type.getTemperature(), 
+                          type.getHumidity(), 
+                          type.getPressure()); // 765мм рт ст - норма
 }
 
 void showDisplayWeather() {
-    led.displayWeather(esp8266Module.getWeatherLocation(),
-                                // esp8266Module.getWeatherDescription(),
-                                rus.getBetterRussianDescription(esp8266Module.getWeatherID()), esp8266Module.getCountry());
+    led.displayWeather(type.getWeatherLocation(),
+                                rus.getBetterRussianDescription(type.getWeatherID()), 
+                                type.getCountry());
 }
 
 void showDisplayDHT() {
