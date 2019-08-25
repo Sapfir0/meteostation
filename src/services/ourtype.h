@@ -18,39 +18,7 @@ class Ourtype {
         float toMmRtSt(float GectoPaskal);
         String deleteSpaceForUrlParams(String param);
 
-        String getWeatherDescription();
-        String getWeatherLocation();
-        String getCountry();
-        float getTemperature();
-        float getHumidity();
-        float getPressure();
-        int getWeatherID();
-        int getWindSpeed();
-        String getIcon();
-        double getUVindex();
-        int getWindDeg();
-        long getSunsetTime();
-        long getSunriseTime();
-        double getTemperatureInHome();
-        double getHumidityInHome();
 
-        void setWeatherDescription(String weatherDescription);
-        void setWeatherLocation(String weatherLocation);
-        void setCountry(String country);
-        void setTemperature(float temperature);
-        void setHumidity(float humidity);
-        void setPressure(float pressure);
-        void setWeatherID(int weatherID);
-        void setWindSpeed(int windSpeed);
-        void setIcon(String icon);
-        void setWindDeg(int windDeg);
-        void setUVindex(double uvindex);
-        void setSunsetTime(long sunsetTime);
-        void setSunriseTime(long sunriseTime);
-        void setTemperatureInHome(double temperatureInHome);
-        void setHumidityInHome(double humidityInHome);
-
-    private:
         String weatherDescription = "";
         String weatherLocation = "";
         String Country;
@@ -67,7 +35,7 @@ class Ourtype {
 
         double humidityInHome;
         double temperatureInHome;
-} 
+};
 
 
 #endif //METEOSTATION_OURTYPE_H

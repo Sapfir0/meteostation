@@ -3,14 +3,13 @@
 #include "../translating/rus.hpp"
 #include "../json/jsonParse.hpp"
 #include "../http/http.hpp"
-#include "../ourtype.h"
 
 extern WiFiClient client;
 
 #include "../../config/config.hpp"
 
 
-void WIFI::getWeatherData()  { // client function to send/receive GET request data.
+Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.
     http req;
     String requestStr = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
     req.getQuery("api.openweathermap.org", "/data/2.5/weather", requestStr);

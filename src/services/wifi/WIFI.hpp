@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <ctime>
+#include "../ourtype.h"
 
 class WIFI {
     private:
@@ -12,7 +13,7 @@ class WIFI {
     public:
         void postToOurServer(String requestStr);
         void startWifiModule();
-        void getWeatherData();
+        Ourtype getWeatherData();
 
         const char * getSSID();
         void setSSID(const char * ssid);
