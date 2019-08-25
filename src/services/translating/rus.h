@@ -9,7 +9,6 @@ class rus {
     public:
         String getRussianDescription(int weatherID);
         String getBetterRussianDescription(int weatherID);
-        String urlEncode(String rusString);
 };
 
 #endif // RUS_H

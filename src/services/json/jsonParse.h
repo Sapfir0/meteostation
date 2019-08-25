@@ -10,8 +10,6 @@ class ourJson
     public:
         void createJSON();
         DynamicJsonDocument parseJSON(String json);
-        //DynamicJsonDocument setJSON();
-
 };
 
 #endif // JSON_H

@@ -25,19 +25,3 @@ DynamicJsonDocument ourJson::parseJSON(String json)  {
     }
     return root;
 }
-
-
-
-// DynamicJsonDocument WIFI::setJSON() {    
-//     Gradusnik grad;
-//     rus rus;
-//     std::time_t result = std::time(nullptr);
-//     DynamicJsonDocument request(1024);
-//     request["TempInHome"] = grad.getTemperature();
-//     request["HumInHome"] = grad.getHumidity();
-//     request["Temperature"] = getTemperature();
-//     request["Pressure"] = getPressure();
-//     request["WeatherDescription"] = rus.getBetterRussianDescription(getWeatherID());
-//     request["CURRENTTIMESTAMP"] = std::asctime(std::localtime(&result));
-//     return request;
-// }
