@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <ctime>
-#include "../ourtype.h"
+#include "../types/ourtype.h"
 
 class WIFI {
     private:

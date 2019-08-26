@@ -1,7 +1,6 @@
 #ifndef LCD_H
 #define LCD_H
 
-
 #include "services/wifi/WIFI.h"
 #include "sensors/gradusnik.h"
 

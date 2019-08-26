@@ -10,7 +10,7 @@
 #include "services/wifi/WIFI.h"
 #include "services/translating/rus.h"
 #include "config/config.h"
-#include "services/ourtype.h"
+#include "services/types/ourtype.h"
 
 EventLoop event_loop;
 LCD led; // экран
@@ -76,15 +76,15 @@ void queryToWeatherServer() {
 
 
 void showDisplayCondition(Ourtype type) {
-    led.displayConditions(type.temperature, 
-                          type.humidity, 
-                          type.pressure); // 765мм рт ст - норма
+    led.displayConditions(type.outside.temperature, 
+                          type.outside.humidity, 
+                          type.outside.pressure); // 765мм рт ст - норма
 }
 
 void showDisplayWeather(Ourtype type) {
-    led.displayWeather(type.weatherLocation,
-                                russian.getBetterRussianDescription(type.weatherID), 
-                                type.country);
+    led.displayWeather(type.outside.weatherLocation,
+                                russian.getBetterRussianDescription(type.outside.weatherID), 
+                                type.outside.country);
 }
 
 void showDisplayDHT() {

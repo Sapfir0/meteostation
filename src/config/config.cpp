@@ -6,10 +6,10 @@ const char *_ssid = "WiFi-DOM.ru-1520"; // SSID of local network
 const char *password = "sapfir1997";   // Password on network
 
 // pins
-const byte DHTPIN = D4;
-const byte photoresistor = A0;
-const byte LedLight = D6;
-const byte rgbPins[3] = {D5, D8, D7};
+const uint8_t DHTPIN = D4;
+const uint8_t analogPin = A0;
+const uint8_t LedLight = D6;
+const uint8_t rgbPins[3] = {D5, D8, D7};
 
 const String ourServer = "meteo-server.herokuapp.com";
 const int meteostationId = 1;
