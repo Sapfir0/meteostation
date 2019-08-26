@@ -17,8 +17,8 @@ class Ourtype {
         };
 
         struct street  {
-            String weatherDescription = "";
-            String weatherLocation = "";
+            String weatherDescription;
+            String weatherLocation;
             String country;
             float temperature;
             float humidity;
@@ -30,25 +30,32 @@ class Ourtype {
             long sunsetTime;
             long sunriseTime;
             double uvindex;
+                
         };
-        
         
         Ourtype();
         Ourtype(String json);
 
         void parseWeatherJSON(String json);
         String toString(Ourtype instance);
-        float toMmRtSt(float GectoPaskal);
         String deleteSpaceForUrlParams(String param);
-    
+
+        enum pressureUnits {
+            gPa,  // гигапаскали
+            hhMg  // миллиметры ртутного столба
+        };
+        enum temperatureUnits {
+            C, // celcium
+            F // farenheit
+        };
+
+        float getPressure(pressureUnits mode);
+        float getTemperature(temperatureUnits mode);
 //    private:
         street outside;
         home inside;
 
-
-
 };
-
 
 
 #endif //METEOSTATION_OURTYPE_H

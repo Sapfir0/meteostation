@@ -2,8 +2,8 @@
 
 const String CityID = "472757"; // Your City ID
 const String APIKEY = "9881fdc10d1d14339a3a6514d415efa4"; //api openweathermap
-const char *_ssid = "WiFi-DOM.ru-1520"; // SSID of local network
-const char *password = "sapfir1997";   // Password on network
+const String ssid = "Home mommy"; // SSID of local network
+const String password = "sapfir1997";   // Password on network
 
 // pins
 const uint8_t DHTPIN = D4;

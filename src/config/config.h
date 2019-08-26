@@ -2,8 +2,8 @@
 
 extern const String CityID; // Your City ID
 extern const String APIKEY; //api openweathermap
-extern const char *_ssid; // SSID of local network
-extern const char *password;   // Password on network
+extern const String ssid; // SSID of local network
+extern const String password;   // Password on network
 
 // pins
 extern const uint8_t DHTPIN;

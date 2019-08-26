@@ -9,14 +9,17 @@
 class WIFI {
     private:
         String result;
+        String _ssid;
+        String _password;
 
     public:
+        WIFI();
         void postToOurServer(Ourtype requestStr);
         void startWifiModule();
         Ourtype getWeatherData();
 
-        const char * getSSID();
-        void setSSID(const char * ssid);
+        String getSSID();
+        void setSSID(String ssid);
 };
 
 #endif // WIFI_H

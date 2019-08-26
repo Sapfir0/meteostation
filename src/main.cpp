@@ -79,7 +79,7 @@ void queryToWeatherServer() {
 void showDisplayCondition(Ourtype type) {
     led.displayConditions(type.outside.temperature, 
                           type.outside.humidity, 
-                          type.outside.pressure); // 765мм рт ст - норма
+                          type.getPressure(type.hhMg) ); // 765мм рт ст - норма
 }
 
 void showDisplayWeather(Ourtype type) {

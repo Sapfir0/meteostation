@@ -1,5 +1,7 @@
 #include "ourtype.h"
 #include "../../config.h"
+#include "../convertors/pressure.h"
+#include "../convertors/temperature.h"
 
 extern const int meteostationId;
 
@@ -14,8 +16,35 @@ Ourtype::Ourtype() {
 
 }
 
+
+float Ourtype::getPressure(pressureUnits mode) {
+    switch (mode)  {
+    case gPa:
+        return outside.pressure;
+        break;
+    case hhMg:
+        return toMmRtSt(outside.pressure);
+        break;
+    default:
+        break;
+    }
+}
+
+
+float Ourtype::getTemperature(temperatureUnits mode) {
+    switch (mode)  {
+    case C:
+        break;
+    case F:
+        break;
+    default:
+        break;
+    }
+}
+
+
 String Ourtype::deleteSpaceForUrlParams(String param) {
-    for(uint i=0; i<param.length(); i++) {
+    for(uint i = 0; i < param.length(); i++) {
         if(isspace(param[i])) {
             param[i] = '+';
         }
@@ -23,6 +52,30 @@ String Ourtype::deleteSpaceForUrlParams(String param) {
     return param;
 }
 
+// #include <map>
+// std::map params = {
+//     "temperatureInHome": inside.temperature,
+//     "humidityInHome": inside.humidity,
+//     "temperature": outside.temperature
+//     "humidity": outside.humidity,
+//     "pressure": toMmRtSt(outside.pressure),
+//     "weatherId": outside.weatherID,
+//     "windSpeed": outside.windSpeed,
+//     "windDeg": outside.windDeg,
+//     "icon": outside.icon,
+//     "engWeatherDescription": engDescription,
+//     "meteostationId": meteostationId,
+//     "sunriseTime": outside.sunriseTime,
+//     "sunsetTime": outside.sunsetTime
+
+// }
+
+// String Ourtype::fromDictToString(std::map params<String, void*>) {
+//     String requestStr = "";
+//     for(auto& i : params) {
+
+//     }
+// }
 
 String Ourtype::toString(Ourtype instance) {
     String engDescription = deleteSpaceForUrlParams(outside.weatherDescription);
@@ -46,11 +99,6 @@ String Ourtype::toString(Ourtype instance) {
     return requestStr;
 }
 
-float Ourtype::toMmRtSt(float GectoPaskal) {
-    float res = 0;
-    res = GectoPaskal * 100 / 133;
-    return res;
-}
 
 // void Ourtype::operator=() {
 

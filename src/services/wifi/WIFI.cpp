@@ -8,6 +8,11 @@ extern WiFiClient client;
 
 #include "../../config/config.h"
 
+WIFI::WIFI() {
+    Serial.println("Сработал конструктор по умолчанию ");
+    this->_ssid = ssid;
+    this->_password = password;
+}
 
 Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.
     http req;
@@ -36,7 +41,7 @@ void WIFI::postToOurServer(Ourtype data) {
 
 
 void WIFI::startWifiModule() {
-    WiFi.begin(_ssid, password);
+    WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.println("Connection isnt successful");
@@ -44,10 +49,10 @@ void WIFI::startWifiModule() {
 }
 
 
-const char * WIFI::getSSID() {
+String WIFI::getSSID() {
     return _ssid;
 }
 
-void WIFI::setSSID(const char * ssid) {
+void WIFI::setSSID(String ssid) {
     _ssid = ssid;
 }
