@@ -8,15 +8,14 @@
 #include "sensors/gradusnik.h"
 #include "output/LCD.h"
 #include "services/wifi/WIFI.h"
-#include "services/translating/rus.h"
+#include "services/convertors/rus.h"
 #include "config/config.h"
 #include "services/types/ourtype.h"
 
 EventLoop event_loop;
+WIFI esp8266Module; // вифи модуль
 LCD led; // экран
 Gradusnik gradusnik; // градусник
-WIFI esp8266Module; // вифи модуль
-rus russian; // l18n
 
 Ourtype currentData;
 // время в миллисикундах
@@ -35,24 +34,20 @@ void setup() {
     gradusnik.changeBrightning();
     esp8266Module.startWifiModule();	
     Serial.begin(115200);
-    Serial.println("Connecting");
     led.clear(); // rewrite
     led.printf("   Connected!");
     Serial.println("Connected");
-
     delay(200);
 
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
+    event_t delaying(makeInterval(yield, 400, millis));
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
+    event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
     event_t changeBrightning(makeInterval([]() {
         gradusnik.changeBrightning();
     }, changeBrightningTime, millis));
-
-    event_t delaying(makeInterval(yield, 400, millis));
-
-    event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
     // добавляем события
     event_loop.addEvent(delaying);
@@ -64,27 +59,27 @@ void setup() {
 }
 
 void loop() {
-    // do loop ...
+    // fake loop ...
 }
 
 void queryToWeatherServer() {
     led.displayGettingData();
-    delay(200);
+    delay(100);
     currentData = esp8266Module.getWeatherData();
-    delay(200);    
+    delay(100);    
     esp8266Module.postToOurServer(currentData);
 }
 
 
 void showDisplayCondition(Ourtype type) {
-    led.displayConditions(type.outside.temperature, 
+    led.displayConditions(type.getTemperature(type.C), 
                           type.outside.humidity, 
                           type.getPressure(type.hhMg) ); // 765мм рт ст - норма
 }
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.outside.weatherLocation,
-                                russian.getBetterRussianDescription(type.outside.weatherID), 
+                                type.getWeatherDescription(type.RU), 
                                 type.outside.country);
 }
 

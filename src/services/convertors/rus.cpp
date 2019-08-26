@@ -1,6 +1,6 @@
 #include "rus.h"
 
-String rus::getBetterRussianDescription(int weatherID) {
+String getBetterRussianDescription(int weatherID) {
   String temp = getRussianDescription(weatherID);
   temp.trim();
   //проходим по строке и убираем двойной пробел
@@ -17,7 +17,7 @@ String rus::getBetterRussianDescription(int weatherID) {
 
 
 
-String rus::getRussianDescription(int weatherID) { 
+String getRussianDescription(int weatherID) { 
   
   String thunderstorm = " гроза " ;
   String with = " c " ;

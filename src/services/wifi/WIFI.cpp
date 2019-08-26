@@ -1,6 +1,5 @@
 #include <ESP8266WiFi.h>
 #include "../../sensors/gradusnik.h"
-#include "../translating/rus.h"
 #include "../json/jsonParse.h"
 #include "../http/http.h"
 
@@ -9,16 +8,14 @@ extern WiFiClient client;
 #include "../../config/config.h"
 
 WIFI::WIFI() {
-    Serial.println("Сработал конструктор по умолчанию ");
     this->_ssid = ssid;
     this->_password = password;
 }
 
 Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.
-    http req;
-    String requestStr = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
-    req.getQuery("api.openweathermap.org", "/data/2.5/weather", requestStr);
-    result = req.getResponseFromServer(result);
+    String url = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
+    getQuery("api.openweathermap.org", "/data/2.5/weather", url);
+    result = getResponseFromServer(result);
 
     Ourtype type(result);
     return type;
@@ -27,32 +24,26 @@ Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request
 
 void WIFI::postToOurServer(Ourtype data) {
     int port = 80;
-    if (!client.connect(ourServer, port)) { //чет не работет, если сюда переменную кинуть
+    if (!client.connect(ourServer, port)) { 
         Serial.println("connection with" + ourServer + "failed");
         return;
     }
     else {
       Serial.println("connection successful");
     }
-    http req; 
     String requestStr = data.toString(data);
-    req.postQuery(ourServer, "/meteostationData", requestStr);
+    postQuery(ourServer, routing, requestStr);
 }
 
 
 void WIFI::startWifiModule() {
-    WiFi.begin(ssid, password);
+    WiFi.begin(_ssid, _password);
     while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
+        delay(50);
         Serial.println("Connection isnt successful");
     }
 }
 
-
 String WIFI::getSSID() {
     return _ssid;
-}
-
-void WIFI::setSSID(String ssid) {
-    _ssid = ssid;
 }

@@ -48,9 +48,14 @@ class Ourtype {
             C, // celcium
             F // farenheit
         };
+        enum translation {
+            EN,
+            RU
+        };
 
         float getPressure(pressureUnits mode);
         float getTemperature(temperatureUnits mode);
+        String getWeatherDescription(translation mode);
 //    private:
         street outside;
         home inside;

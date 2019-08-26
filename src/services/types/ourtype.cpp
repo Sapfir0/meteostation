@@ -2,6 +2,7 @@
 #include "../../config.h"
 #include "../convertors/pressure.h"
 #include "../convertors/temperature.h"
+#include "../convertors/rus.h"
 
 extern const int meteostationId;
 
@@ -14,32 +15,6 @@ Ourtype::Ourtype(String json) {
 
 Ourtype::Ourtype() {
 
-}
-
-
-float Ourtype::getPressure(pressureUnits mode) {
-    switch (mode)  {
-    case gPa:
-        return outside.pressure;
-        break;
-    case hhMg:
-        return toMmRtSt(outside.pressure);
-        break;
-    default:
-        break;
-    }
-}
-
-
-float Ourtype::getTemperature(temperatureUnits mode) {
-    switch (mode)  {
-    case C:
-        break;
-    case F:
-        break;
-    default:
-        break;
-    }
 }
 
 
@@ -100,10 +75,6 @@ String Ourtype::toString(Ourtype instance) {
 }
 
 
-// void Ourtype::operator=() {
-
-// }
-
 void Ourtype::parseWeatherJSON(String json) { 
     ourJson ourjson;
     DynamicJsonDocument root = ourjson.parseJSON(json);
@@ -128,3 +99,35 @@ void Ourtype::parseWeatherJSON(String json) {
     }
 }
 
+float Ourtype::getPressure(pressureUnits mode) {
+    switch (mode)  {
+    case gPa:
+        return outside.pressure;
+    case hhMg:
+        return toMmRtSt(outside.pressure);
+    default:
+        return outside.pressure;
+    }
+}
+
+float Ourtype::getTemperature(temperatureUnits mode) {
+    switch (mode)  {
+    case C:
+        return outside.temperature;
+    case F:
+        return toFarenheit(outside.temperature);
+    default:
+        return outside.temperature;
+    }
+}
+
+String Ourtype::getWeatherDescription(translation mode) {
+    switch (mode)  {
+    case EN:
+        return outside.weatherDescription;
+    case RU:
+        return getBetterRussianDescription(outside.weatherID);
+    default:
+        return outside.weatherDescription;
+    }
+}

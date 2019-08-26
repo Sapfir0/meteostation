@@ -13,3 +13,4 @@ extern const uint8_t rgbPins[3];
 
 extern const String ourServer;
 extern const int meteostationId;
+extern const String routing;

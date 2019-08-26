@@ -4,7 +4,7 @@
 
 WiFiClient client;
 
-bool http::postQuery(String host, String path, String requestStr) {
+bool postQuery(String host, String path, String requestStr) {
 
     client.println("POST " + path + "?" + requestStr + " HTTP/1.1");
     client.println("Host: " + host );
@@ -32,7 +32,7 @@ bool http::postQuery(String host, String path, String requestStr) {
     return false; // это не верно, но логику сани нам не понять
 }
 
-void http::checkConnection() {
+void checkConnection() {
     while (client.connected() && !client.available()) {
         delay(1); // waits for data
         Serial.println("ЧИЛЮ");
@@ -42,7 +42,7 @@ void http::checkConnection() {
     }
 }
 
-bool http::skipHttpHeaders() {
+bool skipHttpHeaders() {
     char endOfHeaders[] = "\r\n\r\n";
     if (!client.find(endOfHeaders)) {
         Serial.println(F("Invalid response"));
@@ -53,7 +53,7 @@ bool http::skipHttpHeaders() {
 }
 
 
-void http::debugSerial(String host, String path, String requestStr) {
+void debugSerial(String host, String path, String requestStr) {
     Serial.println("**********НАЧАЛО ЗАПРОСА*******");
     Serial.println("POST " + path +" HTTP/1.1");
     Serial.println("Host: " + host );
@@ -67,7 +67,7 @@ void http::debugSerial(String host, String path, String requestStr) {
 
 }
 
-bool http::getQuery(String host, String path, String requestStr="\0") {
+bool getQuery(String host, String path, String requestStr="\0") {
     if (requestStr != "\0") {
         path+="?";
     }
@@ -86,7 +86,7 @@ bool http::getQuery(String host, String path, String requestStr="\0") {
     //client.stop();
 }
 
-bool http::countWritenBytes() {
+bool countWritenBytes() {
     if (client.println() == 0) {
         Serial.println(F("Failed to send request"));
         return false;
@@ -94,7 +94,7 @@ bool http::countWritenBytes() {
     return true;
 }
 
-bool http::checkResponse() {
+bool checkResponse() {
     char status[32] = {0};
     client.readBytesUntil('\r', status, sizeof(status));
     if (strcmp(status, "HTTP/1.1 200 OK") != 0) {
@@ -106,7 +106,7 @@ bool http::checkResponse() {
     return true;
 }
 
-String http::getResponseFromServer(String result) {
+String getResponseFromServer(String result) {
     while (client.connected() && !client.available())
         delay(1); // waits for data
     while (client.connected() || client.available()) {
@@ -119,7 +119,7 @@ String http::getResponseFromServer(String result) {
     return result;
 }
 
-bool http::connectToHost(String host) {
+bool connectToHost(String host) {
 
     if (!client.connected()) {
         client.connect(host, 80);

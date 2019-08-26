@@ -9,7 +9,7 @@ LCD::LCD() {
     lcd.backlight();
     lcd.print("Connecting to");
     lcd.setCursor(0, 1);
-    lcd.print(esp.getSSID());
+    lcd.print(esp.getSSID());  // не отобразится
 }
 
 void LCD::displayConditions(float temperature, float humidity, float pressure) {
