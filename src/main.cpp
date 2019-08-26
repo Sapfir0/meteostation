@@ -14,8 +14,8 @@
 
 EventLoop event_loop;
 LCD led; // экран
-WIFI esp8266Module; // вифи модуль
 Gradusnik gradusnik; // градусник
+WIFI esp8266Module; // вифи модуль
 rus russian; // l18n
 
 Ourtype currentData;
@@ -33,6 +33,7 @@ void showNextDisplay();
 
 void setup() {
     gradusnik.changeBrightning();
+    esp8266Module.startWifiModule();	
     Serial.begin(115200);
     Serial.println("Connecting");
     led.clear(); // rewrite

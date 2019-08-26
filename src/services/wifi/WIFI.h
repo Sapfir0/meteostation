@@ -11,7 +11,6 @@ class WIFI {
         String result;
 
     public:
-        WIFI();
         void postToOurServer(Ourtype requestStr);
         void startWifiModule();
         Ourtype getWeatherData();

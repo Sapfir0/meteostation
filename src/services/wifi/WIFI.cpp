@@ -35,7 +35,7 @@ void WIFI::postToOurServer(Ourtype data) {
 }
 
 
-WIFI::WIFI() {
+void WIFI::startWifiModule() {
     WiFi.begin(_ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
