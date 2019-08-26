@@ -1,8 +1,6 @@
 #include "jsonParse.h"
 
-#include <Arduino.h>
-
-void ourJson::createJSON()  {
+void createJSON()  {
 
     DynamicJsonDocument doc(1024);
     doc["key"] = "value";
@@ -10,7 +8,7 @@ void ourJson::createJSON()  {
     serializeJson(doc, Serial);
 }
 
-DynamicJsonDocument ourJson::parseJSON(String json)  {
+DynamicJsonDocument parseJSON(String json)  {
     json.replace('[', ' ');
     json.replace(']', ' ');
     Serial.println(json);
@@ -21,7 +19,6 @@ DynamicJsonDocument ourJson::parseJSON(String json)  {
     DeserializationError error = deserializeJson(root, jsonArray); //JsonObject &root = json_buf.parseObject(jsonArray);
     if (error) {
         Serial.println("Error while parsing json");
-        //return;
     }
     return root;
 }

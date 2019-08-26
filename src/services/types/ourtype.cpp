@@ -27,30 +27,6 @@ String Ourtype::deleteSpaceForUrlParams(String param) {
     return param;
 }
 
-// #include <map>
-// std::map params = {
-//     "temperatureInHome": inside.temperature,
-//     "humidityInHome": inside.humidity,
-//     "temperature": outside.temperature
-//     "humidity": outside.humidity,
-//     "pressure": toMmRtSt(outside.pressure),
-//     "weatherId": outside.weatherID,
-//     "windSpeed": outside.windSpeed,
-//     "windDeg": outside.windDeg,
-//     "icon": outside.icon,
-//     "engWeatherDescription": engDescription,
-//     "meteostationId": meteostationId,
-//     "sunriseTime": outside.sunriseTime,
-//     "sunsetTime": outside.sunsetTime
-
-// }
-
-// String Ourtype::fromDictToString(std::map params<String, void*>) {
-//     String requestStr = "";
-//     for(auto& i : params) {
-
-//     }
-// }
 
 String Ourtype::toString(Ourtype instance) {
     String engDescription = deleteSpaceForUrlParams(outside.weatherDescription);
@@ -76,8 +52,7 @@ String Ourtype::toString(Ourtype instance) {
 
 
 void Ourtype::parseWeatherJSON(String json) { 
-    ourJson ourjson;
-    DynamicJsonDocument root = ourjson.parseJSON(json);
+    DynamicJsonDocument root = parseJSON(json);
     outside.weatherLocation = root["name"].as<String>();
     outside.country = root["sys"]["country"].as<String>();
     outside.temperature = root["main"]["temp"];

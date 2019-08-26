@@ -3,6 +3,8 @@
 
 LCD_1602_RUS lcd(0x27, 16, 2);
 
+char celsiusSymbol = (char) 223;
+
 LCD::LCD() {
     lcd.begin(16, 2);
     lcd.init();
@@ -13,8 +15,6 @@ LCD::LCD() {
 }
 
 void LCD::displayConditions(float temperature, float humidity, float pressure) {
-    char celsiusSymbol = (char) 223;
-
     lcd.clear(); 
     lcd.print("T:");
     lcd.print(temperature, 1); //1 знак после запятой
@@ -46,7 +46,7 @@ void LCD::displayWeather(String location, String description, String Country) {
 
     if (description.length() > 26) { //выводит некорректный вывод, думаю из-за представления кириллических символов
         //то мы выводим только длинное описание погоды в две строки
-        for (int i = 26; i > 0; i--) {
+        for (int i = 26; i > 0; i--) { // вот же хуевая хуйня ща тебя перехуячу
             if (description[i] == ' ') { //выбираем символ с которого будем делать перенос - это будет максимально близкий к 16 пробел
                 tempI = i; //нам не нужен пробел
                 break;
@@ -65,9 +65,7 @@ void LCD::displayWeather(String location, String description, String Country) {
         lcd.setCursor(0, 1);
         lcd.print(description);
     }
-
 }
-
 
 void LCD::loadiiing() {
     static int cursorPosition = 0; //не особо важный код для точечек на LCD
@@ -80,7 +78,7 @@ void LCD::displayDHT() {
     lcd.clear();
     lcd.print("T:");
     lcd.print(grad.getTemperature(), 1);
-    lcd.print((char) 223); //кружок для градуса
+    lcd.print(celsiusSymbol); 
 
     lcd.print("C  H:"); // Printing Humidity
     lcd.print(grad.getHumidity(), 0);
@@ -103,10 +101,10 @@ void LCD::printf(String s) {
 }
 
 template <typename T, typename...Args>
-void LCD::printf(const char * s, T value, Args...args) {
-    while ( * s) {
-        if ( * s == '%') {
-            if ( * (s + 1) == '%') {
+void LCD::printf(const char *s, T value, Args...args) {
+    while ( *s) {
+        if ( *s == '%') {
+            if ( *(s + 1) == '%') {
                 ++s;
             } else {
                 lcd.print(value);
@@ -115,7 +113,7 @@ void LCD::printf(const char * s, T value, Args...args) {
                 return;
             }
         }
-        lcd.print( * s++);
+        lcd.print( *s++);
     }
 }
 

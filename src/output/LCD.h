@@ -8,6 +8,7 @@ class LCD {
   private:
     WIFI esp;
     Gradusnik grad;
+
   public:
     LCD();
     void displayWeather(String location, String description, String Country);

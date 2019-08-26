@@ -79,7 +79,7 @@ void showDisplayCondition(Ourtype type) {
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.outside.weatherLocation,
-                                type.getWeatherDescription(type.RU), 
+                                type.getWeatherDescription(type.EN), 
                                 type.outside.country);
 }
 
