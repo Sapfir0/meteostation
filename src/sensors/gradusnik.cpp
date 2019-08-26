@@ -2,7 +2,8 @@
 #include "gradusnik.h"
 #include "../config/config.h"
 
-extern const byte DHTPIN;
+extern const uint8_t DHTPIN;
+extern const uint8_t analogPin;
 
 DHT dht(DHTPIN, DHT11);
 
@@ -20,13 +21,13 @@ float Gradusnik::getHumidity() {
     return humidity;
 }
 
-float Gradusnik::getValueFromAnalogPort() { 
-    return analogRead(photoresistor);  // сюда может быть подлючен фоторезистор либо потенциометтр 
+float Gradusnik::getValueFromAnalogPort(const uint8_t port=analogPin) { 
+    return analogRead(port);  // сюда может быть подлючен фоторезистор либо потенциометтр 
 }
 
 
 void Gradusnik::changeBrightning() {
-    int brightn = getValueFromAnalogPort() / 4; 
+    int brightn = getValueFromAnalogPort(analogPin) / 4; 
     //возвращаемое значение с порта - 1024 - приводим к 256
     analogWrite(D6, brightn);
 }
