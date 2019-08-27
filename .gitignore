@@ -3,3 +3,4 @@
 lib
 .idea
 *.code-*
+cmake-*
