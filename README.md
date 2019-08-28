@@ -1,29 +1,44 @@
 # Meteostation in our home!
 
-## En
-Small meteostation for smart home
-
-[Librarys for normally use app](https://yadi.sk/d/TCMbow6C5QRp4w)
-<p>Throw this in /Documents/Arduino/ on Windows or in ~/Arduino on Linux(with default settings)
-
 ## Ru
-[Либы для использования метеостанции](https://yadi.sk/d/TCMbow6C5QRp4w)
 
-Кинуть в `~/Documents/Arduino/` на Windows или в `~/Arduino на Linux`(по дефолту)
+Т.к. как проект использует platformio, его необходимо установить
+    
+    pip3 install plaftormio --user
 
-~~Компилим файл meteostation.ino в любой ide~~
- deprecated
+>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.cpp.
 
-Пины для подключения модулей, а также данные от домашней сети настраиваются в config.hpp.
+## IDE installation guide
+### Clion
+
+Первоначальное создание Cmake
+
+    pio init --ide clion
+    
+Выбрать ![](https://sun9-43.userapi.com/c855732/v855732524/d5eb8/WgKoxFqRcHA.jpg)
+
+
+### Vscode 
+Установить соответствующее расширение
+
+### Arduino IDE
+Т.к. тут нет прямой поддержки platformio и node mcu, придется поработать ручками. 
+
+* `src/main.cpp` следует переименовать в `meteostation/meteostation.ino` - решит проблему с platformio
+* <p> <a href="http://robotclass.ru/articles/node-mcu-arduino-ide-setup/">Инструкция по установке Node mcu в ArduinoIDE</a>
+
+И компилировать `meteostation/meteostation.ino` в детской ide.
+
 
 ### Библиотеки:
+Подгрузятся с platformio автоматически, но вот список зависимостей:
 
 * Обязательные:
     * [Библиотека для асинхронной работы с ардуино](https://github.com/avdosev/async-library-arduino)
     * Библиотека для работы с DHT11
     * Библиотека для работы с LCD 1602
     * Все зависимости для них
-* Необязательные
+* Необязательные (без нее все равно не скомпилируется)
     * LCD russian
 
 ### Информация о прошивках:
@@ -61,11 +76,3 @@ Small meteostation for smart home
 ![alt text][three]
 
 [three]: https://pp.userapi.com/c846123/v846123459/1f23c9/MBUddAPYiYo.jpg "Third information"
-
-
-## FAQ
-
-<p> <a href="http://robotclass.ru/articles/node-mcu-arduino-ide-setup/">Инструкция по установке Node mcu в ArduinoIDE</a>
-
-
-

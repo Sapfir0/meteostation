@@ -64,7 +64,6 @@ void debugSerial(String host, String path, String requestStr) {
     Serial.println();
     Serial.println(requestStr );
     Serial.println("**********КОНЕЦ ЗАПРОСА*******");
-
 }
 
 bool getQuery(String host, String path, String requestStr="\0") {
