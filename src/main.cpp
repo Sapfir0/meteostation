@@ -81,7 +81,7 @@ void showDisplayWeather(Ourtype type) {
 }
 
 void showDisplayDHT() {
-    led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity());
+    led.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
 }
 
 void showNextDisplay() {

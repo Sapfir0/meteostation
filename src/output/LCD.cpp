@@ -75,7 +75,7 @@ void LCD::loadiiing() {
     cursorPosition++;
 }
 
-void LCD::displayDHT(float temperature, float humidity) {
+void LCD::displayConditions(float temperature, float humidity) {
     lcd.clear();
     lcd.print("T:");
     lcd.print(temperature, 1);
