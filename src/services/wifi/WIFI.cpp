@@ -1,5 +1,6 @@
 #include <ESP8266WiFi.h>
-#include "../../sensors/gradusnik.h"
+
+#include "./WIFI.h"
 #include "../json/jsonParse.h"
 #include "../http/http.h"
 
@@ -28,10 +29,9 @@ void WIFI::postToOurServer(Ourtype data) {
         Serial.println("connection with" + ourServer + "failed");
         return;
     }
-    else {
-      Serial.println("connection successful");
-    }
-    String requestStr = data.toString(data);
+
+    Serial.println("connection successful");
+    String requestStr = data.toString();
     postQuery(ourServer, routing, requestStr);
 }
 

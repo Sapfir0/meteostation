@@ -7,6 +7,8 @@ extern const String password;   // Password on network
 
 // pins
 extern const uint8_t DHTPIN;
+extern const uint8_t DHTTYPE;
+
 extern const uint8_t analogPin;
 extern const uint8_t LedLight;
 extern const uint8_t rgbPins[3];

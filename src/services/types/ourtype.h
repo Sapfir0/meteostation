@@ -4,6 +4,7 @@
 
 #ifndef METEOSTATION_OURTYPE_H
 #define METEOSTATION_OURTYPE_H
+
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "../../sensors/gradusnik.h"
@@ -37,7 +38,7 @@ class Ourtype {
         Ourtype(String json);
 
         void parseWeatherJSON(String json);
-        String toString(Ourtype instance);
+        String toString();
         String deleteSpaceForUrlParams(String param);
 
         enum pressureUnits {

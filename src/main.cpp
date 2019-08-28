@@ -15,7 +15,7 @@
 EventLoop event_loop;
 WIFI esp8266Module; // вифи модуль
 LCD led; // экран
-Gradusnik gradusnik; // градусник
+Gradusnik gradusnik(DHTPIN, DHTTYPE); // градусник
 
 Ourtype currentData;
 // время в миллисикундах
@@ -41,7 +41,6 @@ void setup() {
 
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
-    event_t delaying(makeInterval(yield, 400, millis));
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
@@ -50,16 +49,14 @@ void setup() {
     }, changeBrightningTime, millis));
 
     // добавляем события
-    event_loop.addEvent(delaying);
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
-
-    event_loop.exec(); // запускаем цикл событий
 }
 
 void loop() {
-    // fake loop ...
+    if (event_loop.isRunning())
+        event_loop.runNext();
 }
 
 void queryToWeatherServer() {
@@ -84,7 +81,7 @@ void showDisplayWeather(Ourtype type) {
 }
 
 void showDisplayDHT() {
-    led.displayDHT();
+    led.displayDHT(gradusnik.getTemperature(), gradusnik.getHumidity());
 }
 
 void showNextDisplay() {
