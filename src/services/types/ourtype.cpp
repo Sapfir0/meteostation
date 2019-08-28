@@ -5,12 +5,12 @@
 #include "../convertors/rus.h"
 
 extern const int meteostationId;
+extern Gradusnik gradusnik;
 
 Ourtype::Ourtype(String json) {
-    Gradusnik grad;
     parseWeatherJSON(json);
-    inside.humidity = (grad.getHumidity());
-    inside.temperature = (grad.getTemperature());
+    inside.humidity = gradusnik.getHumidity();
+    inside.temperature = gradusnik.getTemperature();
 }
 
 Ourtype::Ourtype() {
@@ -28,7 +28,7 @@ String Ourtype::deleteSpaceForUrlParams(String param) {
 }
 
 
-String Ourtype::toString(Ourtype instance) {
+String Ourtype::toString() {
     String engDescription = deleteSpaceForUrlParams(outside.weatherDescription);
     String requestStr =
         "temperatureInHome=" + String(inside.temperature)
@@ -76,33 +76,33 @@ void Ourtype::parseWeatherJSON(String json) {
 
 float Ourtype::getPressure(pressureUnits mode) {
     switch (mode)  {
-    case gPa:
-        return outside.pressure;
-    case hhMg:
-        return toMmRtSt(outside.pressure);
-    default:
-        return outside.pressure;
+        case gPa:
+            return outside.pressure;
+        case hhMg:
+            return toMmRtSt(outside.pressure);
+        default:
+            return outside.pressure;
     }
 }
 
 float Ourtype::getTemperature(temperatureUnits mode) {
     switch (mode)  {
-    case C:
-        return outside.temperature;
-    case F:
-        return toFarenheit(outside.temperature);
-    default:
-        return outside.temperature;
+        case C:
+            return outside.temperature;
+        case F:
+            return toFarenheit(outside.temperature);
+        default:
+            return outside.temperature;
     }
 }
 
 String Ourtype::getWeatherDescription(translation mode) {
     switch (mode)  {
-    case EN:
-        return outside.weatherDescription;
-    case RU:
-        return getBetterRussianDescription(outside.weatherID);
-    default:
-        return outside.weatherDescription;
+        case EN:
+            return outside.weatherDescription;
+        case RU:
+            return getBetterRussianDescription(outside.weatherID);
+        default:
+            return outside.weatherDescription;
     }
 }

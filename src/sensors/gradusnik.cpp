@@ -1,12 +1,11 @@
-#include <DHT.h> 
 #include "gradusnik.h"
-#include "../config/config.h"
+#include <DHT.h>
 
-extern const uint8_t DHTPIN;
 
-DHT dht(DHTPIN, DHT11);
+extern const uint8_t analogPin;
 
-Gradusnik::Gradusnik() {
+Gradusnik::Gradusnik(uint8_t dhtPin, uint8_t dhtType) :
+        dht(dhtPin, dhtType) {
     dht.begin();
 }
 

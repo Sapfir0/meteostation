@@ -1,5 +1,6 @@
 #include "LCD.h"
 #include <LCD_1602_RUS.h>
+#include "config/config.h"
 
 LCD_1602_RUS lcd(0x27, 16, 2);
 
@@ -12,7 +13,7 @@ LCD::LCD() {
     lcd.backlight();
     lcd.print("Connecting to");
     lcd.setCursor(0, 1);
-    lcd.print(esp.getSSID());  // не отобразится
+    lcd.print(ssid);  // не отобразится // хз
 }
 
 void LCD::displayConditions(float temperature, float humidity, float pressure) {
@@ -69,14 +70,14 @@ void LCD::displayWeather(String location, String description, String Country) {
 }
 
 
-void LCD::displayDHT() {
+void LCD::displayConditions(float temperature, float humidity) {
     lcd.clear();
     lcd.print("T:");
-    lcd.print(grad.getTemperature(), 1);
+    lcd.print(temperature, 1);
     lcd.print(celsiusSymbol); 
 
     lcd.print("C  H:"); // Printing Humidity
-    lcd.print(grad.getHumidity(), 0);
+    lcd.print(humidity, 0);
     lcd.print(" %");
 
     lcd.setCursor(0, 1);
