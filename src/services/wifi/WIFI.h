@@ -8,7 +8,6 @@
 
 class WIFI {
     private:
-        String result;
         String _ssid;
         String _password;
 

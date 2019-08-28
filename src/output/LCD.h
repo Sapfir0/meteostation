@@ -20,13 +20,10 @@ class LCD {
     void printf(const char *s, T value, Args... args);  // eeeee
     void printf(const char *s);
     void printf(String s);
-
     void clear();
 
-    void displayGameOver();
-    void loadiiing();  // not used now
-    void displayError(String error);
     void changeBrightning();
+    float getValueFromAnalogPort(const uint8_t port);
 
 };
 

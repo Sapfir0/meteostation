@@ -3,6 +3,7 @@
 
 LCD_1602_RUS lcd(0x27, 16, 2);
 
+extern const uint8_t analogPin;
 char celsiusSymbol = (char) 223;
 
 LCD::LCD() {
@@ -67,12 +68,6 @@ void LCD::displayWeather(String location, String description, String Country) {
     }
 }
 
-void LCD::loadiiing() {
-    static int cursorPosition = 0; //не особо важный код для точечек на LCD
-    lcd.setCursor(cursorPosition, 2);
-    lcd.print(".");
-    cursorPosition++;
-}
 
 void LCD::displayDHT() {
     lcd.clear();
@@ -119,4 +114,15 @@ void LCD::printf(const char *s, T value, Args...args) {
 
 void LCD::clear() {
     lcd.clear();
+}
+
+float LCD::getValueFromAnalogPort(const uint8_t port=analogPin) {
+    return analogRead(port);  // сюда может быть подлючен фоторезистор либо потенциометтр
+}
+
+
+void LCD::changeBrightning() {
+    int brightn = getValueFromAnalogPort(analogPin) / 4;
+    //возвращаемое значение с порта - 1024 - приводим к 256
+    analogWrite(D6, brightn);
 }

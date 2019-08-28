@@ -1,9 +1,6 @@
-#include <Esp.h>
 #include <Arduino.h>
-
 #include <event_loop.h>
 #include <interval.h>
-#include <timer.h>
 
 #include "sensors/gradusnik.h"
 #include "output/LCD.h"
@@ -15,7 +12,6 @@
 EventLoop event_loop;
 WIFI esp8266Module; // вифи модуль
 LCD led; // экран
-Gradusnik gradusnik; // градусник
 
 Ourtype currentData;
 // время в миллисикундах
@@ -31,7 +27,7 @@ void queryToWeatherServer();
 void showNextDisplay();
 
 void setup() {
-    gradusnik.changeBrightning();
+    led.changeBrightning();
     esp8266Module.startWifiModule();	
     Serial.begin(115200);
     led.clear(); // rewrite
@@ -46,7 +42,7 @@ void setup() {
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
     event_t changeBrightning(makeInterval([]() {
-        gradusnik.changeBrightning();
+        led.changeBrightning();
     }, changeBrightningTime, millis));
 
     // добавляем события

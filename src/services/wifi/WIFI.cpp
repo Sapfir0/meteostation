@@ -1,11 +1,9 @@
 #include <ESP8266WiFi.h>
-#include "../../sensors/gradusnik.h"
 #include "../json/jsonParse.h"
 #include "../http/http.h"
+#include "../../config/config.h"
 
 extern WiFiClient client;
-
-#include "../../config/config.h"
 
 WIFI::WIFI() {
     this->_ssid = ssid;
@@ -15,7 +13,7 @@ WIFI::WIFI() {
 Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.
     String url = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
     getQuery("api.openweathermap.org", "/data/2.5/weather", url);
-    result = getResponseFromServer(result);
+    String result = getResponseFromServer(result);
 
     Ourtype type(result);
     return type;
