@@ -4,6 +4,9 @@
 #include "../http/http.h"
 #include "../../config/config.h"
 
+#include <ESP8266WiFiMulti.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClient.h>
 extern WiFiClient client;
 
 WIFI::WIFI() {
@@ -12,12 +15,13 @@ WIFI::WIFI() {
 }
 
 Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to send/receive GET request data.
-    String params = "id=" + CityID // либо сделать передачу русских букв по http либо переводить через rus.cpp
+    String params = "?id=" + CityID // либо сделать передачу русских букв по http либо переводить через rus.cpp
                 + "&units=" + units
                 + "&lang=" + lang
                 + "&APPID=" + APIKEY;
-    getQuery("api.openweathermap.org", "/data/2.5/weather", params);
-    String result = getResponseFromServer(result);
+    String url = "http://api.openweathermap.org/data/2.5/weather" + params;
+
+    String result = get(url); // до первого слеша хост, после урл
 
     Ourtype type(result);
     return type;
@@ -30,10 +34,10 @@ void WIFI::postToOurServer(Ourtype data) {
         Serial.println("connection with" + ourServer + "failed");
         return;
     }
-
     Serial.println("connection successful");
     String requestStr = data.toString();
-    postQuery(ourServer, routing, requestStr);
+    String url = ourServer + routing;
+    post(url, requestStr);
 }
 
 
