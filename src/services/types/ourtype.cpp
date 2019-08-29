@@ -66,10 +66,10 @@ void Ourtype::parseWeatherJSON(String json) {
     outside.weatherDescription = (root["weather"]["description"]).as<String>();
     outside.weatherID = (root["weather"]["id"]);
     outside.icon = (root["weather"]["icon"]).as<String>();
-    if(!outside.weatherDescription) { // если хотя бы одно провалилось, то можем дальше не проверять
-        Serial.println("Default station isnt exist");
+    if(!outside.weatherDescription) {  // если хотя бы одно провалилось, то можем дальше не проверять
+        Serial.println("Default station isn't exist");
         outside.weatherDescription = (root["weather"]["0"]["description"]).as<String>();
-        outside.weatherID = (root["weather"]["0"]["id"]); //если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
+        outside.weatherID = (root["weather"]["0"]["id"]);  // если погода в городе разная, то станций будет много, и нужно получать хотя бы с одной
         outside.icon = (root["weather"]["0"]["icon"]).as<String>();
     }
 }

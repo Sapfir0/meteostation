@@ -59,7 +59,7 @@ class Ourtype {
         String getWeatherDescription(translation mode);
 //    private:
         street outside;
-        home inside;
+        home inside{};
 
 };
 
