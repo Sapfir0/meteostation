@@ -13,7 +13,6 @@ void createJSON()  {
 DynamicJsonDocument parseJSON(String json)  {
     json.replace('[', ' ');
     json.replace(']', ' ');
-    Serial.println(json);
     char jsonArray[json.length() + 1];
     json.toCharArray(jsonArray, sizeof(jsonArray));
     jsonArray[json.length() + 1] = '\0';
