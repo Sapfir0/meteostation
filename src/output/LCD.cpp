@@ -14,7 +14,8 @@ LCD::LCD() {
     lcd.backlight();
     lcd.print("Connecting to");
     lcd.setCursor(0, 1);
-    printf(ssid);  // не отобразится // хз
+    Serial.println(ssid);
+    lcd.print(ssid);  // TODO к этому момент ssid пустой. почему?
 }
 
 void LCD::displayConditions(float temperature, float humidity, float pressure) {
@@ -47,7 +48,7 @@ void LCD::displayWeather(String location, String description, String Country) {
     secondPart.reserve(30);
     int tempI = 0;
 
-    if (description.length() > 26) { //выводит некорректный вывод, думаю из-за представления кириллических символов
+    if (description.length() > 26) { // TODO выводит некорректный вывод, думаю из-за представления кириллических символов
         //то мы выводим только длинное описание погоды в две строки
         for (int i = 26; i > 0; i--) { // вот же хуевая хуйня ща тебя перехуячу
             if (description[i] == ' ') { //выбираем символ с которого будем делать перенос - это будет максимально близкий к 16 пробел

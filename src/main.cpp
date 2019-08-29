@@ -2,16 +2,15 @@
 #include <event_loop.h>
 #include <interval.h>
 
-#include "sensors/gradusnik.h"
+#include "sensors/Gradusnik.h"
 #include "output/LCD.h"
 #include "services/wifi/WIFI.h"
-#include "services/convertors/rus.h"
 #include "config/config.h"
 #include "services/types/ourtype.h"
 #include "services/time/Time.h"
 
 EventLoop event_loop;
-WIFI esp8266Module; // вифи модуль
+WIFI esp8266Module(ssid, password); // вифи модуль
 LCD led; // экран
 Gradusnik gradusnik(DHTPIN, DHTTYPE); // градусник
 
@@ -30,9 +29,9 @@ void queryToWeatherServer();
 void showNextDisplay();
 
 void setup() {
-    led.changeBrightning();
-    esp8266Module.startWifiModule();	
     Serial.begin(115200);
+    led.changeBrightning();
+    esp8266Module.startWifiModule();
     led.clear(); // rewrite
     led.printf("   Connected!");
     Serial.println("Connected");
@@ -81,7 +80,7 @@ void showDisplayCondition(Ourtype type) {
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.outside.weatherLocation,
-                                type.getWeatherDescription(type.EN),
+                                type.outside.weatherDescription,
                                 type.outside.country);
 }
 

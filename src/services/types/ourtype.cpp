@@ -2,7 +2,6 @@
 #include "../../config.h"
 #include "../convertors/pressure.h"
 #include "../convertors/temperature.h"
-#include "../convertors/rus.h"
 
 extern const int meteostationId;
 extern Gradusnik gradusnik;
@@ -93,16 +92,5 @@ float Ourtype::getTemperature(temperatureUnits mode) {
             return toFarenheit(outside.temperature);
         default:
             return outside.temperature;
-    }
-}
-
-String Ourtype::getWeatherDescription(translation mode) {
-    switch (mode)  {
-        case EN:
-            return outside.weatherDescription;
-        case RU:
-            return getBetterRussianDescription(outside.weatherDescription);
-        default:
-            return outside.weatherDescription;
     }
 }

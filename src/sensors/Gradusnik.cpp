@@ -1,4 +1,4 @@
-#include "gradusnik.h"
+#include "Gradusnik.h"
 #include <DHT.h>
 
 

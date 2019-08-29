@@ -7,7 +7,7 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include "../../sensors/gradusnik.h"
+#include "sensors/Gradusnik.h"
 #include "../../services/json/jsonParse.h"
 
 class Ourtype {
@@ -49,14 +49,9 @@ class Ourtype {
             C, // celcium
             F // farenheit
         };
-        enum translation {
-            EN,
-            RU
-        };
 
         float getPressure(pressureUnits mode);
         float getTemperature(temperatureUnits mode);
-        String getWeatherDescription(translation mode);
 //    private:
         street outside;
         home inside{};

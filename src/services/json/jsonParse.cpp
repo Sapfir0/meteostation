@@ -1,14 +1,6 @@
 #include "jsonParse.h"
-
 #include <Arduino.h>
 
-void createJSON()  {
-
-    DynamicJsonDocument doc(1024);
-    doc["key"] = "value";
-    doc["raw"] = serialized("[1,2,3]");
-    serializeJson(doc, Serial);
-}
 
 DynamicJsonDocument parseJSON(String json)  {
     json.replace('[', ' ');

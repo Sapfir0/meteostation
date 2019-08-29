@@ -12,10 +12,10 @@ class WIFI {
         String _password;
 
     public:
-        WIFI();
+        WIFI(String _ssid, String _password);
         void postToOurServer(Ourtype requestStr);
         void startWifiModule();
-        Ourtype getWeatherData(String units="metric", String lang="en");
+        Ourtype getWeatherData(const String& units="metric", const String& lang="en");
 
 };
 

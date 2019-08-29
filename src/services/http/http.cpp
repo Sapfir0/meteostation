@@ -2,8 +2,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-WiFiClient client;
-
 String get(String url) {
     return request("get", url);
 }
