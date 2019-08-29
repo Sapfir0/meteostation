@@ -101,7 +101,7 @@ String Ourtype::getWeatherDescription(translation mode) {
         case EN:
             return outside.weatherDescription;
         case RU:
-            return getBetterRussianDescription(outside.weatherID);
+            return getBetterRussianDescription(outside.weatherDescription);
         default:
             return outside.weatherDescription;
     }

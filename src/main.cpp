@@ -60,7 +60,7 @@ void loop() {
 void queryToWeatherServer() {
     led.displayGettingData();
     delay(100);
-    currentData = esp8266Module.getWeatherData();
+    currentData = esp8266Module.getWeatherData("metric", "ru");
     delay(100);    
     esp8266Module.postToOurServer(currentData);
 }
@@ -74,7 +74,7 @@ void showDisplayCondition(Ourtype type) {
 
 void showDisplayWeather(Ourtype type) {
     led.displayWeather(type.outside.weatherLocation,
-                                type.getWeatherDescription(type.EN), 
+                                type.getWeatherDescription(type.EN),
                                 type.outside.country);
 }
 

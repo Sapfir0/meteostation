@@ -11,9 +11,12 @@ WIFI::WIFI() {
     this->_password = password;
 }
 
-Ourtype WIFI::getWeatherData()  { // client function to send/receive GET request data.
-    String url = "id=" + CityID +"&units=metric&APPID=" + APIKEY;
-    getQuery("api.openweathermap.org", "/data/2.5/weather", url);
+Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to send/receive GET request data.
+    String params = "id=" + CityID // либо сделать передачу русских букв по http либо переводить через rus.cpp
+                + "&units=" + units
+                + "&lang=" + lang
+                + "&APPID=" + APIKEY;
+    getQuery("api.openweathermap.org", "/data/2.5/weather", params);
     String result = getResponseFromServer(result);
 
     Ourtype type(result);
@@ -42,6 +45,3 @@ void WIFI::startWifiModule() {
     }
 }
 
-String WIFI::getSSID() {
-    return _ssid;
-}

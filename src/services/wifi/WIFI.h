@@ -15,10 +15,8 @@ class WIFI {
         WIFI();
         void postToOurServer(Ourtype requestStr);
         void startWifiModule();
-        Ourtype getWeatherData();
+        Ourtype getWeatherData(String units="metric", String lang="en");
 
-        String getSSID();
-        void setSSID(String ssid);
 };
 
 #endif // WIFI_H

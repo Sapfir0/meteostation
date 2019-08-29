@@ -13,7 +13,7 @@ LCD::LCD() {
     lcd.backlight();
     lcd.print("Connecting to");
     lcd.setCursor(0, 1);
-    lcd.print(ssid);  // не отобразится // хз
+    printf(ssid);  // не отобразится // хз
 }
 
 void LCD::displayConditions(float temperature, float humidity, float pressure) {
