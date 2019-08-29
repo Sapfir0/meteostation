@@ -1,5 +1,6 @@
 #include "LCD.h"
 #include <LCD_1602_RUS.h>
+#include <services/time/Time.h>
 #include "config/config.h"
 
 LCD_1602_RUS lcd(0x27, 16, 2);
@@ -83,6 +84,15 @@ void LCD::displayConditions(float temperature, float humidity) {
     lcd.setCursor(0, 1);
     lcd.print("Пустота: ");
     lcd.print(" ");
+}
+
+void LCD::displayTime(Time t) {
+    clear();
+    printf("Time:");
+    lcd.setCursor(0, 1);
+    auto h = t.hour();
+    String hour(h%12), min(t.minute()),  half(h<=12 ? "AM" : "PM");
+    printf("%s: %s %s", hour, min, half);
 }
 
 //свой принтф

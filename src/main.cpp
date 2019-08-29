@@ -89,12 +89,17 @@ void showDisplayDHT() {
     led.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
 }
 
+void showTimeToDisplay(Time t) {
+    led.displayTime(t);
+}
+
 void showNextDisplay() {
     enum class display {
         Start,
         Condition,
         Weather,
-        displayDHT
+        displayDHT,
+        Time
     };
 
     static display currentDisplay = display::Start; 
@@ -113,9 +118,17 @@ void showNextDisplay() {
         case display::Start: // чтобы мы начали с Condition
         case display::displayDHT:
             showDisplayCondition(currentData);
-            currentDisplay = display::Condition;
+            currentDisplay = display::Time;
             break;
 
+        case display::Time: {
+            Time timeToDisplay;
+            timeToDisplay = Time::current();
+            timeToDisplay.setTimezone(4);
+            showTimeToDisplay(timeToDisplay);
+            currentDisplay = display::Condition;
+            break;
+        }
         default:
             Serial.print("Error in showNextDisplay");
     }
