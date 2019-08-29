@@ -16,14 +16,14 @@ String request(String method, String url, String data) {
     HTTPClient http;
     String payload = "";
     http.begin(url);
-
+    Serial.println(url);
     if (method == "get") {
         int httpCode = http.GET();
         if (httpCode <= 0) {
-            //return false;
+            Serial.println("Bad get code " + String(httpCode));
         }
         String payload = http.getString();
-        //Serial.println(payload);
+        Serial.println(payload);
     }
     else if (method == "post") {
 
@@ -32,11 +32,9 @@ String request(String method, String url, String data) {
         String payload = http.getString();
 
         if (httpCode != 200) {
-            Serial.println("Bad code " + String(httpCode));
-            //return false;
+            Serial.println("Bad post code " + String(httpCode));
         }
-       //Serial.println(httpCode);
-       //Serial.println(payload);
+       Serial.println(payload);
     }
     else {
         Serial.println("Undefined method");

@@ -19,7 +19,8 @@ Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to
                 + "&units=" + units
                 + "&lang=" + lang
                 + "&APPID=" + APIKEY;
-    String url = "api.openweathermap.org/data/2.5/weather" + params;
+    String url = "http://api.openweathermap.org/data/2.5/weather" + params;
+
     String result = get(url); // до первого слеша хост, после урл
 
     Ourtype type(result);
