@@ -8,6 +8,7 @@
 #include "services/convertors/rus.h"
 #include "config/config.h"
 #include "services/types/ourtype.h"
+#include "services/time/Time.h"
 
 EventLoop event_loop;
 WIFI esp8266Module; // вифи модуль
@@ -37,8 +38,13 @@ void setup() {
     Serial.println("Connected");
     delay(200);
 
+    Time::updateFromNTP();
+
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
+    event_t timeCheker(makeInterval([](){
+        Serial.println(asctime(Time::current().tmStruct()));
+    }, 5000, millis));
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
@@ -50,6 +56,7 @@ void setup() {
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
+    event_loop.addEvent(timeCheker);
 }
 
 void loop() {
