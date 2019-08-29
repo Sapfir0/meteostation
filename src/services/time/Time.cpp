@@ -6,12 +6,11 @@
 
 #include <ESP8266WiFi.h>
 
-Time::Time(uint8_t timezone) : timezone(timezone) {
-
+Time::Time() {
+    *this = Time::current();
 }
 
 Time::Time(time_t time) : _time(time) {
-
 }
 
 /**
@@ -31,4 +30,28 @@ Time Time::current() {
 
 tm* Time::tmStruct() {
     return gmtime(&(this->_time));
+}
+
+Time::Time(int h, int m, int s) {
+    this->setHMS(h, m, s);
+}
+
+int Time::hour() {
+    return (_time/(60*60)+timezone)%24;
+}
+int Time::minute() {
+    return _time/(60)%60;
+}
+int Time::second() {
+    return _time%60;
+}
+
+void Time::setHMS(int h, int m, int s) {
+    // хз вроде так
+    unsigned int seconds_time = (h*360)+(m*60)+s;
+    this->_time = seconds_time;
+}
+
+void Time::setTimezone(int timezone) {
+    this->timezone = timezone;
 }
