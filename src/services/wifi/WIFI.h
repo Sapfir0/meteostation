@@ -1,9 +1,8 @@
 #ifndef WIFI_H
 #define WIFI_H
 
-#include <Arduino.h>
-#include <ArduinoJson.h>
-#include <ctime>
+#include <WString.h>
+
 #include "../types/ourtype.h"
 
 class WIFI {

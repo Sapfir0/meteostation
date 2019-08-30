@@ -2,10 +2,13 @@
 #include <event_loop.h>
 #include <interval.h>
 
-#include "sensors/Gradusnik.h"
-#include "output/LCD.h"
-#include "services/wifi/WIFI.h"
 #include "config/config.h"
+
+#include "output/LCD.h"
+
+#include "sensors/Gradusnik.h"
+
+#include "services/wifi/WIFI.h"
 #include "services/types/ourtype.h"
 #include "services/time/Time.h"
 
@@ -41,9 +44,6 @@ void setup() {
 
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
-    event_t timeCheker(makeInterval([](){
-        Serial.println(asctime(Time::current().tmStruct()));
-    }, 5000, millis));
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
     event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
 
@@ -55,7 +55,6 @@ void setup() {
     event_loop.addEvent(queryToServer);
     event_loop.addEvent(changeBrightning);
     event_loop.addEvent(changeDisplay);
-    event_loop.addEvent(timeCheker);
 }
 
 void loop() {

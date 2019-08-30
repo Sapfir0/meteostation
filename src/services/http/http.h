@@ -1,4 +1,4 @@
-#include "output/LCD.h"
+#include <WString.h>
 
 String get(String url);
 String post(String url, String data);

@@ -1,4 +1,5 @@
-#include <Arduino.h>
+#include <cinttypes>
+#include <WString.h>
 
 extern const String CityID; // Your City ID
 extern const String openweathermapServer;

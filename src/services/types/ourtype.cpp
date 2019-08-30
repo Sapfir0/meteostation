@@ -1,7 +1,12 @@
 #include "ourtype.h"
-#include "../../config.h"
+
+
+#include "config/config.h"
 #include "../convertors/pressure.h"
 #include "../convertors/temperature.h"
+
+#include "sensors/Gradusnik.h"
+#include "services/json/jsonParse.h"
 
 extern const int meteostationId;
 extern Gradusnik gradusnik;

@@ -1,7 +1,7 @@
 #ifndef LCD_H
 #define LCD_H
 
-#include <Arduino.h>
+#include <WString.h>
 
 class Time;
 

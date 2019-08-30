@@ -5,10 +5,10 @@
 #ifndef METEOSTATION_OURTYPE_H
 #define METEOSTATION_OURTYPE_H
 
-#include <Arduino.h>
-#include <ArduinoJson.h>
-#include "sensors/Gradusnik.h"
-#include "../../services/json/jsonParse.h"
+#include <WString.h>
+
+
+
 
 class Ourtype {
     public:
