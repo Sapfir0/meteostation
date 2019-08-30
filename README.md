@@ -1,14 +1,22 @@
 # Meteostation in our home!
 
-## Ru
+>Пины для подключения модулей, а также данные от домашней сети настраиваются в config.cpp.
+### Using firmware so simplify
 
+#### Windows
+[Инструкция по использованию flash download tool](http://wiki.amperka.ru/%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D1%8B:esp8266:flash-download-tool)
+Загружаем стабильную прошивку с последнего релиза и грузим на плату
+__Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
+
+#### Linux
+    esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 firmware.bin
+__Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
+
+## IDE installation guide for developers
 Т.к. как проект использует platformio, его необходимо установить
     
     pip3 install plaftormio --user
-
->Пины для подключения модулей, а также данные от домашней сети настраиваются в config.cpp.
-
-## IDE installation guide
+    
 ### Clion
 
 Первоначальное создание Cmake
