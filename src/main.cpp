@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <event_loop.h>
 #include <interval.h>
+#include <map>
 
 #include "config/config.h"
 
@@ -83,13 +84,31 @@ void showDisplayWeather(Ourtype type) {
                                 type.outside.country);
 }
 
+void showCurrentWeatherToDisplay() {
+    showDisplayCondition(currentData);
+}
+
+void showCurrentConditionToDisplay() {
+    showDisplayCondition(currentData);
+}
+
 void showDisplayDHT() {
     led.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
 }
 
+
 void showTimeToDisplay(Time t) {
     led.displayTime(t);
 }
+
+void showCurrentTimeToDisplay() {
+    Time timeToDisplay;
+    timeToDisplay = Time::current();
+    timeToDisplay.setTimezone(4);
+    showTimeToDisplay(timeToDisplay);
+}
+
+
 
 void showNextDisplay() {
     enum class display {
@@ -100,34 +119,23 @@ void showNextDisplay() {
         Time
     };
 
-    static display currentDisplay = display::Start; 
+    static display currentDisplay = display::Start;
 
-    switch (currentDisplay) {
-        case display::Condition:
-            showDisplayWeather(currentData);
-            currentDisplay = display::Weather;
-            break;
+    struct State {
+        display nextState;
+        callback_t callback;
+    };
 
-        case display::Weather:
-            showDisplayDHT();
-            currentDisplay = display::displayDHT;
-            break;
+    static std::map<display, State> states{
+        {display::Start, {display::Time, showCurrentWeatherToDisplay}},
+        {display::displayDHT, {display::Time, showCurrentWeatherToDisplay}},
+        {display::Weather, {display::displayDHT, showDisplayDHT}},
+        {display::Condition, {display::Weather, showCurrentConditionToDisplay}},
+        {display::Time, {display::Condition, showCurrentTimeToDisplay}}
+    };
 
-        case display::Start: // чтобы мы начали с Condition
-        case display::displayDHT:
-            showDisplayCondition(currentData);
-            currentDisplay = display::Time;
-            break;
-
-        case display::Time: {
-            Time timeToDisplay;
-            timeToDisplay = Time::current();
-            timeToDisplay.setTimezone(4);
-            showTimeToDisplay(timeToDisplay);
-            currentDisplay = display::Condition;
-            break;
-        }
-        default:
-            Serial.print("Error in showNextDisplay");
-    }
+    auto states_iterator = states.find(currentDisplay);
+    State newState = states_iterator->second;
+    currentDisplay = newState.nextState;
+    newState.callback();
 }
