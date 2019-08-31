@@ -13,13 +13,16 @@
 #include "services/types/ourtype.h"
 #include "services/time/Time.h"
 
+#include <view/View.h>
+
 EventLoop event_loop;
 WIFI esp8266Module(ssid, password); // вифи модуль
 LCD led; // экран
+View display(led);
+
 Gradusnik gradusnik(DHTPIN, DHTTYPE); // градусник
-
-
 Ourtype currentData;
+
 // время в миллисикундах
 const int changeBrightningTime = 10; // смена яркости экрана через потенциометр
 const int displayOnLCDTime = 6*1000; // время между каждым экраном
@@ -64,51 +67,34 @@ void loop() {
 }
 
 void queryToWeatherServer() {
-    led.displayGettingData();
+    display.displayGettingData();
     delay(100);
     currentData = esp8266Module.getWeatherData("metric", "ru");
     delay(100);    
     esp8266Module.postToOurServer(currentData);
 }
 
-
-void showDisplayCondition(Ourtype type) {
-    led.displayConditions(type.getTemperature(type.C), 
-                          type.outside.humidity, 
-                          type.getPressure(type.hhMg) ); // 765мм рт ст - норма
-}
-
-void showDisplayWeather(Ourtype type) {
-    led.displayWeather(type.outside.weatherLocation,
-                                type.outside.weatherDescription,
-                                type.outside.country);
-}
-
 void showCurrentWeatherToDisplay() {
-    showDisplayCondition(currentData);
+    display.displayWeather(currentData.outside.weatherLocation,
+                       currentData.outside.weatherDescription,
+                       currentData.outside.country);
 }
 
 void showCurrentConditionToDisplay() {
-    showDisplayCondition(currentData);
+    display.displayConditions(currentData.getTemperature(Ourtype::C),
+                          currentData.outside.humidity,
+                          currentData.getPressure(Ourtype::hhMg) ); // 765мм рт ст - норма
 }
 
 void showDisplayDHT() {
-    led.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
-}
-
-
-void showTimeToDisplay(Time t) {
-    led.displayTime(t);
+    display.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
 }
 
 void showCurrentTimeToDisplay() {
-    Time timeToDisplay;
-    timeToDisplay = Time::current();
+    Time timeToDisplay = Time::current();
     timeToDisplay.setTimezone(4);
-    showTimeToDisplay(timeToDisplay);
+    display.displayTime(timeToDisplay);
 }
-
-
 
 void showNextDisplay() {
     enum class display {
@@ -127,15 +113,17 @@ void showNextDisplay() {
     };
 
     static std::map<display, State> states{
+        /* current / next / callback */
         {display::Start, {display::Time, showCurrentWeatherToDisplay}},
         {display::displayDHT, {display::Time, showCurrentWeatherToDisplay}},
         {display::Weather, {display::displayDHT, showDisplayDHT}},
         {display::Condition, {display::Weather, showCurrentConditionToDisplay}},
         {display::Time, {display::Condition, showCurrentTimeToDisplay}}
     };
-
+    // ищем в таблице следующее состояние
     auto states_iterator = states.find(currentDisplay);
     State newState = states_iterator->second;
+    // сменяем текущее состояние и выполняем коллбек
     currentDisplay = newState.nextState;
     newState.callback();
 }
