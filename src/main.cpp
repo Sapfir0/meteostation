@@ -69,7 +69,7 @@ void loop() {
 void queryToWeatherServer() {
     display.displayGettingData();
     delay(100);
-    currentData = esp8266Module.getWeatherData("metric", "ru");
+    currentData = esp8266Module.getWeatherData("metric", "en");
     delay(100);    
     esp8266Module.postToOurServer(currentData);
 }

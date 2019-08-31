@@ -14,7 +14,6 @@ const uint8_t DHTTYPE = DHT11;
 
 const uint8_t analogPin = A0;
 const uint8_t LedLight = D6;
-const uint8_t rgbPins[3] = {D5, D8, D7};
 
 const String meteoserver = "http://meteo-server.herokuapp.com";
 const String routing = "/meteostationData";

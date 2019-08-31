@@ -13,7 +13,6 @@ extern const uint8_t DHTTYPE;
 
 extern const uint8_t analogPin;
 extern const uint8_t LedLight;
-extern const uint8_t rgbPins[3];
 
 extern const String meteoserver;
 extern const int meteostationId;
