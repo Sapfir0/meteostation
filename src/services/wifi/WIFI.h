@@ -2,7 +2,6 @@
 #define WIFI_H
 
 #include <WString.h>
-
 #include "../types/ourtype.h"
 
 class WIFI {
