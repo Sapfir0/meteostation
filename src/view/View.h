@@ -20,6 +20,7 @@ public:
     void displayConditions(float temperature, float humidity, float pressure, 
                            Ourtype::temperatureUnits degreeUnits,
                            Ourtype::pressureUnits pressureUnits);
+    void showNextDisplay();
     void displayConditions(float temperature, float humidity);
     void displayGettingData();
     void displayTime(Time t);

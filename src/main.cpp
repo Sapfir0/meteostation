@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <event_loop.h>
 #include <interval.h>
-#include <map>
 
 #include "config/config.h"
 
@@ -33,8 +32,6 @@ const int queryToServerTime = 10*60*1000; // время между отправ�
  */
 void queryToWeatherServer();
 
-void showNextDisplay();
-
 void setup() {
     Serial.begin(115200);
     led.changeBrightning();
@@ -48,7 +45,9 @@ void setup() {
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
-    event_t changeDisplay(makeInterval(showNextDisplay, displayOnLCDTime, millis));
+    event_t changeDisplay(makeInterval([](){
+        display.showNextDisplay();
+    }, displayOnLCDTime, millis));
 
     event_t changeBrightning(makeInterval([]() {
         led.changeBrightning();
@@ -71,58 +70,4 @@ void queryToWeatherServer() {
     currentData = esp8266Module.getWeatherData("metric", "en");
     delay(100);    
     esp8266Module.postToOurServer(currentData);
-}
-
-void showCurrentWeatherToDisplay() {
-    display.displayWeather(currentData.outside.weatherLocation,
-                       currentData.outside.weatherDescription,
-                       currentData.outside.country);
-}
-
-void showCurrentConditionToDisplay() {
-    display.displayConditions(currentData.getTemperature(Ourtype::C),
-                          currentData.outside.humidity,
-                          currentData.getPressure(Ourtype::hhMg), Ourtype::C, Ourtype::hhMg ); // 765мм рт ст - норма
-}
-
-void showDisplayDHT() {
-    display.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
-}
-
-void showCurrentTimeToDisplay() {
-    Time timeToDisplay = Time::current();
-    timeToDisplay.setTimezone(timezone);
-    display.displayTime(timeToDisplay);
-}
-
-void showNextDisplay() {
-    enum class display {
-        Start,
-        Condition,
-        Weather,
-        displayDHT,
-        Time
-    };
-
-    static display currentDisplay = display::Start;
-
-    struct State {
-        display nextState;
-        callback_t callback;
-    };
-
-    static std::map<display, State> states{
-        /* current / next / callback */
-        {display::Start, {display::Time, showCurrentWeatherToDisplay}},
-        {display::displayDHT, {display::Time, showCurrentWeatherToDisplay}},
-        {display::Weather, {display::displayDHT, showDisplayDHT}},
-        {display::Condition, {display::Weather, showCurrentConditionToDisplay}},
-        {display::Time, {display::Condition, showCurrentTimeToDisplay}}
-    };
-    // ищем в таблице следующее состояние
-    auto states_iterator = states.find(currentDisplay);
-    State newState = states_iterator->second;
-    // сменяем текущее состояние и выполняем коллбек
-    currentDisplay = newState.nextState;
-    newState.callback();
 }

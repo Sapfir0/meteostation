@@ -4,7 +4,10 @@
 
 #include "View.h"
 
+#include <map>
+
 #include <services/time/Time.h>
+#include <sensors/Gradusnik.h>
 #include "output/LCD.h"
 #include "services/types/ourtype.h" // ох уж эта строчка
 
@@ -118,4 +121,62 @@ void View::displayTime(Time t) {
     String hour(h%12), min(t.minute()),  half(h<=12 ? "AM" : "PM");
     if (min.length() < 2) min = "0" + min; // для отображения "00-09 min"
     lcd.printf("%s: %s %s", hour, min, half);
+}
+
+extern Ourtype currentData;
+extern Gradusnik gradusnik;
+extern int timezone;
+
+void showCurrentWeatherToDisplay(View& dp) {
+    dp.displayWeather(currentData.outside.weatherLocation,
+                           currentData.outside.weatherDescription,
+                           currentData.outside.country);
+}
+
+void showCurrentConditionToDisplay(View& dp) {
+    dp.displayConditions(currentData.getTemperature(Ourtype::C),
+                              currentData.outside.humidity,
+                              currentData.getPressure(Ourtype::hhMg), Ourtype::C, Ourtype::hhMg ); // 765мм рт ст - норма
+}
+
+void showDisplayDHT(View& dp) {
+    dp.displayConditions(gradusnik.getTemperature(), gradusnik.getHumidity());
+}
+
+void showCurrentTimeToDisplay(View& dp) {
+    Time timeToDisplay = Time::current();
+    timeToDisplay.setTimezone(timezone);
+    dp.displayTime(timeToDisplay);
+}
+
+void View::showNextDisplay() {
+    enum class display {
+        Start,
+        Condition,
+        Weather,
+        displayDHT,
+        Time
+    };
+
+    static display currentDisplay = display::Start;
+    using callback_t = void(*)(View&); // указатель на функцию
+    struct State {
+        display nextState;
+        callback_t callback;
+    };
+
+    static std::map<display, State> states{
+            /* current / next / callback */
+            {display::Start, {display::Time, showCurrentWeatherToDisplay}},
+            {display::displayDHT, {display::Time, showCurrentWeatherToDisplay}},
+            {display::Weather, {display::displayDHT, showDisplayDHT}},
+            {display::Condition, {display::Weather, showCurrentConditionToDisplay}},
+            {display::Time, {display::Condition, showCurrentTimeToDisplay}}
+    };
+    // ищем в таблице следующее состояние
+    auto states_iterator = states.find(currentDisplay);
+    State newState = states_iterator->second;
+    // сменяем текущее состояние и выполняем коллбек
+    currentDisplay = newState.nextState;
+    newState.callback(*this);
 }
