@@ -43,7 +43,10 @@ void WIFI::postToOurServer(Ourtype data) {
 void WIFI::startWifiModule() {
     WiFi.begin(_ssid, _password);
     while (WiFi.status() != WL_CONNECTED) {
-        delay(150);
+        if (WiFi.status() == WL_CONNECT_FAILED) {
+            Serial.println("Bad ssid or password");
+        }
+        delay(250);
         Serial.println("Connection isn't successful");
     }
 }

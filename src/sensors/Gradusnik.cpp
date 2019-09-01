@@ -4,8 +4,7 @@
 
 extern const uint8_t analogPin;
 
-Gradusnik::Gradusnik(uint8_t dhtPin, uint8_t dhtType) :
-        dht(dhtPin, dhtType) {
+Gradusnik::Gradusnik(uint8_t dhtPin, uint8_t dhtType) : dht(dhtPin, dhtType) {
     dht.begin();
 }
 

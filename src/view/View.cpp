@@ -6,27 +6,23 @@
 
 #include <services/time/Time.h>
 #include "output/LCD.h"
+#include "services/types/ourtype.h" // ох уж эта строчка
 
 View::View(LCD &lcd) : lcd(lcd) {
 
 }
 
-const char celsiusSymbol = (char) 223;
+const String percent = "%";
 
-void View::displayConditions(float temperature, float humidity, float pressure) {
+void View::displayConditions(float temperature, float humidity, float pressure,
+                             Ourtype::temperatureUnits degreeUnits=Ourtype::C,
+                             Ourtype::pressureUnits pressureUnits=Ourtype::hhMg) {
     lcd.clear();
-    lcd.printf("T:");
-    lcd.print(temperature, 1); //1 знак после запятой
-    lcd.printf(String(celsiusSymbol));
-    lcd.printf("C H:");
-    lcd.print(humidity, 0); //0 знаков после запятой
-    lcd.printf(" %%");
+    printTemperature(temperature, degreeUnits);
+    printHumidity(humidity);
 
     lcd.setCursor(0, 1);
-    lcd.printf("P: ");
-    lcd.print(pressure, 1);
-    lcd.printf(" mm Hg");
-    //lcd.print(" hPa");
+    printPressure(pressure, pressureUnits);
 }
 
 void View::displayGettingData() {
@@ -66,16 +62,48 @@ void View::displayWeather(String location, String description, String Country) {
     }
 }
 
+void View::printTemperature(float temperature, Ourtype::temperatureUnits units=Ourtype::C) {
+    const char celsiusSymbol = (char) 223;
+    String celsius = String(celsiusSymbol) + "C";
+    const String fahrenheit = "F";
+
+    lcd.printf("T: ");
+    lcd.print(temperature, 1);
+
+    switch (units) {
+        case Ourtype::C:
+            lcd.print(celsius);
+            break;
+        case Ourtype::F:
+            lcd.printf(fahrenheit);
+    }
+}
+
+void View::printHumidity(float humidity) {
+    lcd.printf(" H:");
+    lcd.print(humidity, 0);
+    lcd.printf(percent);
+}
+
+void View::printPressure(float pressure, Ourtype::pressureUnits units=Ourtype::hhMg) {
+    lcd.printf("P: ");
+    lcd.print(pressure, 1);
+
+    switch (units) {
+        case Ourtype::gPa:
+            lcd.printf(" gPa");
+            break;
+        case Ourtype::hhMg:
+            lcd.printf(" mm Hg");
+            break;
+    }
+}
+
 
 void View::displayConditions(float temperature, float humidity) {
     lcd.clear();
-    lcd.printf("T:");
-    lcd.print(temperature, 1);
-    lcd.printf(String(celsiusSymbol));
-
-    lcd.printf("C  H:"); // Printing Humidity
-    lcd.print(humidity, 0);
-    lcd.printf(" %%");
+    printTemperature(temperature);
+    printHumidity(humidity);
 
     lcd.setCursor(0, 1);
     lcd.printf("Пустота: ");

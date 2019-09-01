@@ -42,10 +42,9 @@ void setup() {
     led.clear(); // rewrite
     led.printf("   Connected!");
     Serial.println("Connected");
-    delay(200);
+    delay(100);
 
     Time::updateFromNTP();
-
     queryToWeatherServer(); // первый запуск который должен быть всегда
 
     event_t queryToServer(makeInterval(queryToWeatherServer, queryToServerTime, millis));
@@ -83,7 +82,7 @@ void showCurrentWeatherToDisplay() {
 void showCurrentConditionToDisplay() {
     display.displayConditions(currentData.getTemperature(Ourtype::C),
                           currentData.outside.humidity,
-                          currentData.getPressure(Ourtype::hhMg) ); // 765мм рт ст - норма
+                          currentData.getPressure(Ourtype::hhMg), Ourtype::C, Ourtype::hhMg ); // 765мм рт ст - норма
 }
 
 void showDisplayDHT() {
@@ -92,7 +91,7 @@ void showDisplayDHT() {
 
 void showCurrentTimeToDisplay() {
     Time timeToDisplay = Time::current();
-    timeToDisplay.setTimezone(4);
+    timeToDisplay.setTimezone(timezone);
     display.displayTime(timeToDisplay);
 }
 

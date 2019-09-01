@@ -1,0 +1,8 @@
+//
+// Created by sapfir on 01.09.2019.
+//
+
+#ifndef METEOSTATION_SLEEPING_H
+#define METEOSTATION_SLEEPING_H
+
+#endif //METEOSTATION_SLEEPING_H
