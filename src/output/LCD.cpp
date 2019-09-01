@@ -51,10 +51,3 @@ void LCD::clear() {
 float LCD::getValueFromAnalogPort(const uint8_t port=analogPin) {
     return analogRead(port);  // сюда может быть подлючен фоторезистор либо потенциометтр
 }
-
-
-void LCD::changeBrightning() {
-    int brightn = getValueFromAnalogPort(analogPin) / 4;
-    //возвращаемое значение с порта - 1024 - приводим к 256
-    analogWrite(D6, brightn);
-}

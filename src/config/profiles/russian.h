@@ -1,0 +1,9 @@
+//
+// Created by Sapfir on 01.09.2019.
+//
+
+#ifndef METEOSTATION_RUSSIAN_H
+#define METEOSTATION_RUSSIAN_H
+
+
+#endif //METEOSTATION_RUSSIAN_H

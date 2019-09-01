@@ -35,7 +35,6 @@ class LCD {
     void clear();
 
     void setCursor(uint8_t x, uint8_t y);
-    void changeBrightning();
     float getValueFromAnalogPort(const uint8_t port);
 
 };
