@@ -5,6 +5,7 @@
 
 #### Windows
 [Инструкция по использованию flash download tool](http://wiki.amperka.ru/%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D1%8B:esp8266:flash-download-tool)
+
 Загружаем стабильную прошивку с последнего релиза и грузим на плату
 __Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
 
