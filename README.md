@@ -27,7 +27,10 @@ __Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
 
 
 ### Vscode 
-Установить соответствующее расширение
+Установить расширение `platformio` \
+или
+
+    pio init --ide vscode
 
 ### Arduino IDE
 Т.к. тут нет прямой поддержки platformio и node mcu, придется поработать ручками. 
@@ -36,7 +39,6 @@ __Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
 * <p> <a href="http://robotclass.ru/articles/node-mcu-arduino-ide-setup/">Инструкция по установке Node mcu в ArduinoIDE</a>
 
 И компилировать `meteostation/meteostation.ino` в детской ide.
-
 
 ### Библиотеки:
 Подгрузятся с platformio автоматически, но вот список зависимостей:
