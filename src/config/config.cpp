@@ -1,5 +1,4 @@
 #include "config.h"
-#include "pins.h"
 
 const String CityID = "472757"; // Your City ID
 const String openweathermapServer = "http://api.openweathermap.org/data/2.5/weather";

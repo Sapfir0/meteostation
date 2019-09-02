@@ -1,5 +1,9 @@
+#pragma once
+
 #include <cinttypes>
 #include <WString.h>
+
+#include "pins.h"
 
 extern const String CityID; // Your City ID
 extern const String openweathermapServer;
