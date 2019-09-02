@@ -40,16 +40,10 @@ void View::displayWeather(String location, String description, String Country) {
     String firstPart, secondPart;
     firstPart.reserve(30);
     secondPart.reserve(30);
-    int tempI = 0;
 
     if (description.length() > 26) { // TODO выводит некорректный вывод, думаю из-за представления кириллических символов
         //то мы выводим только длинное описание погоды в две строки
-        for (int i = 26; i > 0; i--) { // вот же хуевая хуйня ща тебя перехуячу
-            if (description[i] == ' ') { //выбираем символ с которого будем делать перенос - это будет максимально близкий к 16 пробел
-                tempI = i; //нам не нужен пробел
-                break;
-            }
-        }
+        int tempI = description.lastIndexOf(" ");
         firstPart = description.substring(0, tempI);
         secondPart = description.substring(tempI, description.length());
         firstPart.trim();
