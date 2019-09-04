@@ -11,10 +11,6 @@ LCD::LCD() {
     lcd.begin(16, 2);
     lcd.init();
     lcd.backlight();
-    lcd.print("Connecting to");
-    lcd.setCursor(0, 1);
-    Serial.println(ssid);
-    lcd.print(ssid);  // TODO к этому момент ssid пустой. почему?
 }
 
 void LCD::print(float num, int base) {
