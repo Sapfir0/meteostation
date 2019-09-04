@@ -8,8 +8,8 @@
 
 #include <services/time/Time.h>
 #include <sensors/Gradusnik.h>
-#include "output/LCD.h"
-#include "services/types/ourtype.h" // ох уж эта строчка
+#include "../output/LCD.h"
+#include "../services/types/ourtype.h" // ох уж эта строчка
 
 View::View(LCD &lcd) : lcd(lcd) {
 
@@ -107,14 +107,23 @@ void View::displayConditions(float temperature, float humidity) {
     lcd.printf(" ");
 }
 
-void View::displayTime(Time t) {
+void View::displayTime(Time t, int hoursMode) {
     lcd.clear();
     lcd.printf("Time:");
     lcd.setCursor(0, 1);
     auto h = t.hour();
     String hour(h%12), min(t.minute()),  half(h<=12 ? "AM" : "PM");
-    if (min.length() < 2) min = "0" + min; // для отображения "00-09 min"
-    lcd.printf("%s: %s %s", hour, min, half);
+
+    switch (hoursMode) {
+        case 12:
+            if (min.length() < 2) min = "0" + min; // для отображения "00-09 min"
+            lcd.printf("%s: %s %s", hour, min, half);
+            break;
+        case 24:
+            lcd.printf("%s: %s", String(h), min);
+            break;
+    }
+
 }
 
 extern Ourtype currentData;
