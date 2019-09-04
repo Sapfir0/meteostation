@@ -33,10 +33,13 @@ void queryToWeatherServer();
 
 void setup() {
     Serial.begin(115200);
-    esp8266Module.startWifiModule();
+    led.clear();
+    led.print("Connecting...");
+    bool connectedWifi = esp8266Module.startWifiModule();
     led.clear(); // rewrite
-    led.printf("   Connected!");
-    Serial.println("Connected");
+    String WifiConnectStr = connectedWifi ? "   Connected!" : "Not connected :(";
+    led.print(WifiConnectStr);
+    Serial.println(WifiConnectStr);
     delay(100);
 
     Time::updateFromNTP();

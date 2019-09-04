@@ -12,7 +12,7 @@ class WIFI {
     public:
         WIFI(String _ssid, String _password);
         void postToOurServer(Ourtype requestStr);
-        void startWifiModule();
+        bool startWifiModule();
         Ourtype getWeatherData(const String& units="metric", const String& lang="en");
 
 };
