@@ -5,7 +5,6 @@
 #include "config/config.h"
 #include "config/pins.h"
 
-#include "output/LCD.h"
 #include "sensors/Gradusnik.h"
 
 #include "services/wifi/WIFI.h"
@@ -16,8 +15,7 @@
 
 EventLoop event_loop;
 WIFI esp8266Module(ssid, password); // вифи модуль
-LCD led; // экран
-View display(led);
+View display;
 
 Gradusnik gradusnik(DHTPIN, DHTTYPE); // градусник
 Ourtype currentData;
@@ -33,12 +31,10 @@ void queryToWeatherServer();
 
 void setup() {
     Serial.begin(115200);
-    led.clear();
-    led.print("Connecting...");
+    display.showMessage("Connecting...");
     bool connectedWifi = esp8266Module.startWifiModule();
-    led.clear(); // rewrite
     String WifiConnectStr = connectedWifi ? "   Connected!" : "Not connected :(";
-    led.print(WifiConnectStr);
+    display.showMessage(WifiConnectStr);
     Serial.println(WifiConnectStr);
     delay(100);
 

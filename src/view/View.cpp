@@ -11,7 +11,7 @@
 #include "output/LCD.h"
 #include "services/types/ourtype.h" // ох уж эта строчка
 
-View::View(LCD &lcd) : lcd(lcd) {
+View::View() {
 
 }
 
@@ -173,4 +173,9 @@ void View::showNextDisplay() {
     // сменяем текущее состояние и выполняем коллбек
     currentDisplay = newState.nextState;
     newState.callback(*this);
+}
+
+void View::showMessage(String msg) {
+    lcd.clear();
+    lcd.print(msg);
 }

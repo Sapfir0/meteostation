@@ -6,6 +6,7 @@
 #define METEOSTATION_VIEW_H
 
 #include <services/types/ourtype.h>
+#include <output/LCD.h>
 
 class LCD;
 class String;
@@ -13,9 +14,9 @@ class Time;
 
 class View {
 private:
-    LCD& lcd;
+    LCD lcd;
 public:
-    View(LCD &lcd);
+    View();
     void displayWeather(String location, String description, String Country);
     void displayConditions(float temperature, float humidity, float pressure, 
                            Ourtype::temperatureUnits degreeUnits,
@@ -27,6 +28,7 @@ public:
     void printHumidity(float humidity);
     void printPressure(float pressure, Ourtype::pressureUnits units);
     void printTemperature(float temperature, Ourtype::temperatureUnits units);
+    void showMessage(String msg);
 };
 
 
