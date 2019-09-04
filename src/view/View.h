@@ -24,7 +24,7 @@ public:
     void showNextDisplay();
     void displayConditions(float temperature, float humidity);
     void displayGettingData();
-    void displayTime(Time t);
+    void displayTime(Time t, int hoursMode=24);
     void printHumidity(float humidity);
     void printPressure(float pressure, Ourtype::pressureUnits units);
     void printTemperature(float temperature, Ourtype::temperatureUnits units);

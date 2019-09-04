@@ -50,7 +50,9 @@ bool WIFI::startWifiModule() {
         delay(250);
         Serial.println("Connection isn't successful");
     }
+    Serial.println(WiFi.localIP());
     return true;
+
 }
 
 
