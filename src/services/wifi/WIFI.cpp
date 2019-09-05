@@ -8,10 +8,9 @@
 WiFiClient client;  // не хочу пока никуда его экспортить
 
 
-WIFI::WIFI(String _ssid, String _password) {
-    this->_ssid = _ssid;
-    this->_password = _password;
+WIFI::WIFI(String _ssid, String _password) : _ssid(_ssid), _password(_password) {
     // TODO поля классы по-прежнему пустые. Что делать?
+    Debug() << this->_ssid << "\n" << this->_password << "\n";
 }
 
 
