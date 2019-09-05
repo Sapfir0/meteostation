@@ -2,6 +2,8 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
+#include "output/ArduinoSerialLogging.h"
+
 String get(String url) {
     return request("get", url);
 }
@@ -27,14 +29,14 @@ String request(String method, String url, String data) {
         payload = http.getString();
     }
     else {
-        Serial.println("Undefined method");
+        Warning() << "Undefined method";
     }
 
     if (httpCode <= 0) {
-        Serial.println("Bad request code " + String(httpCode));
+        Warning() << "Bad request code " << String(httpCode);
     }
     http.end();
-    Serial.println(payload);
+    Debug() << payload;
     return payload;
 }
 

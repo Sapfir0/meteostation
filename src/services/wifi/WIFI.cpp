@@ -3,6 +3,7 @@
 #include "../json/jsonParse.h"
 #include "../http/http.h"
 #include "../../config/config.h"
+#include "output/ArduinoSerialLogging.h"
 
 WiFiClient client;  // не хочу пока никуда его экспортить
 
@@ -30,10 +31,10 @@ Ourtype WIFI::getWeatherData(const String& units, const String& lang)  { // clie
 void WIFI::postToOurServer(Ourtype data) {
     int port = 80;
     if (!client.connect(meteoserver, port)) {
-        Serial.println("connection with" + meteoserver + "failed");
+        Info() << ("connection with" + meteoserver + "failed");
         return;
     }
-    Serial.println("connection successful");
+    Info() << "connection successful";
     String requestStr = data.toString();
     String url = meteoserver + routing;
     post(url, requestStr);
@@ -44,13 +45,13 @@ bool WIFI::startWifiModule() {
     WiFi.begin(_ssid, _password);
     while (WiFi.status() != WL_CONNECTED) {
         if (WiFi.status() == WL_CONNECT_FAILED) {
-            Serial.println("Bad ssid or password");
+            Info() << ("Bad ssid or password");
             return false;
         }
         delay(250);
-        Serial.println("Connection isn't successful");
+        Info() << ("Connection isn't successful");
     }
-    Serial.println(WiFi.localIP());
+    Info() << "Local ip: " << WiFi.localIP().toString() << "\n";
     return true;
 
 }

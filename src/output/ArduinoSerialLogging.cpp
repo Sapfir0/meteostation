@@ -2,7 +2,7 @@
 // Created by avdosev on 05.09.2019.
 //
 
-#include "ArduinoLogging.h"
+#include "ArduinoSerialLogging.h"
 
 #include <Arduino.h>
 

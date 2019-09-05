@@ -1,6 +1,7 @@
 #include "jsonParse.h"
 #include <Arduino.h>
 
+#include "output/ArduinoSerialLogging.h"
 
 DynamicJsonDocument parseJSON(String json)  {
     json.replace('[', ' ');
@@ -11,7 +12,7 @@ DynamicJsonDocument parseJSON(String json)  {
     DynamicJsonDocument root(1024); //StaticJsonBuffer<1024> json_buf;
     DeserializationError error = deserializeJson(root, jsonArray); //JsonObject &root = json_buf.parseObject(jsonArray);
     if (error) {
-        Serial.println("Error while parsing json");
+        Fatal() << "Error while parsing json";
     }
     return root;
 }
