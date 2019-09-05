@@ -8,7 +8,7 @@
 #include "sensors/Gradusnik.h"
 
 #include "services/wifi/WIFI.h"
-#include "services/types/ourtype.h"
+#include "services/types/WeatherType.h"
 #include "services/time/Time.h"
 
 #include "view/View.h"
@@ -18,7 +18,7 @@ WIFI esp8266Module(ssid, password); // вифи модуль
 View display;
 
 Gradusnik gradusnik(DHTPIN, DHTTYPE); // градусник
-Ourtype currentData;
+WeatherType currentData;
 
 // время в миллисикундах
 const int displayOnLCDTime = 6*1000; // время между каждым экраном

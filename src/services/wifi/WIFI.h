@@ -2,7 +2,7 @@
 #define WIFI_H
 
 #include <WString.h>
-#include "../types/ourtype.h"
+#include "../types/WeatherType.h"
 
 class WIFI {
     private:
@@ -11,9 +11,9 @@ class WIFI {
 
     public:
         WIFI(String _ssid, String _password);
-        void postToOurServer(Ourtype requestStr);
+        void postToOurServer(WeatherType requestStr);
         bool startWifiModule();
-        Ourtype getWeatherData(String units="metric", String lang="en");
+        WeatherType getWeatherData(String units="metric", String lang="en");
 };
 
 #endif // WIFI_H

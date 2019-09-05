@@ -1,4 +1,4 @@
-#include "ourtype.h"
+#include "WeatherType.h"
 
 #include "../convertors/pressure.h"
 #include "../convertors/temperature.h"
@@ -11,16 +11,16 @@
 extern const int meteostationId;
 extern Gradusnik gradusnik;
 
-Ourtype::Ourtype(String json) {
+WeatherType::WeatherType(String json) {
     parseWeatherJSON(json);
     inside.humidity = gradusnik.getHumidity();
     inside.temperature = gradusnik.getTemperature();
 }
 
-Ourtype::Ourtype() = default;
+WeatherType::WeatherType() = default;
 
 
-String Ourtype::deleteSpaceForUrlParams(String param) {
+String WeatherType::deleteSpaceForUrlParams(String param) {
     for(unsigned int i = 0; i < param.length(); i++) {
         if(isspace(param[i])) {
             param[i] = '+';
@@ -30,7 +30,7 @@ String Ourtype::deleteSpaceForUrlParams(String param) {
 }
 
 
-String Ourtype::toString() {
+String WeatherType::toString() {
     String engDescription = deleteSpaceForUrlParams(outside.weatherDescription);
     String requestStr =
         "temperatureInHome=" + String(inside.temperature)
@@ -53,7 +53,7 @@ String Ourtype::toString() {
 }
 
 
-void Ourtype::parseWeatherJSON(String json) { 
+void WeatherType::parseWeatherJSON(String json) {
     DynamicJsonDocument root = parseJSON(json);
     outside.weatherLocation = root["name"].as<String>();
     outside.country = root["sys"]["country"].as<String>();
@@ -76,7 +76,7 @@ void Ourtype::parseWeatherJSON(String json) {
     }
 }
 
-float Ourtype::getPressure(const pressureUnits& mode) {
+float WeatherType::getPressure(const pressureUnits& mode) {
     switch (mode)  {
         case gPa:
             return outside.pressure;
@@ -87,7 +87,7 @@ float Ourtype::getPressure(const pressureUnits& mode) {
     }
 }
 
-float Ourtype::getTemperature(const temperatureUnits& mode) {
+float WeatherType::getTemperature(const temperatureUnits& mode) {
     switch (mode)  {
         case C:
             return outside.temperature;

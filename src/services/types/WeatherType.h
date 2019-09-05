@@ -2,13 +2,13 @@
 // Created by sapfir on 24.08.2019.
 //
 
-#ifndef METEOSTATION_OURTYPE_H
-#define METEOSTATION_OURTYPE_H
+#ifndef METEOSTATION_WEATHERTYPE_H
+#define METEOSTATION_WEATHERTYPE_H
 
 #include <WString.h>
 
 
-class Ourtype {
+class WeatherType {
     public:
         struct home  {   
             float humidity;
@@ -32,8 +32,8 @@ class Ourtype {
                 
         };
         
-        Ourtype();
-        Ourtype(String json);
+        WeatherType();
+        WeatherType(String json);
 
         void parseWeatherJSON(String json);
         String toString();
@@ -59,4 +59,4 @@ class Ourtype {
 };
 
 
-#endif //METEOSTATION_OURTYPE_H
+#endif //METEOSTATION_WEATHERTYPE_H

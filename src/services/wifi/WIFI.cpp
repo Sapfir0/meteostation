@@ -14,7 +14,7 @@ WIFI::WIFI(String _ssid, String _password) : _ssid(_ssid), _password(_password) 
 }
 
 
-Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to send/receive GET request data.
+WeatherType WIFI::getWeatherData(String units, String lang)  { // client function to send/receive GET request data.
     String params = "?id=" + CityID // либо сделать передачу русских букв по http либо переводить через rus.cpp
                 + "&units=" + units
                 + "&lang=" + lang
@@ -22,12 +22,12 @@ Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to
     String url = openweathermapServer + params;
     String result = get(url);
 
-    Ourtype type(result);
+    WeatherType type(result);
     return type;
 }
 
 
-void WIFI::postToOurServer(Ourtype data) {
+void WIFI::postToOurServer(WeatherType data) {
     int port = 80;
     if (!client.connect(meteoserver, port)) {
         Info() << ("connection with" + meteoserver + "failed");

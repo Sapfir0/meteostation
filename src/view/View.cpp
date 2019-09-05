@@ -9,7 +9,7 @@
 #include <services/time/Time.h>
 #include <sensors/Gradusnik.h>
 #include "../output/LCD.h"
-#include "../services/types/ourtype.h" // ох уж эта строчка
+#include "../services/types/WeatherType.h" // ох уж эта строчка
 
 View::View() {
 
@@ -18,8 +18,8 @@ View::View() {
 const String percent = "%";
 
 void View::displayConditions(float temperature, float humidity, float pressure,
-                             const Ourtype::temperatureUnits& degreeUnits=Ourtype::C,
-                             const Ourtype::pressureUnits& pressureUnits=Ourtype::hhMg) {
+                             const WeatherType::temperatureUnits& degreeUnits=WeatherType::C,
+                             const WeatherType::pressureUnits& pressureUnits=WeatherType::hhMg) {
     lcd.clear();
     printTemperature(temperature, degreeUnits);
     printHumidity(humidity);
@@ -59,7 +59,7 @@ void View::displayWeather(String location, String description, String Country) {
     }
 }
 
-void View::printTemperature(float temperature, const Ourtype::temperatureUnits& units=Ourtype::C) {
+void View::printTemperature(float temperature, const WeatherType::temperatureUnits& units=WeatherType::C) {
     const char celsiusSymbol = (char) 223;
     String celsius = String(celsiusSymbol) + "C";
     const String fahrenheit = "F";
@@ -68,10 +68,10 @@ void View::printTemperature(float temperature, const Ourtype::temperatureUnits& 
     lcd.print(temperature, 1);
 
     switch (units) {
-        case Ourtype::C:
+        case WeatherType::C:
             lcd.print(celsius);
             break;
-        case Ourtype::F:
+        case WeatherType::F:
             lcd.printf(fahrenheit);
     }
 }
@@ -82,15 +82,15 @@ void View::printHumidity(float humidity) {
     lcd.printf(percent);
 }
 
-void View::printPressure(float pressure, const  Ourtype::pressureUnits& units=Ourtype::hhMg) {
+void View::printPressure(float pressure, const  WeatherType::pressureUnits& units=WeatherType::hhMg) {
     lcd.printf("P: ");
     lcd.print(pressure, 1);
 
     switch (units) {
-        case Ourtype::gPa:
+        case WeatherType::gPa:
             lcd.printf(" gPa");
             break;
-        case Ourtype::hhMg:
+        case WeatherType::hhMg:
             lcd.printf(" mm Hg");
             break;
     }
@@ -113,10 +113,10 @@ void View::displayTime(Time t, int hoursMode) {
     lcd.setCursor(0, 1);
     auto h = t.hour();
     String hour(h%12), min(t.minute()),  half(h<=12 ? "AM" : "PM");
+    if (min.length() < 2) min = "0" + min; // для отображения "00-09 min"
 
     switch (hoursMode) {
         case 12:
-            if (min.length() < 2) min = "0" + min; // для отображения "00-09 min"
             lcd.printf("%s: %s %s", hour, min, half);
             break;
         case 24:
@@ -126,7 +126,7 @@ void View::displayTime(Time t, int hoursMode) {
 
 }
 
-extern Ourtype currentData;
+extern WeatherType currentData;
 extern Gradusnik gradusnik;
 extern int timezone;
 
@@ -137,9 +137,9 @@ void showCurrentWeatherToDisplay(View& dp) {
 }
 
 void showCurrentConditionToDisplay(View& dp) {
-    dp.displayConditions(currentData.getTemperature(Ourtype::C),
-                              currentData.outside.humidity,
-                              currentData.getPressure(Ourtype::hhMg), Ourtype::C, Ourtype::hhMg ); // 765мм рт ст - норма
+    dp.displayConditions(currentData.getTemperature(WeatherType::C),
+                         currentData.outside.humidity,
+                         currentData.getPressure(WeatherType::hhMg), WeatherType::C, WeatherType::hhMg ); // 765мм рт ст - норма
 }
 
 void showDisplayDHT(View& dp) {
