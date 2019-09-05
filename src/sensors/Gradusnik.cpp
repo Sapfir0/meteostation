@@ -4,17 +4,21 @@
 
 extern const uint8_t analogPin;
 
-Gradusnik::Gradusnik(uint8_t dhtPin, uint8_t dhtType) : dht(dhtPin, dhtType) {
-    dht.begin();
+Gradusnik::Gradusnik(uint8_t dhtPin, uint8_t dhtType) : dht(new DHT(dhtPin, dhtType)) {
+    dht->begin();
 }
 
 float Gradusnik::getTemperature() {
-    float temperature = dht.readTemperature();
+    float temperature = dht->readTemperature();
     return temperature;
 }
 
 float Gradusnik::getHumidity() {
-    float humidity = dht.readHumidity();
+    float humidity = dht->readHumidity();
     return humidity;
+}
+
+Gradusnik::~Gradusnik() {
+    delete dht;
 }
 
