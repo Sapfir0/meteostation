@@ -13,8 +13,7 @@ class WIFI {
         WIFI(String _ssid, String _password);
         void postToOurServer(Ourtype requestStr);
         bool startWifiModule();
-        Ourtype getWeatherData(const String& units="metric", const String& lang="en");
-
+        Ourtype getWeatherData(String units="metric", String lang="en");
 };
 
 #endif // WIFI_H

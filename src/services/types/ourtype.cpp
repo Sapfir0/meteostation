@@ -1,7 +1,5 @@
 #include "ourtype.h"
 
-
-#include "config/config.h"
 #include "../convertors/pressure.h"
 #include "../convertors/temperature.h"
 
@@ -19,9 +17,7 @@ Ourtype::Ourtype(String json) {
     inside.temperature = gradusnik.getTemperature();
 }
 
-Ourtype::Ourtype() {
-
-}
+Ourtype::Ourtype() = default;
 
 
 String Ourtype::deleteSpaceForUrlParams(String param) {
@@ -80,7 +76,7 @@ void Ourtype::parseWeatherJSON(String json) {
     }
 }
 
-float Ourtype::getPressure(pressureUnits mode) {
+float Ourtype::getPressure(const pressureUnits& mode) {
     switch (mode)  {
         case gPa:
             return outside.pressure;
@@ -91,7 +87,7 @@ float Ourtype::getPressure(pressureUnits mode) {
     }
 }
 
-float Ourtype::getTemperature(temperatureUnits mode) {
+float Ourtype::getTemperature(const temperatureUnits& mode) {
     switch (mode)  {
         case C:
             return outside.temperature;

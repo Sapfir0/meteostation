@@ -14,7 +14,7 @@ WIFI::WIFI(String _ssid, String _password) : _ssid(_ssid), _password(_password) 
 }
 
 
-Ourtype WIFI::getWeatherData(const String& units, const String& lang)  { // client function to send/receive GET request data.
+Ourtype WIFI::getWeatherData(String units, String lang)  { // client function to send/receive GET request data.
     String params = "?id=" + CityID // либо сделать передачу русских букв по http либо переводить через rus.cpp
                 + "&units=" + units
                 + "&lang=" + lang
@@ -44,7 +44,7 @@ bool WIFI::startWifiModule() {
     WiFi.begin(_ssid, _password);
     while (WiFi.status() != WL_CONNECTED) {
         if (WiFi.status() == WL_CONNECT_FAILED) {
-            Info() << ("Bad ssid or password");
+            Fatal() << ("Bad ssid or password");
             return false;
         }
         delay(250);

@@ -19,15 +19,15 @@ public:
     View();
     void displayWeather(String location, String description, String Country);
     void displayConditions(float temperature, float humidity, float pressure, 
-                           Ourtype::temperatureUnits degreeUnits,
-                           Ourtype::pressureUnits pressureUnits);
+                           const Ourtype::temperatureUnits& degreeUnits,
+                           const Ourtype::pressureUnits& pressureUnits);
     void showNextDisplay();
     void displayConditions(float temperature, float humidity);
     void displayGettingData();
     void displayTime(Time t, int hoursMode=24);
     void printHumidity(float humidity);
-    void printPressure(float pressure, Ourtype::pressureUnits units);
-    void printTemperature(float temperature, Ourtype::temperatureUnits units);
+    void printPressure(float pressure, const Ourtype::pressureUnits& units);
+    void printTemperature(float temperature, const  Ourtype::temperatureUnits& units);
     void showMessage(String msg);
 };
 

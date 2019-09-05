@@ -18,8 +18,8 @@ View::View() {
 const String percent = "%";
 
 void View::displayConditions(float temperature, float humidity, float pressure,
-                             Ourtype::temperatureUnits degreeUnits=Ourtype::C,
-                             Ourtype::pressureUnits pressureUnits=Ourtype::hhMg) {
+                             const Ourtype::temperatureUnits& degreeUnits=Ourtype::C,
+                             const Ourtype::pressureUnits& pressureUnits=Ourtype::hhMg) {
     lcd.clear();
     printTemperature(temperature, degreeUnits);
     printHumidity(humidity);
@@ -59,7 +59,7 @@ void View::displayWeather(String location, String description, String Country) {
     }
 }
 
-void View::printTemperature(float temperature, Ourtype::temperatureUnits units=Ourtype::C) {
+void View::printTemperature(float temperature, const Ourtype::temperatureUnits& units=Ourtype::C) {
     const char celsiusSymbol = (char) 223;
     String celsius = String(celsiusSymbol) + "C";
     const String fahrenheit = "F";
@@ -82,7 +82,7 @@ void View::printHumidity(float humidity) {
     lcd.printf(percent);
 }
 
-void View::printPressure(float pressure, Ourtype::pressureUnits units=Ourtype::hhMg) {
+void View::printPressure(float pressure, const  Ourtype::pressureUnits& units=Ourtype::hhMg) {
     lcd.printf("P: ");
     lcd.print(pressure, 1);
 

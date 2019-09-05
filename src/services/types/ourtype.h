@@ -8,8 +8,6 @@
 #include <WString.h>
 
 
-
-
 class Ourtype {
     public:
         struct home  {   
@@ -50,11 +48,13 @@ class Ourtype {
             F // farenheit
         };
 
-        float getPressure(pressureUnits mode);
-        float getTemperature(temperatureUnits mode);
+        float getPressure(const pressureUnits &mode);
+        float getTemperature(const temperatureUnits &mode);
+
 //    private:
         street outside;
         home inside{};
+
 
 };
 
