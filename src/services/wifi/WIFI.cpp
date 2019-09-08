@@ -41,14 +41,27 @@ void WIFI::postToOurServer(WeatherType data) {
 
 
 bool WIFI::startWifiModule() {
+    constexpr unsigned long time_to_delay = 250;
+    constexpr uint8_t max_delay_count = 10*1000/250; // предполагаем что 10сек (в миллисикундах) достаточно для коннекта
+
     WiFi.begin(_ssid, _password);
+    uint8_t count_of_delay = 0;
     while (WiFi.status() != WL_CONNECTED) {
         if (WiFi.status() == WL_CONNECT_FAILED) {
             Fatal() << ("Bad ssid or password");
             return false;
         }
-        delay(250);
-        Info() << ("Connection isn't successful");
+
+        if (count_of_delay >= max_delay_count) {
+            Fatal() << "Maximum count of delays exceeded";
+            return false;
+        }
+
+        Info() << "Connection isn't successful"
+               << "Try connect...";
+
+        delay(time_to_delay);
+        count_of_delay++;
     }
     Info() << "Local ip: " << WiFi.localIP().toString() << "\n";
     return true;

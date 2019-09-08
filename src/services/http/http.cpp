@@ -1,5 +1,5 @@
 #include "http.h"
-#include <ESP8266WiFi.h>
+
 #include <ESP8266HTTPClient.h>
 
 #include "output/ArduinoSerialLogging.h"
