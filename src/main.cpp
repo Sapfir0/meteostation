@@ -2,6 +2,8 @@
 #include <event_loop.h>
 #include <interval.h>
 
+#include "output/ArduinoSerialLogging.h"
+
 #include "config/config.h"
 #include "config/pins.h"
 
@@ -35,7 +37,7 @@ void setup() {
     bool connectedWifi = esp8266Module.startWifiModule();
     String WifiConnectStr = connectedWifi ? "   Connected!" : "Not connected :(";
     display.showMessage(WifiConnectStr);
-    Serial.println(WifiConnectStr);
+    Info() << WifiConnectStr;
     delay(100);
 
     Time::updateFromNTP();

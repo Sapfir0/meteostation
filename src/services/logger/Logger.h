@@ -39,17 +39,11 @@ public:
     Outputer<MsgType::CriticalMsg> Critical;
     Outputer<MsgType::FatalMsg> Fatal;
 
-    Logger(handler_t msgHandler) : messageHandler(msgHandler),
-    Debug(*this), Info(*this), Warning(*this), Critical(*this), Fatal(*this)
-    {
-
-    }
+    Logger(handler_t msgHandler);
 
     void setMessageHandler(handler_t newHandler);
 
-    void print(MsgType type, String data) {
-        messageHandler(type, data);
-    }
+    void print(MsgType type, String data);
 
 };
 
