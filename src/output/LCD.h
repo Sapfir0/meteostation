@@ -3,8 +3,6 @@
 
 #include <WString.h>
 
-class Time;
-
 class LCD {
   public:
     LCD();
