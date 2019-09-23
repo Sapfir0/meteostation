@@ -42,8 +42,8 @@ void WIFI::postToOurServer(WeatherType data) {
 
 bool WIFI::startWifiModule() {
     constexpr unsigned long time_to_delay = 250;
-    constexpr uint8_t max_delay_count = 10*1000/250; // предполагаем что 10сек (в миллисикундах) достаточно для коннекта
-
+    constexpr uint8_t max_delay_count = 10*1000/time_to_delay; // предполагаем что 10сек (в миллисикундах) достаточно для коннекта
+    WiFi.mode(WIFI_STA);
     WiFi.begin(_ssid, _password);
     uint8_t count_of_delay = 0;
     while (WiFi.status() != WL_CONNECTED) {
@@ -64,6 +64,7 @@ bool WIFI::startWifiModule() {
         count_of_delay++;
     }
     Info() << "Local ip: " << WiFi.localIP().toString() << "\n";
+    WiFi.printDiag(Serial);
     return true;
 
 }
