@@ -1,5 +1,4 @@
-#ifndef LCD_H
-#define LCD_H
+#pragma once
 
 #include <WString.h>
 
@@ -36,7 +35,3 @@ class LCD {
     float getValueFromAnalogPort(const uint8_t port);
 
 };
-
-#endif // LCD_H
-
-

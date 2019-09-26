@@ -2,8 +2,7 @@
 // Created by sapfir on 24.08.2019.
 //
 
-#ifndef METEOSTATION_WEATHERTYPE_H
-#define METEOSTATION_WEATHERTYPE_H
+#pragma once
 
 #include <WString.h>
 
@@ -57,6 +56,3 @@ class WeatherType {
 
 
 };
-
-
-#endif //METEOSTATION_WEATHERTYPE_H

@@ -2,8 +2,7 @@
 // Created by avdosev on 31.08.2019.
 //
 
-#ifndef METEOSTATION_VIEW_H
-#define METEOSTATION_VIEW_H
+#pragma once
 
 #include <services/types/WeatherType.h>
 #include <output/LCD.h>
@@ -30,6 +29,3 @@ public:
     void printTemperature(float temperature, const  WeatherType::temperatureUnits& units);
     void showMessage(String msg);
 };
-
-
-#endif //METEOSTATION_VIEW_H

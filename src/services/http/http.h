@@ -1,3 +1,5 @@
+#pragma once
+
 #include <WString.h>
 
 String get(String url);

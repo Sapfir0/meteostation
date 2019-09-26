@@ -1,5 +1,4 @@
-#ifndef GRADUSNIK_H
-#define GRADUSNIK_H
+#pragma once
 
 #include <cinttypes>
 
@@ -16,6 +15,3 @@ class Gradusnik {
     float getHumidity();
 
 };
-
-#endif // GRADUSNIK_H
-

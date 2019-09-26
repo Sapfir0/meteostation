@@ -1,5 +1,4 @@
-#ifndef WIFI_H
-#define WIFI_H
+#pragma once
 
 #include <WString.h>
 #include "../types/WeatherType.h"
@@ -15,5 +14,3 @@ class WIFI {
         bool startWifiModule();
         WeatherType getWeatherData(String units="metric", String lang="en");
 };
-
-#endif // WIFI_H
