@@ -32,9 +32,11 @@ String request(String method, String url, String data) {
         Warning() << "Undefined method";
     }
 
-    if (httpCode <= 0) {
+    bool goodHttpCode = httpCode >= 200 && httpCode < 300;
+    if (!goodHttpCode) {
         Warning() << "Bad request code " << String(httpCode);
     }
+
     http.end();
     Debug() << payload;
     return payload;

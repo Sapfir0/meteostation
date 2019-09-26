@@ -4,13 +4,12 @@
 #include "output/ArduinoSerialLogging.h"
 
 DynamicJsonDocument parseJSON(String json)  {
+    // хз для чего это но пусть будет
     json.replace('[', ' ');
     json.replace(']', ' ');
-    char jsonArray[json.length() + 1];
-    json.toCharArray(jsonArray, sizeof(jsonArray));
-    jsonArray[json.length() + 1] = '\0';
+
     DynamicJsonDocument root(1024); //StaticJsonBuffer<1024> json_buf;
-    DeserializationError error = deserializeJson(root, jsonArray); //JsonObject &root = json_buf.parseObject(jsonArray);
+    DeserializationError error = deserializeJson(root, json.c_str()); //JsonObject &root = json_buf.parseObject(jsonArray);
     if (error) {
         Fatal() << "Error while parsing json";
     }
