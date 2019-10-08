@@ -41,6 +41,11 @@ __Версия 0.1 [скачать](https://yadi.sk/d/CgDrU8-SnWX-FA)__
 
 И компилировать `meteostation/meteostation.ino` в детской ide.
 
+### Компиляция и запуск
+    
+    pio run -t upload  //запуск
+
+
 ### Библиотеки:
 Подгрузятся с platformio автоматически, но вот список зависимостей:
 
